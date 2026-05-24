@@ -12,11 +12,17 @@ export const artist = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: {source: 'name', maxLength: 96},
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'cover',
       title: 'Cover',
       description: 'Main photo used in listings and previews.',
-      type: 'image',
-      options: {hotspot: true},
+      type: 'imageWithAlt',
     }),
     defineField({
       name: 'gallery',
@@ -24,16 +30,16 @@ export const artist = defineType({
       description:
         'Additional images (live shots, logos, etc.). Order matches display order.',
       type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'image',
-          options: {hotspot: true},
-        }),
-      ],
-      options: {
-        layout: 'grid',
-      },
+      of: [defineArrayMember({type: 'imageWithAlt'})],
+      options: {layout: 'grid'},
     }),
+  ],
+  orderings: [
+    {
+      title: 'Name (A–Z)',
+      name: 'nameAsc',
+      by: [{field: 'name', direction: 'asc'}],
+    },
   ],
   preview: {
     select: {title: 'name', media: 'cover'},

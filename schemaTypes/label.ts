@@ -12,11 +12,17 @@ export const label = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: {source: 'name', maxLength: 96},
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'cover',
       title: 'Cover',
       description: 'Primary logo or artwork used in listings and previews.',
-      type: 'image',
-      options: {hotspot: true},
+      type: 'imageWithAlt',
     }),
     defineField({
       name: 'gallery',
@@ -24,16 +30,16 @@ export const label = defineType({
       description:
         'Additional branding images or variants. Order matches display order.',
       type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'image',
-          options: {hotspot: true},
-        }),
-      ],
-      options: {
-        layout: 'grid',
-      },
+      of: [defineArrayMember({type: 'imageWithAlt'})],
+      options: {layout: 'grid'},
     }),
+  ],
+  orderings: [
+    {
+      title: 'Name (A–Z)',
+      name: 'nameAsc',
+      by: [{field: 'name', direction: 'asc'}],
+    },
   ],
   preview: {
     select: {title: 'name', media: 'cover'},
