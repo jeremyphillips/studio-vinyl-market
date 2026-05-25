@@ -1,5 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
-import {DiscogsSearchInput} from '../components/DiscogsSearchInput'
+import {DiscogsSearchInput} from '../components/inputs/DiscogsSearchInput'
 import {releaseFormatOptions, releaseSpeedOptions} from './constants/release'
 
 function referenceHasRef(value: unknown): boolean {
