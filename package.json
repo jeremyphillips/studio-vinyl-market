@@ -2,33 +2,26 @@
   "name": "vinyl-market",
   "private": true,
   "version": "1.0.0",
-  "main": "package.json",
   "license": "UNLICENSED",
-  "scripts": {
-    "build": "sanity build",
-    "deploy": "sanity deploy",
-    "deploy-graphql": "sanity graphql deploy",
-    "dev": "sanity dev",
-    "start": "sanity start"
-  },
-  "keywords": [
-    "sanity"
+  "workspaces": [
+    "apps/*"
   ],
-  "dependencies": {
-    "@sanity/vision": "^5.25.1",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "sanity": "^5.25.1",
-    "styled-components": "^6.1.18"
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "typegen": "turbo run typegen",
+    "clean": "turbo run clean && rm -rf node_modules"
   },
   "devDependencies": {
-    "@sanity/eslint-config-studio": "^6.0.0",
-    "@types/node": "^25.9.0",
-    "@types/react": "^19.2.14",
-    "dotenv": "^17.4.2",
-    "eslint": "^9.28",
     "prettier": "^3.5",
+    "turbo": "^2.5.0",
     "typescript": "^5.8"
+  },
+  "packageManager": "yarn@1.22.22",
+  "engines": {
+    "node": ">=20.11"
   },
   "prettier": {
     "bracketSpacing": false,

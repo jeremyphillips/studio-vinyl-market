@@ -1,0 +1,43 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "ui": "tui",
+  "globalEnv": [
+    "NODE_ENV"
+  ],
+  "globalPassThroughEnv": [
+    "SANITY_AUTH_TOKEN"
+  ],
+  "tasks": {
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "build": {
+      "dependsOn": ["^build", "typegen"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"],
+      "env": [
+        "NEXT_PUBLIC_SANITY_PROJECT_ID",
+        "NEXT_PUBLIC_SANITY_DATASET",
+        "NEXT_PUBLIC_SANITY_API_VERSION",
+        "NEXT_PUBLIC_SANITY_STUDIO_URL",
+        "SANITY_API_READ_TOKEN",
+        "SANITY_STUDIO_PROJECT_ID",
+        "SANITY_STUDIO_DATASET",
+        "SANITY_STUDIO_PREVIEW_URL"
+      ]
+    },
+    "typegen": {
+      "outputs": ["sanity.types.ts", "schema.json", "../web/sanity/types.ts"],
+      "inputs": ["schemaTypes/**", "../web/sanity/**", "sanity.cli.ts"]
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
+    "typecheck": {
+      "dependsOn": ["^typecheck", "typegen"]
+    },
+    "clean": {
+      "cache": false
+    }
+  }
+}

@@ -7,21 +7,19 @@ function referenceHasRef(value: unknown): boolean {
   return typeof ref === 'string' && ref.length > 0
 }
 
+const formatLabelByValue: Record<string, string> = Object.fromEntries(
+  releaseFormatOptions.map((option) => [option.value, option.title]),
+)
+
 export const release = defineType({
   name: 'release',
   title: 'Release',
   type: 'document',
-  fieldsets: [
-    {
-      name: 'releaseDateSection',
-      title: 'Release date',
-      options: {collapsible: true, collapsed: false},
-    },
-    {
-      name: 'labelSection',
-      title: 'Label',
-      options: {collapsible: true, collapsed: false},
-    },
+  groups: [
+    {name: 'identity', title: 'Identity', default: true},
+    {name: 'media', title: 'Media'},
+    {name: 'tracklist', title: 'Tracklist'},
+    {name: 'releaseInfo', title: 'Release info'},
   ],
   fields: [
     defineField({
@@ -30,19 +28,51 @@ export const release = defineType({
       type: 'reference',
       to: [{type: 'artist'}],
       validation: (Rule) => Rule.required(),
+      group: 'identity',
     }),
     defineField({
       name: 'releaseName',
       title: 'Release name',
       type: 'string',
       validation: (Rule) => Rule.required(),
+      group: 'identity',
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: {source: 'releaseName', maxLength: 96},
+      validation: (Rule) => Rule.required(),
+      group: 'identity',
+    }),
+    defineField({
+      name: 'format',
+      title: 'Format',
+      type: 'string',
+      options: {
+        list: releaseFormatOptions,
+        layout: 'radio',
+      },
+      validation: (Rule) => Rule.required(),
+      group: 'identity',
+    }),
+    defineField({
+      name: 'speed',
+      title: 'Speed',
+      type: 'string',
+      options: {
+        list: releaseSpeedOptions,
+        layout: 'radio',
+      },
+      validation: (Rule) => Rule.required(),
+      group: 'identity',
     }),
     defineField({
       name: 'cover',
       title: 'Cover',
       description: 'Front cover used as the main listing image.',
-      type: 'image',
-      options: {hotspot: true},
+      type: 'imageWithAlt',
+      group: 'media',
     }),
     defineField({
       name: 'gallery',
@@ -50,15 +80,9 @@ export const release = defineType({
       description:
         'Additional photos (back cover, labels, inserts, etc.). Order matches display order.',
       type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'image',
-          options: {hotspot: true},
-        }),
-      ],
-      options: {
-        layout: 'grid',
-      },
+      of: [defineArrayMember({type: 'imageWithAlt'})],
+      options: {layout: 'grid'},
+      group: 'media',
     }),
     defineField({
       name: 'discs',
@@ -66,6 +90,7 @@ export const release = defineType({
       description:
         'One row per disc or platter (single LP = one entry; double LP = two). Reorder discs to match packaging. Track order within each disc matches playback/credits order.',
       type: 'array',
+      group: 'tracklist',
       of: [
         defineArrayMember({
           type: 'object',
@@ -149,37 +174,17 @@ export const release = defineType({
       ],
     }),
     defineField({
-      name: 'format',
-      title: 'Format',
-      type: 'string',
-      options: {
-        list: releaseFormatOptions,
-        layout: 'radio',
-      },
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'speed',
-      title: 'Speed',
-      type: 'string',
-      options: {
-        list: releaseSpeedOptions,
-        layout: 'radio',
-      },
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
       name: 'dateUnknown',
       title: 'Release date unknown',
       type: 'boolean',
       initialValue: false,
-      fieldset: 'releaseDateSection',
+      group: 'releaseInfo',
     }),
     defineField({
       name: 'releaseDate',
       title: 'Release date',
       type: 'date',
-      fieldset: 'releaseDateSection',
+      group: 'releaseInfo',
       hidden: ({parent}) => Boolean(parent?.dateUnknown),
       validation: (Rule) =>
         Rule.custom((value, context) => {
@@ -195,14 +200,14 @@ export const release = defineType({
       title: 'No label',
       type: 'boolean',
       initialValue: false,
-      fieldset: 'labelSection',
+      group: 'releaseInfo',
     }),
     defineField({
       name: 'label',
       title: 'Label',
       type: 'reference',
       to: [{type: 'label'}],
-      fieldset: 'labelSection',
+      group: 'releaseInfo',
       hidden: ({parent}) => Boolean(parent?.noLabel),
       validation: (Rule) =>
         Rule.custom((value, context) => {
@@ -214,15 +219,41 @@ export const release = defineType({
         }),
     }),
   ],
+  orderings: [
+    {
+      title: 'Release date (newest first)',
+      name: 'releaseDateDesc',
+      by: [{field: 'releaseDate', direction: 'desc'}],
+    },
+    {
+      title: 'Artist (A–Z)',
+      name: 'artistNameAsc',
+      by: [{field: 'artist.name', direction: 'asc'}],
+    },
+    {
+      title: 'Release name (A–Z)',
+      name: 'releaseNameAsc',
+      by: [{field: 'releaseName', direction: 'asc'}],
+    },
+  ],
   preview: {
     select: {
       releaseName: 'releaseName',
       artistName: 'artist.name',
+      format: 'format',
+      releaseDate: 'releaseDate',
+      dateUnknown: 'dateUnknown',
       media: 'cover',
     },
-    prepare({releaseName, artistName, media}) {
+    prepare({releaseName, artistName, format, releaseDate, dateUnknown, media}) {
       const title = releaseName || 'Untitled release'
-      const subtitle = artistName
+      const formatLabel = format ? formatLabelByValue[format] ?? format : undefined
+      const year = dateUnknown
+        ? 'Year unknown'
+        : typeof releaseDate === 'string' && releaseDate.length >= 4
+          ? releaseDate.slice(0, 4)
+          : undefined
+      const subtitle = [artistName, formatLabel, year].filter(Boolean).join(' · ')
       return subtitle ? {title, subtitle, media} : {title, media}
     },
   },

@@ -1,0 +1,41 @@
+import type { Metadata } from 'next'
+import { draftMode } from 'next/headers'
+import { VisualEditing } from 'next-sanity/visual-editing'
+
+import { DisableDraftMode } from '@/components/DisableDraftMode'
+import { Header } from '@/components/Header'
+import { SanityLive } from '@/sanity/live'
+
+import './globals.css'
+
+export const metadata: Metadata = {
+  title: {
+    default: 'Vinyl Market',
+    template: '%s · Vinyl Market',
+  },
+  description: 'A small marketplace for vinyl releases.',
+}
+
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const { isEnabled: isDraftMode } = await draftMode()
+
+  return (
+    <html lang="en">
+      <body className="min-h-screen antialiased">
+        <Header />
+        <main className="mx-auto max-w-6xl px-6 py-10">{children}</main>
+        <SanityLive />
+        {isDraftMode && (
+          <>
+            <DisableDraftMode />
+            <VisualEditing />
+          </>
+        )}
+      </body>
+    </html>
+  )
+}

@@ -1,0 +1,80 @@
+import {defineField, defineType} from 'sanity'
+
+const LINK_TYPE_OPTIONS: {title: string; value: 'internal' | 'external'}[] = [
+  {title: 'Internal (link to a release, artist, or label)', value: 'internal'},
+  {title: 'External (URL)', value: 'external'},
+]
+
+const LINKABLE_TYPES = [{type: 'release'}, {type: 'artist'}, {type: 'label'}]
+
+export const navItem = defineType({
+  name: 'navItem',
+  title: 'Navigation item',
+  type: 'object',
+  fields: [
+    defineField({
+      name: 'label',
+      title: 'Label',
+      description: 'Text shown in the navigation. Required even for internal links so editors can override the document title.',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'linkType',
+      title: 'Link type',
+      type: 'string',
+      options: {list: LINK_TYPE_OPTIONS, layout: 'radio'},
+      initialValue: 'internal',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'internalLink',
+      title: 'Internal link',
+      type: 'reference',
+      to: LINKABLE_TYPES,
+      hidden: ({parent}) => parent?.linkType !== 'internal',
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const parent = context.parent as {linkType?: string} | undefined
+          if (parent?.linkType !== 'internal') return true
+          const ref = (value as {_ref?: unknown} | undefined)?._ref
+          return typeof ref === 'string' && ref.length > 0
+            ? true
+            : 'Select a document to link to'
+        }),
+    }),
+    defineField({
+      name: 'externalUrl',
+      title: 'External URL',
+      type: 'url',
+      hidden: ({parent}) => parent?.linkType !== 'external',
+      validation: (Rule) =>
+        Rule.uri({scheme: ['http', 'https'], allowRelative: false}).custom(
+          (value, context) => {
+            const parent = context.parent as {linkType?: string} | undefined
+            if (parent?.linkType !== 'external') return true
+            return typeof value === 'string' && value.length > 0 ? true : 'External URL is required'
+          },
+        ),
+    }),
+  ],
+  preview: {
+    select: {
+      label: 'label',
+      linkType: 'linkType',
+      externalUrl: 'externalUrl',
+      internalType: 'internalLink._type',
+      internalTitle: 'internalLink.name',
+      internalReleaseTitle: 'internalLink.releaseName',
+    },
+    prepare({label, linkType, externalUrl, internalType, internalTitle, internalReleaseTitle}) {
+      const target =
+        linkType === 'external'
+          ? externalUrl || 'external link'
+          : `${internalType ?? 'internal'}: ${internalReleaseTitle || internalTitle || 'unset'}`
+      const title = label?.trim() || 'Untitled nav item'
+      const marker = linkType === 'external' ? ' ↗' : ''
+      return {title: `${title}${marker}`, subtitle: target}
+    },
+  },
+})
