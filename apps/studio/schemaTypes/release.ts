@@ -1,4 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {DiscogsSearchInput} from '../components/DiscogsSearchInput'
 import {releaseFormatOptions, releaseSpeedOptions} from './constants/release'
 
 function referenceHasRef(value: unknown): boolean {
@@ -20,6 +21,7 @@ export const release = defineType({
     {name: 'media', title: 'Media'},
     {name: 'tracklist', title: 'Tracklist'},
     {name: 'releaseInfo', title: 'Release info'},
+    {name: 'discogs', title: 'Discogs'},
   ],
   fields: [
     defineField({
@@ -217,6 +219,27 @@ export const release = defineType({
           if (!referenceHasRef(value)) return 'Label is required when the release has a label'
           return true
         }),
+    }),
+    defineField({
+      name: 'discogs',
+      title: 'Discogs',
+      type: 'object',
+      group: 'discogs',
+      fields: [
+        defineField({
+          name: 'releaseId',
+          title: 'Release ID',
+          type: 'number',
+          readOnly: true,
+        }),
+        defineField({
+          name: 'masterId',
+          title: 'Master ID',
+          type: 'number',
+          readOnly: true,
+        }),
+      ],
+      components: {input: DiscogsSearchInput},
     }),
   ],
   orderings: [

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import {notFound} from 'next/navigation'
 
 import {CoverImage} from '@/components/CoverImage'
+import {DiscogsMeta} from '@/components/DiscogsMeta'
 import {Tracklist} from '@/components/Tracklist'
 import {formatYear} from '@/lib/format'
 import {client} from '@/sanity/client'
@@ -130,6 +131,11 @@ export default async function ReleasePage({params}: {params: Params}) {
           </h2>
           <Tracklist discs={release.discs} />
         </section>
+
+        <DiscogsMeta
+          releaseId={release.discogs?.releaseId}
+          masterId={release.discogs?.masterId}
+        />
       </div>
     </article>
   )
