@@ -1,0 +1,28 @@
+{
+  "results": [
+    {
+      "id": 12345,
+      "master_id": 67890,
+      "title": "Radiohead - OK Computer",
+      "year": "1997",
+      "country": "UK",
+      "format": ["Vinyl", "LP"],
+      "label": ["Parlophone"],
+      "catno": "PARLP 1",
+      "thumb": "https://example.com/thumb.jpg",
+      "cover_image": "https://example.com/cover.jpg",
+      "resource_url": "https://api.discogs.com/releases/12345"
+    },
+    {
+      "id": 99999,
+      "title": "Partial Result",
+      "resource_url": "https://api.discogs.com/releases/99999"
+    }
+  ],
+  "pagination": {
+    "page": 2,
+    "pages": 5,
+    "items": 80,
+    "per_page": 20
+  }
+}

@@ -28,11 +28,12 @@ export interface DiscogsValue {
   masterId?: number | null
 }
 
-const PREVIEW_URL =
-  typeof process !== 'undefined' ? (process.env.SANITY_STUDIO_PREVIEW_URL ?? '') : ''
+function getPreviewUrl(): string {
+  return typeof process !== 'undefined' ? (process.env.SANITY_STUDIO_PREVIEW_URL ?? '') : ''
+}
 
 export function buildDiscogsSearchUrl(query: string, page = 1): string {
-  const base = PREVIEW_URL.replace(/\/$/, '')
+  const base = getPreviewUrl().replace(/\/$/, '')
   const params = new URLSearchParams({q: query, page: String(page), per_page: '20'})
   return `${base}/api/discogs/search?${params.toString()}`
 }

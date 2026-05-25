@@ -4,5 +4,5 @@
     "noUncheckedIndexedAccess": false
   },
   "include": ["**/*.ts", "**/*.tsx", "sanity.types.ts"],
-  "exclude": ["node_modules", "dist", ".sanity"]
+  "exclude": ["node_modules", "dist", ".sanity", "vitest.config.ts"]
 }

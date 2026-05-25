@@ -1,31 +1,10 @@
 import {NextRequest, NextResponse} from 'next/server'
+import {mapDiscogsSearchResponse} from './map-discogs-result'
+
+export type {DiscogsSearchResult, DiscogsSearchResponse} from './map-discogs-result'
 
 const DISCOGS_API_BASE = 'https://api.discogs.com'
 const USER_AGENT = 'VinylMarket/1.0 +https://github.com/vinyl-market'
-
-export interface DiscogsSearchResult {
-  id: number
-  masterId: number | null
-  title: string
-  year: string | null
-  country: string | null
-  format: string[]
-  label: string[]
-  catno: string | null
-  thumb: string | null
-  coverImage: string | null
-  resourceUrl: string
-}
-
-export interface DiscogsSearchResponse {
-  results: DiscogsSearchResult[]
-  pagination: {
-    page: number
-    pages: number
-    items: number
-    perPage: number
-  }
-}
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -85,31 +64,7 @@ export async function GET(request: NextRequest) {
   }
 
   const raw = await discogsRes.json()
-
-  const results: DiscogsSearchResult[] = (raw.results ?? []).map((r: Record<string, unknown>) => ({
-    id: r.id as number,
-    masterId: (r.master_id as number | undefined) ?? null,
-    title: r.title as string,
-    year: (r.year as string | undefined) ?? null,
-    country: (r.country as string | undefined) ?? null,
-    format: Array.isArray(r.format) ? (r.format as string[]) : [],
-    label: Array.isArray(r.label) ? (r.label as string[]) : [],
-    catno: (r.catno as string | undefined) ?? null,
-    thumb: (r.thumb as string | undefined) ?? null,
-    coverImage: (r.cover_image as string | undefined) ?? null,
-    resourceUrl: r.resource_url as string,
-  }))
-
-  const pagination = raw.pagination ?? {}
-  const response: DiscogsSearchResponse = {
-    results,
-    pagination: {
-      page: pagination.page ?? 1,
-      pages: pagination.pages ?? 1,
-      items: pagination.items ?? results.length,
-      perPage: pagination.per_page ?? results.length,
-    },
-  }
+  const response = mapDiscogsSearchResponse(raw)
 
   return NextResponse.json(response, {headers: CORS_HEADERS})
 }
