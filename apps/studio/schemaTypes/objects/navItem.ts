@@ -1,11 +1,19 @@
 import {defineField, defineType} from 'sanity'
 
 const LINK_TYPE_OPTIONS: {title: string; value: 'internal' | 'external'}[] = [
-  {title: 'Internal (link to a release, artist, or label)', value: 'internal'},
+  {
+    title: 'Internal (releases page, release, artist, or label)',
+    value: 'internal',
+  },
   {title: 'External (URL)', value: 'external'},
 ]
 
-const LINKABLE_TYPES = [{type: 'release'}, {type: 'artist'}, {type: 'label'}]
+const LINKABLE_TYPES = [
+  {type: 'release'},
+  {type: 'artist'},
+  {type: 'label'},
+  {type: 'releasesPage'},
+]
 
 export const navItem = defineType({
   name: 'navItem',
@@ -66,12 +74,23 @@ export const navItem = defineType({
       internalType: 'internalLink._type',
       internalTitle: 'internalLink.name',
       internalReleaseTitle: 'internalLink.releaseName',
+      releasesPageTitle: 'internalLink.title',
     },
-    prepare({label, linkType, externalUrl, internalType, internalTitle, internalReleaseTitle}) {
+    prepare({
+      label,
+      linkType,
+      externalUrl,
+      internalType,
+      internalTitle,
+      internalReleaseTitle,
+      releasesPageTitle,
+    }) {
       const target =
         linkType === 'external'
           ? externalUrl || 'external link'
-          : `${internalType ?? 'internal'}: ${internalReleaseTitle || internalTitle || 'unset'}`
+          : internalType === 'releasesPage'
+            ? `releases page: ${releasesPageTitle || 'Releases'}`
+            : `${internalType ?? 'internal'}: ${internalReleaseTitle || internalTitle || 'unset'}`
       const title = label?.trim() || 'Untitled nav item'
       const marker = linkType === 'external' ? ' ↗' : ''
       return {title: `${title}${marker}`, subtitle: target}

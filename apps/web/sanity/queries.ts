@@ -32,6 +32,25 @@ export const SITE_SETTINGS_QUERY = defineQuery(`
   }
 `)
 
+/** Releases index page singleton (/releases). */
+export const RELEASES_PAGE_QUERY = defineQuery(`
+  *[_id == "releasesPage"][0]{
+    title,
+    intro,
+    seo{
+      metaTitle,
+      metaDescription,
+      noIndex,
+      ogImage{
+        asset,
+        hotspot,
+        crop,
+        alt
+      }
+    }
+  }
+`)
+
 /** Most recent releases, used on the home page. */
 export const HOME_RELEASES_QUERY = defineQuery(`
   *[_type == "release" && defined(slug.current)]

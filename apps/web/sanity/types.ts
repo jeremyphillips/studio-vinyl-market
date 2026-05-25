@@ -50,12 +50,38 @@ export type LabelReference = {
   [internalGroqTypeReferenceTo]?: 'label'
 }
 
+export type ReleasesPageReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'releasesPage'
+}
+
 export type NavItem = {
   _type: 'navItem'
   label: string
   linkType: 'internal' | 'external'
-  internalLink?: ReleaseReference | ArtistReference | LabelReference
+  internalLink?: ReleaseReference | ArtistReference | LabelReference | ReleasesPageReference
   externalUrl?: string
+}
+
+export type ReleasesPage = {
+  _id: string
+  _type: 'releasesPage'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title: string
+  intro?: string
+  seo?: Seo
+}
+
+export type Seo = {
+  _type: 'seo'
+  metaTitle?: string
+  metaDescription?: string
+  ogImage?: ImageWithAlt
+  noIndex?: boolean
 }
 
 export type Release = {
@@ -264,7 +290,10 @@ export type AllSanitySchemaTypes =
   | ReleaseReference
   | ArtistReference
   | LabelReference
+  | ReleasesPageReference
   | NavItem
+  | ReleasesPage
+  | Seo
   | Release
   | Label
   | SanityImageAssetReference
@@ -288,6 +317,10 @@ export type AllSanitySchemaTypes =
 export type SITE_SETTINGS_QUERY_RESULT =
   | {
       title: null
+      navigation: Array<never>
+    }
+  | {
+      title: string
       navigation: Array<never>
     }
   | {
@@ -315,9 +348,49 @@ export type SITE_SETTINGS_QUERY_RESULT =
                   _type: 'release'
                   slug: string
                 }
+              | {
+                  _type: 'releasesPage'
+                  slug: null
+                }
               | null
           }>
         | Array<never>
+    }
+  | null
+
+// Source: ../web/sanity/queries.ts
+// Variable: RELEASES_PAGE_QUERY
+// Query: *[_id == "releasesPage"][0]{    title,    intro,    seo{      metaTitle,      metaDescription,      noIndex,      ogImage{        asset,        hotspot,        crop,        alt      }    }  }
+export type RELEASES_PAGE_QUERY_RESULT =
+  | {
+      title: null
+      intro: null
+      seo: null
+    }
+  | {
+      title: string
+      intro: null
+      seo: null
+    }
+  | {
+      title: string | null
+      intro: null
+      seo: null
+    }
+  | {
+      title: string
+      intro: string | null
+      seo: {
+        metaTitle: string | null
+        metaDescription: string | null
+        noIndex: boolean | null
+        ogImage: {
+          asset: SanityImageAssetReference | null
+          hotspot: SanityImageHotspot | null
+          crop: SanityImageCrop | null
+          alt: string
+        } | null
+      } | null
     }
   | null
 
@@ -512,6 +585,7 @@ import '@sanity/client'
 declare module '@sanity/client' {
   interface SanityQueries {
     '\n  *[_id == "siteSettings"][0]{\n    title,\n    "navigation": coalesce(navigation, [])[]{\n      _key,\n      label,\n      linkType,\n      externalUrl,\n      "internal": internalLink->{\n        _type,\n        "slug": slug.current\n      }\n    }\n  }\n': SITE_SETTINGS_QUERY_RESULT
+    '\n  *[_id == "releasesPage"][0]{\n    title,\n    intro,\n    seo{\n      metaTitle,\n      metaDescription,\n      noIndex,\n      ogImage{\n        asset,\n        hotspot,\n        crop,\n        alt\n      }\n    }\n  }\n': RELEASES_PAGE_QUERY_RESULT
     '\n  *[_type == "release" && defined(slug.current)]\n    | order(coalesce(releaseDate, _createdAt) desc)\n    [0...12]{\n      _id,\n      releaseName,\n      "slug": slug.current,\n      format,\n      releaseDate,\n      dateUnknown,\n      "artist": artist->{name, "slug": slug.current},\n      cover{asset, hotspot, crop, alt}\n    }\n': HOME_RELEASES_QUERY_RESULT
     '\n  *[_type == "release" && defined(slug.current)]\n    | order(coalesce(releaseDate, _createdAt) desc){\n      _id,\n      releaseName,\n      "slug": slug.current,\n      format,\n      releaseDate,\n      dateUnknown,\n      "artist": artist->{name, "slug": slug.current},\n      cover{asset, hotspot, crop, alt}\n    }\n': RELEASES_QUERY_RESULT
     '\n  *[_type == "release" && defined(slug.current)][].slug.current\n': RELEASE_SLUGS_QUERY_RESULT

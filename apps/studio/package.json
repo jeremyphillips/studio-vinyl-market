@@ -8,6 +8,7 @@
     "start": "sanity start",
     "build": "sanity build",
     "typegen": "sanity schema extract --enforce-required-fields && sanity typegen generate",
+    "seed:releases-page": "sanity exec ./scripts/seed-releases-page.ts --with-user-token",
     "deploy": "sanity deploy",
     "deploy-graphql": "sanity graphql deploy",
     "lint": "eslint .",

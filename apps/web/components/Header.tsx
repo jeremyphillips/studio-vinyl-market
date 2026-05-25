@@ -1,12 +1,6 @@
 import Link from 'next/link'
 
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from '@/components/ui/navigation-menu'
+import {HeaderNav} from '@/components/HeaderNav'
 import {sanityFetch} from '@/sanity/live'
 import {SITE_SETTINGS_QUERY} from '@/sanity/queries'
 import type {SITE_SETTINGS_QUERY_RESULT} from '@/sanity/types'
@@ -23,6 +17,10 @@ const INTERNAL_PATH_BY_TYPE: Record<'release' | 'artist' | 'label', string> = {
   artist: '/artists',
   label: '/labels',
 }
+
+const FIXED_INTERNAL_HREF = {
+  releasesPage: '/releases',
+} as const
 
 type NavItem = Extract<
   SITE_SETTINGS_QUERY_RESULT,
@@ -43,7 +41,18 @@ function resolveNavLink(item: NavItem): NavLink | null {
   }
 
   const internal = item.internal
-  if (!internal || !internal.slug) return null
+  if (!internal?._type) return null
+
+  if (internal._type === 'releasesPage') {
+    return {
+      key: item._key,
+      label: item.label,
+      href: FIXED_INTERNAL_HREF.releasesPage,
+      isExternal: false,
+    }
+  }
+
+  if (!internal.slug) return null
   const base = INTERNAL_PATH_BY_TYPE[internal._type]
   if (!base) return null
 
@@ -75,27 +84,7 @@ export async function Header() {
         </Link>
 
         {links.length > 0 ? (
-          <NavigationMenu>
-            <NavigationMenuList>
-              {links.map((link) => (
-                <NavigationMenuItem key={link.key}>
-                  <NavigationMenuLink
-                    asChild
-                    className={navigationMenuTriggerStyle()}
-                  >
-                    {link.isExternal ? (
-                      <a href={link.href} target="_blank" rel="noreferrer">
-                        {link.label}
-                        <span aria-hidden> ↗</span>
-                      </a>
-                    ) : (
-                      <Link href={link.href}>{link.label}</Link>
-                    )}
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-              ))}
-            </NavigationMenuList>
-          </NavigationMenu>
+          <HeaderNav links={links} />
         ) : (
           <p className="text-sm text-muted-foreground">
             Add navigation in{' '}
