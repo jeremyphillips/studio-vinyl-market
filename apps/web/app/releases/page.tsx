@@ -1,24 +1,50 @@
 import type {Metadata} from 'next'
 
 import {ReleaseCard} from '@/components/ReleaseCard'
+import {toNextMetadata} from '@/lib/seo'
 import {sanityFetch} from '@/sanity/live'
-import {RELEASES_QUERY} from '@/sanity/queries'
+import {RELEASES_PAGE_QUERY, RELEASES_QUERY} from '@/sanity/queries'
 
-export const metadata: Metadata = {
-  title: 'Releases',
-  description: 'Every release in the Vinyl Market catalogue.',
+const DEFAULT_TITLE = 'Releases'
+const DEFAULT_DESCRIPTION =
+  'Every release in the Vinyl Market catalogue.'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const {data: page} = await sanityFetch({
+    query: RELEASES_PAGE_QUERY,
+    stega: false,
+  })
+
+  const title = page?.title?.trim() || DEFAULT_TITLE
+
+  return toNextMetadata(page?.seo, {
+    title,
+    description: DEFAULT_DESCRIPTION,
+  })
+}
+
+function releaseCountLabel(count: number): string {
+  return `${count} ${count === 1 ? 'release' : 'releases'} in the catalogue.`
 }
 
 export default async function ReleasesPage() {
-  const {data: releases} = await sanityFetch({query: RELEASES_QUERY})
+  const [{data: page}, {data: releases}] = await Promise.all([
+    sanityFetch({query: RELEASES_PAGE_QUERY}),
+    sanityFetch({query: RELEASES_QUERY}),
+  ])
+
+  const heading = page?.title?.trim() || DEFAULT_TITLE
+  const intro = page?.intro?.trim()
 
   return (
     <div className="space-y-8">
       <header className="space-y-2">
-        <h1 className="text-3xl font-semibold tracking-tight">Releases</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">{heading}</h1>
+        {intro ? (
+          <p className="text-muted-foreground">{intro}</p>
+        ) : null}
         <p className="text-muted-foreground">
-          {releases.length} {releases.length === 1 ? 'release' : 'releases'} in
-          the catalogue.
+          {releaseCountLabel(releases.length)}
         </p>
       </header>
 

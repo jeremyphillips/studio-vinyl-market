@@ -130,7 +130,9 @@ The Studio is at <http://localhost:3333>, the public site at <http://localhost:3
 | `label`          | document | Name, slug, cover, gallery                                                             |
 | `release`        | document | Artist (ref), label (ref or "no label"), name, slug, format, speed, date, cover, gallery, multi-disc track listings |
 | `siteSettings`   | document | **Singleton** with `title` + `navigation[]`. Enforced via `apps/studio/structure.ts` + `document.actions` / `newDocumentOptions` in `sanity.config.ts`. |
-| `navItem`        | object   | `{label, linkType: 'internal' | 'external', internalLink?, externalUrl?}`. Internal refs go to `release`, `artist`, or `label`. |
+| `releasesPage`   | document | **Singleton** for `/releases`: `title` (H1), optional `intro`, `seo`. ID `releasesPage`. |
+| `navItem`        | object   | `{label, linkType: 'internal' | 'external', internalLink?, externalUrl?}`. Internal refs: `releasesPage`, `release`, `artist`, or `label`. |
+| `seo`            | object   | `metaTitle`, `metaDescription`, `ogImage` (`imageWithAlt`), `noIndex`. Embedded on `releasesPage` (and future types). |
 | `imageWithAlt`   | object   | Image with required alt text and optional caption. Reused everywhere images appear.    |
 
 ## Routes
@@ -138,7 +140,7 @@ The Studio is at <http://localhost:3333>, the public site at <http://localhost:3
 | Route                  | Type              | Source query              |
 |------------------------|-------------------|---------------------------|
 | `/`                    | Static (RSC)      | `HOME_RELEASES_QUERY`     |
-| `/releases`            | Static (RSC)      | `RELEASES_QUERY`          |
+| `/releases`            | Static (RSC)      | `RELEASES_QUERY` + `RELEASES_PAGE_QUERY` |
 | `/releases/[slug]`     | SSG (`generateStaticParams`) | `RELEASE_QUERY`           |
 | `/artists/[slug]`      | SSG (`generateStaticParams`) | `ARTIST_QUERY`            |
 | `/labels/[slug]`       | SSG (`generateStaticParams`) | `LABEL_QUERY`             |
@@ -151,10 +153,13 @@ All page data is fetched in Server Components with the `sanityFetch` helper from
 
 The header is a server component (`apps/web/components/Header.tsx`) that reads the singleton `siteSettings` document. Each `navItem` becomes a link:
 
-- **Internal** → resolves `internalLink._type` + `slug.current` into `/releases/[slug]`, `/artists/[slug]`, or `/labels/[slug]`.
+- **Internal** → `releasesPage` → `/releases`; or `release` / `artist` / `label` + `slug` → detail URLs.
 - **External** → uses `externalUrl` with `target="_blank"`.
 
-To edit it, open the Studio → **Site settings** → **Header navigation**.
+Nav labels (`navItem.label`) are independent of page headings (e.g. `releasesPage.title`).
+
+To edit navigation: Studio → **Site settings** → **Header navigation**.  
+To edit the releases index copy/SEO: Studio → **Releases page** (or `yarn seed:releases-page` from `apps/studio` with `SANITY_API_WRITE_TOKEN` set).
 
 ## Visual Editing (Presentation Tool)
 
