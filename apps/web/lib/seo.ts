@@ -1,17 +1,13 @@
 import type {Metadata} from 'next'
 
 import {urlFor} from '@/sanity/image'
-
-type OgImageSource = {
-  asset?: {_ref?: string} | null
-  alt?: string | null
-} | null | undefined
+import type {ImageWithAltSource} from '@/sanity/image-types'
 
 export type SeoFields = {
   metaTitle?: string | null
   metaDescription?: string | null
   noIndex?: boolean | null
-  ogImage?: OgImageSource
+  ogImage?: ImageWithAltSource
 } | null | undefined
 
 /**
