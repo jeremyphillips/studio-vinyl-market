@@ -1,7 +1,7 @@
 import {cva} from 'class-variance-authority'
-import type {SizeVariant, ColorVariant} from '@/lib/variants'
+import type {SizeVariant, ColorVariant} from '@/components/ui/variants'
 
-// SizeVariant and ColorVariant keys are the shared contract from @/lib/variants.
+// SizeVariant and ColorVariant keys are the shared contract from @/components/ui/variants.
 // Padding, icon, and rounding adjustments below are button-specific.
 
 export const buttonVariants = cva(

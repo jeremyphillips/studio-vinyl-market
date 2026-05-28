@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import {Card, CardContent} from '@/components/ui/card'
 import {CoverImage} from '@/components/catalog/cover-image/cover-image'
-import {formatYear} from '@/lib/format'
+import {formatYear} from '@/catalog/format'
 import type {ImageWithAltSource} from '@/sanity/image-types'
 
 type ReleaseCardProps = {
