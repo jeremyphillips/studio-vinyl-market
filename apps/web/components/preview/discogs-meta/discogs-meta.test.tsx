@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react'
 import {describe, expect, it} from 'vitest'
-import {DiscogsMeta} from './DiscogsMeta'
+import {DiscogsMeta} from './discogs-meta'
 
 describe('DiscogsMeta', () => {
   it('renders nothing without a releaseId', () => {

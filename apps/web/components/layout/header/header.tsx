@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import {HeaderNav} from '@/components/HeaderNav'
+import {HeaderNav} from '@/components/layout/header-nav/header-nav.client'
 import {sanityFetch} from '@/sanity/live'
 import {SITE_SETTINGS_QUERY} from '@/sanity/queries'
 import type {SITE_SETTINGS_QUERY_RESULT} from '@/sanity/types'

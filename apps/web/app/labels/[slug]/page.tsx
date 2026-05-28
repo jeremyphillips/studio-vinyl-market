@@ -1,8 +1,8 @@
 import type {Metadata} from 'next'
 import {notFound} from 'next/navigation'
 
-import {CoverImage} from '@/components/CoverImage'
-import {ReleaseCard} from '@/components/ReleaseCard'
+import {CoverImage} from '@/components/catalog/cover-image/cover-image'
+import {ReleaseCard} from '@/components/catalog/release-card/release-card'
 import {client} from '@/sanity/client'
 import {sanityFetch} from '@/sanity/live'
 import {LABEL_QUERY, LABEL_SLUGS_QUERY} from '@/sanity/queries'
