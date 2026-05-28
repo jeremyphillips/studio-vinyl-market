@@ -115,6 +115,10 @@ export type Release = {
   releaseDate?: string
   noLabel?: boolean
   label?: LabelReference
+  discogs?: {
+    releaseId?: number
+    masterId?: number
+  }
 }
 
 export type Label = {
@@ -445,7 +449,7 @@ export type RELEASE_SLUGS_QUERY_RESULT = Array<string>
 
 // Source: ../web/sanity/queries.ts
 // Variable: RELEASE_QUERY
-// Query: *[_type == "release" && slug.current == $slug][0]{    _id,    releaseName,    "slug": slug.current,    format,    speed,    releaseDate,    dateUnknown,    noLabel,    "artist": artist->{name, "slug": slug.current},    "label": label->{name, "slug": slug.current},    cover{asset, hotspot, crop, alt, caption},    gallery[]{_key, asset, hotspot, crop, alt, caption},    discs[]{      _key,      discNumber,      name,      tracks[]{_key, position, title}    }  }
+// Query: *[_type == "release" && slug.current == $slug][0]{    _id,    releaseName,    "slug": slug.current,    format,    speed,    releaseDate,    dateUnknown,    noLabel,    "artist": artist->{name, "slug": slug.current},    "label": label->{name, "slug": slug.current},    cover{asset, hotspot, crop, alt, caption},    gallery[]{_key, asset, hotspot, crop, alt, caption},    discs[]{      _key,      discNumber,      name,      tracks[]{_key, position, title}    },    discogs{releaseId, masterId}  }
 export type RELEASE_QUERY_RESULT = {
   _id: string
   releaseName: string
@@ -488,6 +492,10 @@ export type RELEASE_QUERY_RESULT = {
       title: string
     }> | null
   }> | null
+  discogs: {
+    releaseId: number | null
+    masterId: number | null
+  } | null
 } | null
 
 // Source: ../web/sanity/queries.ts
@@ -589,7 +597,7 @@ declare module '@sanity/client' {
     '\n  *[_type == "release" && defined(slug.current)]\n    | order(coalesce(releaseDate, _createdAt) desc)\n    [0...12]{\n      _id,\n      releaseName,\n      "slug": slug.current,\n      format,\n      releaseDate,\n      dateUnknown,\n      "artist": artist->{name, "slug": slug.current},\n      cover{asset, hotspot, crop, alt}\n    }\n': HOME_RELEASES_QUERY_RESULT
     '\n  *[_type == "release" && defined(slug.current)]\n    | order(coalesce(releaseDate, _createdAt) desc){\n      _id,\n      releaseName,\n      "slug": slug.current,\n      format,\n      releaseDate,\n      dateUnknown,\n      "artist": artist->{name, "slug": slug.current},\n      cover{asset, hotspot, crop, alt}\n    }\n': RELEASES_QUERY_RESULT
     '\n  *[_type == "release" && defined(slug.current)][].slug.current\n': RELEASE_SLUGS_QUERY_RESULT
-    '\n  *[_type == "release" && slug.current == $slug][0]{\n    _id,\n    releaseName,\n    "slug": slug.current,\n    format,\n    speed,\n    releaseDate,\n    dateUnknown,\n    noLabel,\n    "artist": artist->{name, "slug": slug.current},\n    "label": label->{name, "slug": slug.current},\n    cover{asset, hotspot, crop, alt, caption},\n    gallery[]{_key, asset, hotspot, crop, alt, caption},\n    discs[]{\n      _key,\n      discNumber,\n      name,\n      tracks[]{_key, position, title}\n    }\n  }\n': RELEASE_QUERY_RESULT
+    '\n  *[_type == "release" && slug.current == $slug][0]{\n    _id,\n    releaseName,\n    "slug": slug.current,\n    format,\n    speed,\n    releaseDate,\n    dateUnknown,\n    noLabel,\n    "artist": artist->{name, "slug": slug.current},\n    "label": label->{name, "slug": slug.current},\n    cover{asset, hotspot, crop, alt, caption},\n    gallery[]{_key, asset, hotspot, crop, alt, caption},\n    discs[]{\n      _key,\n      discNumber,\n      name,\n      tracks[]{_key, position, title}\n    },\n    discogs{releaseId, masterId}\n  }\n': RELEASE_QUERY_RESULT
     '\n  *[_type == "artist" && defined(slug.current)][].slug.current\n': ARTIST_SLUGS_QUERY_RESULT
     '\n  *[_type == "artist" && slug.current == $slug][0]{\n    _id,\n    name,\n    "slug": slug.current,\n    cover{asset, hotspot, crop, alt, caption},\n    gallery[]{_key, asset, hotspot, crop, alt, caption},\n    "releases": *[_type == "release" && artist._ref == ^._id && defined(slug.current)]\n      | order(coalesce(releaseDate, _createdAt) desc){\n        _id,\n        releaseName,\n        "slug": slug.current,\n        format,\n        releaseDate,\n        dateUnknown,\n        cover{asset, hotspot, crop, alt}\n      }\n  }\n': ARTIST_QUERY_RESULT
     '\n  *[_type == "label" && defined(slug.current)][].slug.current\n': LABEL_SLUGS_QUERY_RESULT

@@ -11,13 +11,17 @@
     "build": "turbo run build",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
     "typegen": "turbo run typegen",
     "clean": "turbo run clean && rm -rf node_modules"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.0.0",
     "prettier": "^3.5",
     "turbo": "^2.5.0",
-    "typescript": "^5.8"
+    "typescript": "^5.8",
+    "vite": "^8.0.14",
+    "vitest": "^3.2.4"
   },
   "packageManager": "yarn@1.22.22",
   "engines": {

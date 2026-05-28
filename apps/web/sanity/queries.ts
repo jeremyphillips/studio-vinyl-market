@@ -107,7 +107,8 @@ export const RELEASE_QUERY = defineQuery(`
       discNumber,
       name,
       tracks[]{_key, position, title}
-    }
+    },
+    discogs{releaseId, masterId}
   }
 `)
 
