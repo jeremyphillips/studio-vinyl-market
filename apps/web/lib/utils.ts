@@ -1,3 +1,4 @@
+// UI utility only (shadcn). Domain logic → catalog/. CMS adapters → sanity/.
 import {clsx, type ClassValue} from 'clsx'
 import {twMerge} from 'tailwind-merge'
 
