@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import { draftMode } from 'next/headers'
 import { VisualEditing } from 'next-sanity/visual-editing'
 
-import { DisableDraftMode } from '@/components/DisableDraftMode'
-import { Header } from '@/components/Header'
+import { DisableDraftMode } from '@/components/preview/disable-draft-mode/disable-draft-mode.client'
+import { Header } from '@/components/layout/header/header'
 import { SanityLive } from '@/sanity/live'
 
 import './globals.css'

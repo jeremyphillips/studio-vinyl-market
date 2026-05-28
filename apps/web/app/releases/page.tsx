@@ -1,6 +1,6 @@
 import type {Metadata} from 'next'
 
-import {ReleaseCard} from '@/components/ReleaseCard'
+import {ReleaseCard} from '@/components/catalog/release-card/release-card'
 import {toNextMetadata} from '@/lib/seo'
 import {sanityFetch} from '@/sanity/live'
 import {RELEASES_PAGE_QUERY, RELEASES_QUERY} from '@/sanity/queries'

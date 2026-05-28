@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 import {Card, CardContent} from '@/components/ui/card'
-import {CoverImage} from '@/components/CoverImage'
+import {CoverImage} from '@/components/catalog/cover-image/cover-image'
 import {formatYear} from '@/lib/format'
 
 type ReleaseCardProps = {
