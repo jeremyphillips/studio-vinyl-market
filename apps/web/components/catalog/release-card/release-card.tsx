@@ -3,6 +3,7 @@ import Link from 'next/link'
 import {Card, CardContent} from '@/components/ui/card'
 import {CoverImage} from '@/components/catalog/cover-image/cover-image'
 import {formatYear} from '@/lib/format'
+import type {ImageWithAltSource} from '@/sanity/image-types'
 
 type ReleaseCardProps = {
   release: {
@@ -12,7 +13,7 @@ type ReleaseCardProps = {
     releaseDate?: string | null
     dateUnknown?: boolean | null
     artist?: {name: string; slug: string} | null
-    cover?: Parameters<typeof CoverImage>[0]['source']
+    cover?: ImageWithAltSource
   }
   /** Optional: hide the artist line when already rendered on an artist page. */
   hideArtist?: boolean

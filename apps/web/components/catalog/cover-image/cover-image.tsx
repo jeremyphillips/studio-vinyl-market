@@ -1,15 +1,11 @@
 import Image from 'next/image'
 
 import {urlFor} from '@/sanity/image'
+import type {ImageWithAltSource} from '@/sanity/image-types'
 import {cn} from '@/lib/utils'
 
-type CoverSource = {
-  asset?: {_ref?: string} | null
-  alt?: string | null
-} | null | undefined
-
 type CoverImageProps = {
-  source: CoverSource
+  source: ImageWithAltSource
   /** Rendered size (also used for `next/image` width/height). */
   size?: number
   className?: string
