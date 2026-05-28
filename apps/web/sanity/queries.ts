@@ -147,6 +147,51 @@ export const LABEL_SLUGS_QUERY = defineQuery(`
   *[_type == "label" && defined(slug.current)][].slug.current
 `)
 
+/** Page slugs for `generateStaticParams` on the /pages/[slug] route. */
+export const PAGE_SLUGS_QUERY = defineQuery(`
+  *[_type == "page" && defined(slug.current)][].slug.current
+`)
+
+/**
+ * Single page with pageBuilder blocks.
+ *
+ * The pageBuilder projection uses a flat union: every known field for all block
+ * types is listed and GROQ returns null for fields not present on a given block.
+ * `internalLink` is resolved to `_type` + `slug.current` so the web app can
+ * build the correct URL without a second fetch.
+ */
+export const PAGE_QUERY = defineQuery(`
+  *[_type == "page" && slug.current == $slug][0]{
+    title,
+    pageBuilder[]{
+      _key,
+      _type,
+      label,
+      variant,
+      size,
+      linkType,
+      externalUrl,
+      "internalLink": internalLink->{ _type, "slug": slug.current },
+      asset,
+      hotspot,
+      crop,
+      alt,
+      caption
+    },
+    seo{
+      metaTitle,
+      metaDescription,
+      noIndex,
+      ogImage{
+        asset,
+        hotspot,
+        crop,
+        alt
+      }
+    }
+  }
+`)
+
 /** Label detail + its releases. */
 export const LABEL_QUERY = defineQuery(`
   *[_type == "label" && slug.current == $slug][0]{

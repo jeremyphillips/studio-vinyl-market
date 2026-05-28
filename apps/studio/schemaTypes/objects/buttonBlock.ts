@@ -1,8 +1,11 @@
+import React from 'react'
 import {defineField, defineType} from 'sanity'
+
+import {BlockPreview} from '../../components/ui/BlockPreview'
 
 const LINK_TYPE_OPTIONS: {title: string; value: 'internal' | 'external'}[] = [
   {
-    title: 'Internal (releases page, release, artist, label, or page)',
+    title: 'Internal (releases page, release, artist, or label)',
     value: 'internal',
   },
   {title: 'External (URL)', value: 'external'},
@@ -16,17 +19,46 @@ const LINKABLE_TYPES = [
   {type: 'page'},
 ]
 
-export const navItem = defineType({
-  name: 'navItem',
-  title: 'Navigation item',
+const VARIANT_OPTIONS = [
+  {title: 'Default', value: 'default'},
+  {title: 'Outline', value: 'outline'},
+  {title: 'Secondary', value: 'secondary'},
+  {title: 'Ghost', value: 'ghost'},
+  {title: 'Link', value: 'link'},
+  {title: 'Destructive', value: 'destructive'},
+]
+
+const SIZE_OPTIONS = [
+  {title: 'Default', value: 'default'},
+  {title: 'Small', value: 'sm'},
+  {title: 'Large', value: 'lg'},
+  {title: 'Icon', value: 'icon'},
+]
+
+export const buttonBlock = defineType({
+  name: 'buttonBlock',
+  title: 'Button',
   type: 'object',
   fields: [
     defineField({
       name: 'label',
       title: 'Label',
-      description: 'Text shown in the navigation. Required even for internal links so editors can override the document title.',
       type: 'string',
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'variant',
+      title: 'Variant',
+      type: 'string',
+      options: {list: VARIANT_OPTIONS, layout: 'select'},
+      initialValue: 'default',
+    }),
+    defineField({
+      name: 'size',
+      title: 'Size',
+      type: 'string',
+      options: {list: SIZE_OPTIONS, layout: 'select'},
+      initialValue: 'default',
     }),
     defineField({
       name: 'linkType',
@@ -62,7 +94,9 @@ export const navItem = defineType({
           (value, context) => {
             const parent = context.parent as {linkType?: string} | undefined
             if (parent?.linkType !== 'external') return true
-            return typeof value === 'string' && value.length > 0 ? true : 'External URL is required'
+            return typeof value === 'string' && value.length > 0
+              ? true
+              : 'External URL is required'
           },
         ),
     }),
@@ -70,33 +104,35 @@ export const navItem = defineType({
   preview: {
     select: {
       label: 'label',
+      variant: 'variant',
       linkType: 'linkType',
       externalUrl: 'externalUrl',
       internalType: 'internalLink._type',
       internalTitle: 'internalLink.name',
       internalReleaseTitle: 'internalLink.releaseName',
       internalPageTitle: 'internalLink.title',
-      releasesPageTitle: 'internalLink.title',
     },
     prepare({
       label,
+      variant,
       linkType,
       externalUrl,
       internalType,
       internalTitle,
       internalReleaseTitle,
       internalPageTitle,
-      releasesPageTitle,
     }) {
       const target =
         linkType === 'external'
           ? externalUrl || 'external link'
-          : internalType === 'releasesPage'
-            ? `releases page: ${releasesPageTitle || 'Releases'}`
-            : `${internalType ?? 'internal'}: ${internalReleaseTitle || internalTitle || internalPageTitle || 'unset'}`
-      const title = label?.trim() || 'Untitled nav item'
-      const marker = linkType === 'external' ? ' ↗' : ''
-      return {title: `${title}${marker}`, subtitle: target}
+          : `${internalType ?? 'internal'}: ${internalReleaseTitle || internalTitle || internalPageTitle || 'unset'}`
+      return {
+        title: label?.trim() || 'Untitled button',
+        subtitle: `${variant ?? 'default'} · ${target}`,
+      }
     },
+  },
+  components: {
+    preview: (props) => React.createElement(BlockPreview, {...props, blockName: 'Button'}),
   },
 })

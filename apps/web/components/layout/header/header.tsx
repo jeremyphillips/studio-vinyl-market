@@ -12,10 +12,11 @@ type NavLink = {
   isExternal: boolean
 }
 
-const INTERNAL_PATH_BY_TYPE: Record<'release' | 'artist' | 'label', string> = {
+const INTERNAL_PATH_BY_TYPE: Record<'release' | 'artist' | 'label' | 'page', string> = {
   release: '/releases',
   artist: '/artists',
   label: '/labels',
+  page: '/pages',
 }
 
 const FIXED_INTERNAL_HREF = {

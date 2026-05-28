@@ -57,12 +57,72 @@ export type ReleasesPageReference = {
   [internalGroqTypeReferenceTo]?: 'releasesPage'
 }
 
+export type PageReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'page'
+}
+
+export type ButtonBlock = {
+  _type: 'buttonBlock'
+  label: string
+  variant?: 'default' | 'outline' | 'secondary' | 'ghost' | 'link' | 'destructive'
+  size?: 'default' | 'sm' | 'lg' | 'icon'
+  linkType: 'internal' | 'external'
+  internalLink?:
+    | ReleaseReference
+    | ArtistReference
+    | LabelReference
+    | ReleasesPageReference
+    | PageReference
+  externalUrl?: string
+}
+
 export type NavItem = {
   _type: 'navItem'
   label: string
   linkType: 'internal' | 'external'
-  internalLink?: ReleaseReference | ArtistReference | LabelReference | ReleasesPageReference
+  internalLink?:
+    | ReleaseReference
+    | ArtistReference
+    | LabelReference
+    | ReleasesPageReference
+    | PageReference
   externalUrl?: string
+}
+
+export type Page = {
+  _id: string
+  _type: 'page'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title: string
+  slug: Slug
+  pageBuilder?: Array<
+    | ({
+        _key: string
+      } & ButtonBlock)
+    | ({
+        _key: string
+      } & ImageWithAlt)
+  >
+  seo?: Seo
+}
+
+export type Seo = {
+  _type: 'seo'
+  metaTitle?: string
+  metaDescription?: string
+  ogImage?: ImageWithAlt
+  noIndex?: boolean
+}
+
+export type Slug = {
+  _type: 'slug'
+  current: string
+  source?: string
 }
 
 export type ReleasesPage = {
@@ -74,14 +134,6 @@ export type ReleasesPage = {
   title: string
   intro?: string
   seo?: Seo
-}
-
-export type Seo = {
-  _type: 'seo'
-  metaTitle?: string
-  metaDescription?: string
-  ogImage?: ImageWithAlt
-  noIndex?: boolean
 }
 
 export type Release = {
@@ -152,12 +204,6 @@ export type ImageWithAlt = {
   crop?: SanityImageCrop
   alt: string
   caption?: string
-}
-
-export type Slug = {
-  _type: 'slug'
-  current: string
-  source?: string
 }
 
 export type Artist = {
@@ -295,14 +341,17 @@ export type AllSanitySchemaTypes =
   | ArtistReference
   | LabelReference
   | ReleasesPageReference
+  | PageReference
+  | ButtonBlock
   | NavItem
-  | ReleasesPage
+  | Page
   | Seo
+  | Slug
+  | ReleasesPage
   | Release
   | Label
   | SanityImageAssetReference
   | ImageWithAlt
-  | Slug
   | Artist
   | SanityImageCrop
   | SanityImageHotspot
@@ -349,6 +398,10 @@ export type SITE_SETTINGS_QUERY_RESULT =
                   slug: string
                 }
               | {
+                  _type: 'page'
+                  slug: string
+                }
+              | {
                   _type: 'release'
                   slug: string
                 }
@@ -380,6 +433,21 @@ export type RELEASES_PAGE_QUERY_RESULT =
       title: string | null
       intro: null
       seo: null
+    }
+  | {
+      title: string
+      intro: null
+      seo: {
+        metaTitle: string | null
+        metaDescription: string | null
+        noIndex: boolean | null
+        ogImage: {
+          asset: SanityImageAssetReference | null
+          hotspot: SanityImageHotspot | null
+          crop: SanityImageCrop | null
+          alt: string
+        } | null
+      } | null
     }
   | {
       title: string
@@ -547,6 +615,82 @@ export type ARTIST_QUERY_RESULT = {
 export type LABEL_SLUGS_QUERY_RESULT = Array<string>
 
 // Source: ../web/sanity/queries.ts
+// Variable: PAGE_SLUGS_QUERY
+// Query: *[_type == "page" && defined(slug.current)][].slug.current
+export type PAGE_SLUGS_QUERY_RESULT = Array<string>
+
+// Source: ../web/sanity/queries.ts
+// Variable: PAGE_QUERY
+// Query: *[_type == "page" && slug.current == $slug][0]{    title,    pageBuilder[]{      _key,      _type,      label,      variant,      size,      linkType,      externalUrl,      "internalLink": internalLink->{ _type, "slug": slug.current },      asset,      hotspot,      crop,      alt,      caption    },    seo{      metaTitle,      metaDescription,      noIndex,      ogImage{        asset,        hotspot,        crop,        alt      }    }  }
+export type PAGE_QUERY_RESULT = {
+  title: string
+  pageBuilder: Array<
+    | {
+        _key: string
+        _type: 'buttonBlock'
+        label: string
+        variant: 'default' | 'destructive' | 'ghost' | 'link' | 'outline' | 'secondary' | null
+        size: 'default' | 'icon' | 'lg' | 'sm' | null
+        linkType: 'external' | 'internal'
+        externalUrl: string | null
+        internalLink:
+          | {
+              _type: 'artist'
+              slug: string
+            }
+          | {
+              _type: 'label'
+              slug: string
+            }
+          | {
+              _type: 'page'
+              slug: string
+            }
+          | {
+              _type: 'release'
+              slug: string
+            }
+          | {
+              _type: 'releasesPage'
+              slug: null
+            }
+          | null
+        asset: null
+        hotspot: null
+        crop: null
+        alt: null
+        caption: null
+      }
+    | {
+        _key: string
+        _type: 'imageWithAlt'
+        label: null
+        variant: null
+        size: null
+        linkType: null
+        externalUrl: null
+        internalLink: null
+        asset: SanityImageAssetReference | null
+        hotspot: SanityImageHotspot | null
+        crop: SanityImageCrop | null
+        alt: string
+        caption: string | null
+      }
+  > | null
+  seo: {
+    metaTitle: string | null
+    metaDescription: string | null
+    noIndex: boolean | null
+    ogImage: {
+      asset: SanityImageAssetReference | null
+      hotspot: SanityImageHotspot | null
+      crop: SanityImageCrop | null
+      alt: string
+    } | null
+  } | null
+} | null
+
+// Source: ../web/sanity/queries.ts
 // Variable: LABEL_QUERY
 // Query: *[_type == "label" && slug.current == $slug][0]{    _id,    name,    "slug": slug.current,    cover{asset, hotspot, crop, alt, caption},    gallery[]{_key, asset, hotspot, crop, alt, caption},    "releases": *[_type == "release" && label._ref == ^._id && defined(slug.current)]      | order(coalesce(releaseDate, _createdAt) desc){        _id,        releaseName,        "slug": slug.current,        format,        releaseDate,        dateUnknown,        "artist": artist->{name, "slug": slug.current},        cover{asset, hotspot, crop, alt}      }  }
 export type LABEL_QUERY_RESULT = {
@@ -601,6 +745,8 @@ declare module '@sanity/client' {
     '\n  *[_type == "artist" && defined(slug.current)][].slug.current\n': ARTIST_SLUGS_QUERY_RESULT
     '\n  *[_type == "artist" && slug.current == $slug][0]{\n    _id,\n    name,\n    "slug": slug.current,\n    cover{asset, hotspot, crop, alt, caption},\n    gallery[]{_key, asset, hotspot, crop, alt, caption},\n    "releases": *[_type == "release" && artist._ref == ^._id && defined(slug.current)]\n      | order(coalesce(releaseDate, _createdAt) desc){\n        _id,\n        releaseName,\n        "slug": slug.current,\n        format,\n        releaseDate,\n        dateUnknown,\n        cover{asset, hotspot, crop, alt}\n      }\n  }\n': ARTIST_QUERY_RESULT
     '\n  *[_type == "label" && defined(slug.current)][].slug.current\n': LABEL_SLUGS_QUERY_RESULT
+    '\n  *[_type == "page" && defined(slug.current)][].slug.current\n': PAGE_SLUGS_QUERY_RESULT
+    '\n  *[_type == "page" && slug.current == $slug][0]{\n    title,\n    pageBuilder[]{\n      _key,\n      _type,\n      label,\n      variant,\n      size,\n      linkType,\n      externalUrl,\n      "internalLink": internalLink->{ _type, "slug": slug.current },\n      asset,\n      hotspot,\n      crop,\n      alt,\n      caption\n    },\n    seo{\n      metaTitle,\n      metaDescription,\n      noIndex,\n      ogImage{\n        asset,\n        hotspot,\n        crop,\n        alt\n      }\n    }\n  }\n': PAGE_QUERY_RESULT
     '\n  *[_type == "label" && slug.current == $slug][0]{\n    _id,\n    name,\n    "slug": slug.current,\n    cover{asset, hotspot, crop, alt, caption},\n    gallery[]{_key, asset, hotspot, crop, alt, caption},\n    "releases": *[_type == "release" && label._ref == ^._id && defined(slug.current)]\n      | order(coalesce(releaseDate, _createdAt) desc){\n        _id,\n        releaseName,\n        "slug": slug.current,\n        format,\n        releaseDate,\n        dateUnknown,\n        "artist": artist->{name, "slug": slug.current},\n        cover{asset, hotspot, crop, alt}\n      }\n  }\n': LABEL_QUERY_RESULT
   }
 }
