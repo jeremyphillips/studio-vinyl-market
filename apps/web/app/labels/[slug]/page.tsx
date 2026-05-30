@@ -2,7 +2,7 @@ import type {Metadata} from 'next'
 import {notFound} from 'next/navigation'
 
 import {CoverImage} from '@/components/catalog/cover-image/cover-image'
-import {ReleaseCard} from '@/components/catalog/release-card/release-card'
+import {ReleaseCard} from '@/components/catalog/release-card/release-card.client'
 import {client} from '@/sanity/client'
 import {sanityFetch} from '@/sanity/live'
 import {LABEL_QUERY, LABEL_SLUGS_QUERY} from '@/sanity/queries'
@@ -73,7 +73,14 @@ export default async function LabelPage({params}: {params: Params}) {
           <ul className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
             {releases.map((release) => (
               <li key={release._id}>
-                <ReleaseCard release={release} />
+                <ReleaseCard release={release}>
+                  <ReleaseCard.Cover />
+                  <ReleaseCard.Content>
+                    <ReleaseCard.Title />
+                    <ReleaseCard.Artist />
+                    <ReleaseCard.Meta />
+                  </ReleaseCard.Content>
+                </ReleaseCard>
               </li>
             ))}
           </ul>

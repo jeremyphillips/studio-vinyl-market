@@ -1,6 +1,6 @@
 import type {Metadata} from 'next'
 
-import {ReleaseCard} from '@/components/catalog/release-card/release-card'
+import {ReleaseCard} from '@/components/catalog/release-card/release-card.client'
 import {toNextMetadata} from '@/sanity/seo'
 import {sanityFetch} from '@/sanity/live'
 import {RELEASES_PAGE_QUERY, RELEASES_QUERY} from '@/sanity/queries'
@@ -54,7 +54,14 @@ export default async function ReleasesPage() {
         <ul className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
           {releases.map((release) => (
             <li key={release._id}>
-              <ReleaseCard release={release} />
+              <ReleaseCard release={release}>
+                <ReleaseCard.Cover />
+                <ReleaseCard.Content>
+                  <ReleaseCard.Title />
+                  <ReleaseCard.Artist />
+                  <ReleaseCard.Meta />
+                </ReleaseCard.Content>
+              </ReleaseCard>
             </li>
           ))}
         </ul>
