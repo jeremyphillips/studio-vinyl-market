@@ -2,7 +2,7 @@ import type {Metadata} from 'next'
 import {notFound} from 'next/navigation'
 
 import {CoverImage} from '@/components/catalog/cover-image/cover-image'
-import {ReleaseCard} from '@/components/catalog/release-card/release-card'
+import {ReleaseCard} from '@/components/catalog/release-card/release-card.client'
 import {client} from '@/sanity/client'
 import {sanityFetch} from '@/sanity/live'
 import {LABEL_QUERY, LABEL_SLUGS_QUERY} from '@/sanity/queries'

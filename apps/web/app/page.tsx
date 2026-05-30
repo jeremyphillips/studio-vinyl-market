@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import {ReleaseCard} from '@/components/catalog/release-card/release-card'
+import {ReleaseCard} from '@/components/catalog/release-card/release-card.client'
 import {Button} from '@/components/ui/button'
 import {sanityFetch} from '@/sanity/live'
 import {HOME_RELEASES_QUERY} from '@/sanity/queries'
