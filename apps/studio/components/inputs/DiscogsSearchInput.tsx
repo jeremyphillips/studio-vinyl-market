@@ -92,7 +92,7 @@ export function DiscogsSearchInput(props: ObjectInputProps<DiscogsValue>) {
   ]
 
   return (
-    <Stack space={3}>
+    <Stack gap={3}>
       {hasValue && !showSearch && (
         <>
           <LinkedIdCard title="Linked Discogs release" items={linkedItems} />

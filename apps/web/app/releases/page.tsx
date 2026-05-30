@@ -54,7 +54,14 @@ export default async function ReleasesPage() {
         <ul className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
           {releases.map((release) => (
             <li key={release._id}>
-              <ReleaseCard release={release} />
+              <ReleaseCard release={release}>
+                <ReleaseCard.Cover />
+                <ReleaseCard.Content>
+                  <ReleaseCard.Title />
+                  <ReleaseCard.Artist />
+                  <ReleaseCard.Meta />
+                </ReleaseCard.Content>
+              </ReleaseCard>
             </li>
           ))}
         </ul>

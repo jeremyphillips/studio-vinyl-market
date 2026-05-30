@@ -25,7 +25,14 @@ export default async function HomePage() {
         <ul className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
           {releases.map((release, index) => (
             <li key={release._id}>
-              <ReleaseCard release={release} priority={index < 4} />
+              <ReleaseCard release={release}>
+                <ReleaseCard.Cover priority={index < 4} />
+                <ReleaseCard.Content>
+                  <ReleaseCard.Title />
+                  <ReleaseCard.Artist />
+                  <ReleaseCard.Meta />
+                </ReleaseCard.Content>
+              </ReleaseCard>
             </li>
           ))}
         </ul>
