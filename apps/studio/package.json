@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "sanity dev",
     "start": "sanity start",
-    "build": "sanity build",
+    "build": "node --env-file=.env node_modules/.bin/sanity build",
     "typegen": "sanity schema extract --enforce-required-fields && sanity typegen generate",
     "seed:releases-page": "sanity exec ./scripts/seed-releases-page.ts --with-user-token",
     "deploy": "sanity deploy",

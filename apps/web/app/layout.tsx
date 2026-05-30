@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { draftMode } from 'next/headers'
+
+export const dynamic = 'force-dynamic'
 import { VisualEditing } from 'next-sanity/visual-editing'
 
 import { DisableDraftMode } from '@/components/preview/disable-draft-mode/disable-draft-mode.client'
