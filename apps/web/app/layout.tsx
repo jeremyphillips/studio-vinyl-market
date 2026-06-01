@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { draftMode } from 'next/headers'
-
-export const dynamic = 'force-dynamic'
+import { Geist, Geist_Mono } from 'next/font/google'
 import { VisualEditing } from 'next-sanity/visual-editing'
 
 import { DisableDraftMode } from '@/components/preview/disable-draft-mode/disable-draft-mode.client'
@@ -9,6 +8,18 @@ import { Header } from '@/components/layout/header/header'
 import { SanityLive } from '@/sanity/live'
 
 import './globals.css'
+
+export const dynamic = 'force-dynamic'
+
+const geistSans = Geist({
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
+})
+
+const geistMono = Geist_Mono({
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+})
 
 export const metadata: Metadata = {
   title: {
@@ -26,8 +37,8 @@ export default async function RootLayout({
   const { isEnabled: isDraftMode } = await draftMode()
 
   return (
-    <html lang="en">
-      <body className="min-h-screen antialiased">
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className="min-h-screen font-sans antialiased">
         <Header />
         <main className="mx-auto max-w-6xl px-6 py-10">{children}</main>
         <SanityLive />
