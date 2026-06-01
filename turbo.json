@@ -39,6 +39,10 @@
     "test": {
       "dependsOn": ["^test"]
     },
+    "storybook": {
+      "cache": false,
+      "persistent": true
+    },
     "clean": {
       "cache": false
     }
