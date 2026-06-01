@@ -1,5 +1,8 @@
 import {render, screen} from '@testing-library/react'
 import {describe, expect, it} from 'vitest'
+
+import {discogsMasterUrl, discogsReleaseUrl} from '@/lib/discogs'
+
 import {DiscogsMeta} from './discogs-meta'
 
 describe('DiscogsMeta', () => {
@@ -15,7 +18,7 @@ describe('DiscogsMeta', () => {
     expect(screen.getByRole('region', {name: 'Discogs'})).toBeInTheDocument()
 
     const releaseLink = screen.getByRole('link', {name: '12345'})
-    expect(releaseLink).toHaveAttribute('href', 'https://www.discogs.com/release/12345')
+    expect(releaseLink).toHaveAttribute('href', discogsReleaseUrl(12345))
     expect(releaseLink).toHaveAttribute('rel', 'noopener noreferrer')
     expect(screen.queryByRole('link', {name: '67890'})).not.toBeInTheDocument()
   })
@@ -25,11 +28,11 @@ describe('DiscogsMeta', () => {
 
     expect(screen.getByRole('link', {name: '12345'})).toHaveAttribute(
       'href',
-      'https://www.discogs.com/release/12345',
+      discogsReleaseUrl(12345),
     )
     expect(screen.getByRole('link', {name: '67890'})).toHaveAttribute(
       'href',
-      'https://www.discogs.com/master/67890',
+      discogsMasterUrl(67890),
     )
   })
 })

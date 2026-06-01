@@ -1,5 +1,6 @@
 import Link from 'next/link'
 
+import {DarkModeToggle} from '@/components/layout/dark-mode-toggle'
 import {HeaderNav} from '@/components/layout/header-nav/header-nav.client'
 import {P} from '@/components/ui/typography'
 import {FIXED_PATH_BY_TYPE, SLUG_PATH_BY_TYPE} from '@/lib/routes'
@@ -79,14 +80,17 @@ export async function Header() {
           {title}
         </Link>
 
-        {links.length > 0 ? (
-          <HeaderNav links={links} />
-        ) : (
-          <P size="body-sm" color="muted">
-            Add navigation in{' '}
-            <span className="font-mono">Site settings</span> in the Studio.
-          </P>
-        )}
+        <div className="flex items-center gap-4">
+          {links.length > 0 ? (
+            <HeaderNav links={links} />
+          ) : (
+            <P size="body-sm" color="muted">
+              Add navigation in{' '}
+              <span className="font-mono">Site settings</span> in the Studio.
+            </P>
+          )}
+          <DarkModeToggle />
+        </div>
       </div>
     </header>
   )
