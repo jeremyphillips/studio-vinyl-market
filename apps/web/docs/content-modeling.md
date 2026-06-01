@@ -33,6 +33,27 @@ import { RELEASES_PAGE_ID } from 'apps/studio/schemaTypes/releasesPage'
 
 ---
 
+## Shared option constants — `packages/release-constants`
+
+Option arrays used in both the Studio (as `list` values) and the web (as display labels) live in `packages/release-constants/index.ts`. This is the SSoT — never duplicate them in either app.
+
+```ts
+import { releaseFormatOptions, releaseSpeedOptions } from '@vinyl-market/release-constants'
+```
+
+- **Studio** (`apps/studio/schemaTypes/constants/release.ts`) re-exports from the package.
+- **Web** derives label maps at module scope using `Object.fromEntries`:
+
+```ts
+const SPEED_LABEL = Object.fromEntries(
+  releaseSpeedOptions.map(({ value, title }) => [value, title]),
+)
+```
+
+When adding a new schema field whose values need a human-readable label in the web UI, add the options array to `packages/release-constants/index.ts` and follow this pattern.
+
+---
+
 ## ButtonBlock → CVA type pipeline
 
 `buttonBlock.ts` is the **SSoT** for button variant/size options. The web derives its CVA vocabulary from the generated type:

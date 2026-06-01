@@ -21,6 +21,7 @@
     "sanity"
   ],
   "dependencies": {
+    "@vinyl-market/release-constants": "*",
     "@sanity/icons": "^3.7.4",
     "@sanity/ui": "^3.2.0",
     "@sanity/vision": "5.28.0",

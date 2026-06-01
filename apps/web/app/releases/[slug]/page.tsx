@@ -1,3 +1,4 @@
+import { releaseFormatOptions, releaseSpeedOptions } from '@vinyl-market/release-constants'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -12,17 +13,12 @@ import { client } from '@/sanity/client'
 import { sanityFetch } from '@/sanity/live'
 import { RELEASE_QUERY, RELEASE_SLUGS_QUERY } from '@/sanity/queries'
 
-const FORMAT_LABEL: Record<string, string> = {
-  LP: 'LP',
-  EP: 'EP',
-  Single: 'Single',
-}
-
-const SPEED_LABEL: Record<string, string> = {
-  '33': '33 RPM',
-  '45': '45 RPM',
-  '78': '78 RPM',
-}
+const FORMAT_LABEL = Object.fromEntries(
+  releaseFormatOptions.map(({ value, title }) => [value, title]),
+)
+const SPEED_LABEL = Object.fromEntries(
+  releaseSpeedOptions.map(({ value, title }) => [value, title]),
+)
 
 type Params = Promise<{ slug: string }>
 
