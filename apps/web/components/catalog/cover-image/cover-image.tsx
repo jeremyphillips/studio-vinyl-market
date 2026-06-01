@@ -1,5 +1,6 @@
 import Image from 'next/image'
 
+import { buildImageSizes } from '@/lib/image'
 import { cn } from '@/lib/utils'
 import { urlFor } from '@/sanity/image'
 import type { ImageWithAltSource } from '@/sanity/image'
@@ -45,7 +46,7 @@ export function CoverImage({
       alt={altText}
       width={size}
       height={size}
-      sizes={`(min-width: 768px) ${size}px, 100vw`}
+      sizes={buildImageSizes('md', size)}
       priority={priority}
       className={cn('h-auto w-full rounded-md object-cover', className)}
     />
