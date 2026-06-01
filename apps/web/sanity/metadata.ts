@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 import { urlFor } from '@/sanity/image'
-import type { ImageWithAltSource } from '@/sanity/image-types'
+import type { ImageWithAltSource } from '@/sanity/image'
 
 export type SeoFields =
   | {

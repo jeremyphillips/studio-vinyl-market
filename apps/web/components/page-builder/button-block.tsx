@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
 import { FIXED_PATH_BY_TYPE, SLUG_PATH_BY_TYPE } from '@/lib/routes'
-import type { PAGE_QUERY_RESULT } from '@/sanity/types'
+import type { PAGE_QUERY_RESULT } from '@/sanity/types.generated'
 
 type PageBuilderBlocks = NonNullable<NonNullable<PAGE_QUERY_RESULT>['pageBuilder']>
 type ButtonBlockData = Extract<PageBuilderBlocks[number], { _type: 'buttonBlock' }>

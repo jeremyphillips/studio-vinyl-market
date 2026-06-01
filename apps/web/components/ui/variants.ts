@@ -6,7 +6,7 @@
 // the single source of truth. After changing variant/size options in
 // buttonBlock.ts, run `yarn typegen` and any missing CVA keys will surface as
 // TypeScript errors via the `satisfies Record<ColorVariant, string>` guards.
-import type { ButtonBlock } from '@/sanity/types'
+import type { ButtonBlock } from '@/sanity/types.generated'
 
 export type ColorVariant = NonNullable<ButtonBlock['variant']>
 export type SizeVariant = NonNullable<ButtonBlock['size']>

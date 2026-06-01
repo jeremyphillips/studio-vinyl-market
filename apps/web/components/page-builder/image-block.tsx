@@ -1,7 +1,7 @@
 import Image from 'next/image'
 
 import { urlFor } from '@/sanity/image'
-import type { PAGE_QUERY_RESULT } from '@/sanity/types'
+import type { PAGE_QUERY_RESULT } from '@/sanity/types.generated'
 
 type PageBuilderBlocks = NonNullable<NonNullable<PAGE_QUERY_RESULT>['pageBuilder']>
 type ImageBlockData = Extract<PageBuilderBlocks[number], { _type: 'imageWithAlt' }>

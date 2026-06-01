@@ -5,8 +5,8 @@ import { PageBuilder } from '@/components/page-builder/page-builder'
 import { H1 } from '@/components/ui/typography'
 import { client } from '@/sanity/client'
 import { sanityFetch } from '@/sanity/live'
+import { toNextMetadata } from '@/sanity/metadata'
 import { PAGE_QUERY, PAGE_SLUGS_QUERY } from '@/sanity/queries'
-import { toNextMetadata } from '@/sanity/seo'
 
 type Params = Promise<{ slug: string }>
 

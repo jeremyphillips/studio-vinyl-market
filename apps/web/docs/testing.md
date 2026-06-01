@@ -2,13 +2,13 @@
 
 ## Stack
 
-| Tool | Role |
-|---|---|
-| [Vitest](https://vitest.dev) | Test runner (jsdom environment) |
-| [@testing-library/react](https://testing-library.com/react) | Component rendering and queries |
-| [@testing-library/user-event](https://testing-library.com/user-event) | Simulated user interactions |
-| [@testing-library/jest-dom](https://github.com/testing-library/jest-dom) | DOM assertion matchers |
-| [vitest-axe](https://github.com/chaance/vitest-axe) | Accessibility assertions via axe-core |
+| Tool                                                                     | Role                                  |
+| ------------------------------------------------------------------------ | ------------------------------------- |
+| [Vitest](https://vitest.dev)                                             | Test runner (jsdom environment)       |
+| [@testing-library/react](https://testing-library.com/react)              | Component rendering and queries       |
+| [@testing-library/user-event](https://testing-library.com/user-event)    | Simulated user interactions           |
+| [@testing-library/jest-dom](https://github.com/testing-library/jest-dom) | DOM assertion matchers                |
+| [vitest-axe](https://github.com/chaance/vitest-axe)                      | Accessibility assertions via axe-core |
 
 Run tests:
 
@@ -75,7 +75,7 @@ it('has no accessibility violations', async () => {
 })
 ```
 
-axe-core runs WCAG 2.1 AA rules against the rendered DOM. It catches missing labels, invalid ARIA, heading order violations, and more. It does not replace manual testing or screen reader testing.
+axe-core runs WCAG 2.2 AA rules against the rendered DOM (axe-core 4.8+ covers 2.2; this project uses 4.12). It catches missing labels, invalid ARIA, heading order violations, and more. It does not replace manual testing or screen reader testing.
 
 ### When to add an axe test
 
@@ -159,12 +159,12 @@ it('renders in dark mode', () => {
 
 This project enforces accessibility at four levels:
 
-| Layer | Tool | When it runs | Catches real CSS |
-|---|---|---|---|
-| Write-time | `eslint-plugin-jsx-a11y` | On every file save / pre-commit | No |
-| Test-time | `vitest-axe` | `yarn test` / CI | No (jsdom) |
-| Dev review | `@storybook/addon-a11y` | Storybook panel per story | Yes |
-| CI | `@storybook/test-runner` + `axe-playwright` | Every push / PR | Yes |
+| Layer      | Tool                                        | When it runs                    | Catches real CSS |
+| ---------- | ------------------------------------------- | ------------------------------- | ---------------- |
+| Write-time | `eslint-plugin-jsx-a11y`                    | On every file save / pre-commit | No               |
+| Test-time  | `vitest-axe`                                | `yarn test` / CI                | No (jsdom)       |
+| Dev review | `@storybook/addon-a11y`                     | Storybook panel per story       | Yes              |
+| CI         | `@storybook/test-runner` + `axe-playwright` | Every push / PR                 | Yes              |
 
 The ESLint rules catch static issues (missing `alt`, invalid ARIA roles, keyboard-inaccessible elements). The axe runtime tests catch structural issues that require a rendered DOM (landmark order, focus management). The Storybook addon provides a visual audit panel while building components. The test runner is the highest-fidelity layer — it runs every story headlessly in Playwright with real computed CSS, which means **color contrast is accurately reported**.
 

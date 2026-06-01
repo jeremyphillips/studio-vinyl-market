@@ -6,7 +6,7 @@ import { P } from '@/components/ui/typography'
 import { FIXED_PATH_BY_TYPE, SLUG_PATH_BY_TYPE } from '@/lib/routes'
 import { sanityFetch } from '@/sanity/live'
 import { SITE_SETTINGS_QUERY } from '@/sanity/queries'
-import type { SITE_SETTINGS_QUERY_RESULT } from '@/sanity/types'
+import type { SITE_SETTINGS_QUERY_RESULT } from '@/sanity/types.generated'
 
 type NavLink = {
   key: string

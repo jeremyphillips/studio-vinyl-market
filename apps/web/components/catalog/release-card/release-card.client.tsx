@@ -7,8 +7,8 @@ import { formatYear } from '@/catalog/format'
 import { CoverImage } from '@/components/catalog/cover-image/cover-image'
 import { Card, CardContent } from '@/components/ui/card'
 import { P, Small } from '@/components/ui/typography'
-import type { ImageWithAltSource } from '@/sanity/image-types'
-import type { ReleaseFormat } from '@/sanity/release-types'
+import type { ImageWithAltSource } from '@/sanity/image'
+import type { ReleaseFormat } from '@/sanity/release.types'
 
 export type ReleaseData = {
   releaseName: string
