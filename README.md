@@ -32,7 +32,7 @@ flowchart LR
 │   │   └── sanity.project.ts         # env helpers
 │   └── web/                          # Next.js 16 (App Router, RSC)
 │       ├── app/
-│       │   ├── layout.tsx            # mounts <Header /> + <SanityLive />
+│       │   ├── layout.tsx            # mounts <ThemeProvider />, <Header />, <SanityLive />
 │       │   ├── page.tsx              # home
 │       │   ├── releases/             # /releases and /releases/[slug]
 │       │   ├── artists/[slug]/       # artist detail
@@ -40,6 +40,8 @@ flowchart LR
 │       │   └── api/draft-mode/       # Presentation / Visual Editing hooks
 │       ├── components/               # Header, ReleaseCard, CoverImage, Tracklist, …
 │       ├── components/ui/            # shadcn/ui primitives
+│       ├── stores/                   # Zustand stores (theme, …)
+│       ├── styles/                   # globals.css entry point + tokens/
 │       ├── sanity/                   # client, live, image, queries, env, generated types
 │       └── lib/                      # cn() + small formatters
 ├── turbo.json                        # dev / build / typegen / lint / typecheck pipelines
@@ -58,6 +60,7 @@ flowchart LR
 | Frontend framework  | Next.js 16 (App Router, Server Components) |
 | Styling             | Tailwind v4 + shadcn/ui (`new-york` style, neutral) |
 | Data fetching       | `next-sanity` (`defineLive` → `sanityFetch` + `<SanityLive />`) |
+| Client state        | Zustand (`stores/`) — currently used for dark mode theme |
 | Type safety         | Sanity TypeGen with `defineQuery` |
 | Images              | `@sanity/image-url` + `next/image` |
 

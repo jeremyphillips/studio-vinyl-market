@@ -1,3 +1,5 @@
+import {discogsMasterUrl, discogsReleaseUrl} from '@/lib/discogs'
+
 import {H2} from '@/components/ui/typography'
 
 type DiscogsMetaProps = {
@@ -17,7 +19,7 @@ export function DiscogsMeta({releaseId, masterId}: DiscogsMetaProps) {
         <dt className="text-muted-foreground">Release</dt>
         <dd>
           <a
-            href={`https://www.discogs.com/release/${releaseId}`}
+            href={discogsReleaseUrl(releaseId)}
             target="_blank"
             rel="noopener noreferrer"
             className="underline-offset-4 hover:underline"
@@ -31,7 +33,7 @@ export function DiscogsMeta({releaseId, masterId}: DiscogsMetaProps) {
             <dt className="text-muted-foreground">Master</dt>
             <dd>
               <a
-                href={`https://www.discogs.com/master/${masterId}`}
+                href={discogsMasterUrl(masterId)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline-offset-4 hover:underline"

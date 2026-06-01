@@ -20,6 +20,7 @@ Vinyl Market's web app is a Next.js 16 / Tailwind v4 / Sanity monorepo applicati
 | `tailwindcss` ^4 | CSS-first styling (no `tailwind.config.ts`) |
 | `class-variance-authority` | Variant-driven component styling (CVA) |
 | `@radix-ui/*` | Accessible UI primitives |
+| `zustand` | Lightweight client state management (`stores/`) |
 | `next-sanity` | Sanity client, live mode, Visual Editing |
 | `@portabletext/react` | Sanity rich-text renderer |
 | `clsx` + `tailwind-merge` | `cn()` utility for conditional class merging |

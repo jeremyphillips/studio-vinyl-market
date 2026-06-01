@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
-import { draftMode } from 'next/headers'
+import { cookies, draftMode } from 'next/headers'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { VisualEditing } from 'next-sanity/visual-editing'
 
 import { DisableDraftMode } from '@/components/preview/disable-draft-mode/disable-draft-mode.client'
 import { Header } from '@/components/layout/header/header'
+import { ThemeProvider } from '@/components/providers/theme-provider.client'
 import { SanityLive } from '@/sanity/live'
 
 import '../styles/globals.css'
@@ -34,20 +35,30 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const { isEnabled: isDraftMode } = await draftMode()
+  const [{ isEnabled: isDraftMode }, cookieStore] = await Promise.all([
+    draftMode(),
+    cookies(),
+  ])
+
+  const isDark = cookieStore.get('theme')?.value === 'dark'
 
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable}${isDark ? ' dark' : ''}`}
+    >
       <body className="min-h-screen font-sans antialiased">
-        <Header />
-        <main className="mx-auto max-w-6xl px-6 py-10">{children}</main>
-        <SanityLive />
-        {isDraftMode && (
-          <>
-            <DisableDraftMode />
-            <VisualEditing />
-          </>
-        )}
+        <ThemeProvider initialIsDark={isDark}>
+          <Header />
+          <main className="mx-auto max-w-6xl px-6 py-10">{children}</main>
+          <SanityLive />
+          {isDraftMode && (
+            <>
+              <DisableDraftMode />
+              <VisualEditing />
+            </>
+          )}
+        </ThemeProvider>
       </body>
     </html>
   )
