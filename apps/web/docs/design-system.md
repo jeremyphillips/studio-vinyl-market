@@ -3,8 +3,10 @@
 The design system is built in three layers: CSS tokens → Tailwind utilities → CVA components.
 
 ```
-globals.css (@theme inline)
-  └── Design tokens (colors, type scale, spacing, radius)
+styles/globals.css (entry point)
+  └── styles/tokens/colors.css     — semantic color tokens (:root / .dark) + @theme color mappings
+  └── styles/tokens/typography.css — @theme type scale + letter-spacing
+  └── styles/tokens/base.css       — @theme font stack + radius scale
       └── Tailwind utility classes (text-h1, tracking-tight, etc.)
           └── typography.variants.ts (CVA maps props → classes)
               └── typography.tsx (Text, H1–H5, P, Small, Label, Prose)
@@ -13,14 +15,18 @@ globals.css (@theme inline)
 
 ---
 
-## Token layer — `app/globals.css`
+## Token layer — `styles/tokens/`
 
-All design tokens are CSS custom properties defined in two places:
+Design tokens are split across three files, each imported by `styles/globals.css`. Tokens are the single source of truth. Never hardcode color values or font sizes in component files.
 
-- **`:root` / `.dark`** — semantic color tokens (OKLCH values)
-- **`@theme inline`** — maps tokens to Tailwind theme keys, plus the type scale and letter-spacing tokens
+| File | Contents |
+|---|---|
+| `styles/tokens/colors.css` | `:root` / `.dark` semantic color tokens (OKLCH) + `@theme` color mappings |
+| `styles/tokens/typography.css` | `@theme` type scale (`--text-*`) and letter-spacing (`--tracking-*`) |
+| `styles/tokens/base.css` | `@theme` font stack and computed radius scale |
 
-Tokens are the single source of truth. Never hardcode color values or font sizes in component files.
+- **`:root` / `.dark`** — semantic color tokens (OKLCH values), defined in `styles/tokens/colors.css`
+- **`@theme inline`** — maps tokens to Tailwind theme keys; spread across all three token files
 
 ### Color tokens
 
@@ -56,7 +62,7 @@ Base: `1rem = 16px` (browser default — never override `font-size` on `:root`).
 | `--text-body-sm` | 0.875rem / 14px | 1.6 | Secondary copy |
 | `--text-small` | 0.75rem / 12px | 1.5 | Fine print, captions, metadata |
 
-Line height is colocated with font-size using Tailwind v4's `--text-*--line-height` syntax, so `text-h1` sets both automatically.
+Line height is colocated with font-size using Tailwind v4's `--text-*--line-height` syntax, so `text-h1` sets both automatically. All type scale tokens live in `styles/tokens/typography.css`.
 
 ### Letter-spacing tokens
 
@@ -227,6 +233,6 @@ The `components` prop merges shallowly with the defaults — supply only the key
 
 ## Fonts
 
-Geist Sans and Geist Mono are loaded via `next/font/google` in `app/layout.tsx`. They inject `--font-geist-sans` and `--font-geist-mono` CSS variables onto `<html>`, which `globals.css` picks up via the `--font-sans` and `--font-mono` theme tokens.
+Geist Sans and Geist Mono are loaded via `next/font/google` in `app/layout.tsx`. They inject `--font-geist-sans` and `--font-geist-mono` CSS variables onto `<html>`, which `styles/tokens/base.css` picks up via the `--font-sans` and `--font-mono` theme tokens.
 
 The `<body>` carries `font-sans` so all text defaults to Geist Sans without any per-component font class.

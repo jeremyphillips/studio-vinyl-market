@@ -7,7 +7,7 @@ import { DisableDraftMode } from '@/components/preview/disable-draft-mode/disabl
 import { Header } from '@/components/layout/header/header'
 import { SanityLive } from '@/sanity/live'
 
-import './globals.css'
+import '../styles/globals.css'
 
 export const dynamic = 'force-dynamic'
 
