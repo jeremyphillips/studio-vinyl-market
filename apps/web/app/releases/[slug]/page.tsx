@@ -3,7 +3,7 @@ import Link from 'next/link'
 import {notFound} from 'next/navigation'
 
 import {CoverImage} from '@/components/catalog/cover-image/cover-image'
-import {DiscogsMeta} from '@/components/preview/discogs-meta/discogs-meta'
+import {DiscogsMeta} from '@/components/catalog/discogs-meta/discogs-meta'
 import {Tracklist} from '@/components/catalog/tracklist/tracklist'
 import {H1, H2, P} from '@/components/ui/typography'
 import {formatYear} from '@/catalog/format'

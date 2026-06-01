@@ -1,0 +1,17 @@
+/* ─── Font stack ───────────────────────────────────────────────────────────── */
+/* --font-geist-sans and --font-geist-mono are injected onto <html> by         */
+/* next/font/google in app/layout.tsx.                                         */
+
+@theme inline {
+  --font-sans:
+    var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+
+  /* ─── Border radius scale ────────────────────────────────────────────────── */
+  /* Derived from --radius (0.625rem) defined in colors.css                    */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
