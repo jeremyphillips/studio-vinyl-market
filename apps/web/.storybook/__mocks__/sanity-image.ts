@@ -1,4 +1,4 @@
-const PLACEHOLDER_URL = 'https://picsum.photos/400/400'
+const PLACEHOLDER_URL = '/placeholder-cover.png'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Chain = {[key: string]: (...args: any[]) => Chain | string}

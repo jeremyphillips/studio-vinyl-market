@@ -17,6 +17,7 @@ const nextSanityHooksMock = path.resolve(__dirname, '__mocks__/next-sanity-hooks
 
 const config: StorybookConfig = {
   stories: ['../components/**/*.stories.@(ts|tsx)'],
+  staticDirs: ['../public'],
   framework: {
     name: '@storybook/nextjs',
     options: {},
