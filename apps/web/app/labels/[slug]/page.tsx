@@ -73,14 +73,7 @@ export default async function LabelPage({params}: {params: Params}) {
           <ul className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
             {releases.map((release) => (
               <li key={release._id}>
-                <ReleaseCard release={release}>
-                  <ReleaseCard.Cover />
-                  <ReleaseCard.Content>
-                    <ReleaseCard.Title />
-                    <ReleaseCard.Artist />
-                    <ReleaseCard.Meta />
-                  </ReleaseCard.Content>
-                </ReleaseCard>
+                <ReleaseCard release={release} />
               </li>
             ))}
           </ul>
