@@ -9,7 +9,7 @@ const config = [
   ...nextCoreWebVitals,
   ...nextTypeScript,
   {
-    ignores: ['.next/**', 'node_modules/**', 'sanity/types.ts'],
+    ignores: ['.next/**', 'node_modules/**', 'sanity/types.ts', 'storybook-static/**'],
   },
   {
     plugins: { 'import-x': importX },

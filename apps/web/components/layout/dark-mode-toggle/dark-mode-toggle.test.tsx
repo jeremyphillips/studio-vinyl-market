@@ -1,15 +1,14 @@
-import {render, screen} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import {afterEach, describe, expect, it} from 'vitest'
-import {axe} from 'vitest-axe'
+import { afterEach, describe, expect, it } from 'vitest'
+import { axe } from 'vitest-axe'
 
-import {DarkModeToggle} from './dark-mode-toggle.client'
+import { DarkModeToggle } from './dark-mode-toggle.client'
 
-import {useThemeStore} from '@/stores/theme-store'
-
+import { useThemeStore } from '@/stores/theme-store'
 
 afterEach(() => {
-  useThemeStore.setState({isDark: false})
+  useThemeStore.setState({ isDark: false })
 })
 
 describe('DarkModeToggle', () => {
@@ -29,23 +28,23 @@ describe('DarkModeToggle', () => {
     it('labels the switch "Switch to dark mode"', () => {
       render(<DarkModeToggle />)
 
-      expect(screen.getByRole('switch', {name: 'Switch to dark mode'})).toBeInTheDocument()
+      expect(screen.getByRole('switch', { name: 'Switch to dark mode' })).toBeInTheDocument()
     })
   })
 
   describe('dark mode (isDark: true)', () => {
     it('has aria-checked="true"', () => {
-      useThemeStore.setState({isDark: true})
+      useThemeStore.setState({ isDark: true })
       render(<DarkModeToggle />)
 
       expect(screen.getByRole('switch')).toHaveAttribute('aria-checked', 'true')
     })
 
     it('labels the switch "Switch to light mode"', () => {
-      useThemeStore.setState({isDark: true})
+      useThemeStore.setState({ isDark: true })
       render(<DarkModeToggle />)
 
-      expect(screen.getByRole('switch', {name: 'Switch to light mode'})).toBeInTheDocument()
+      expect(screen.getByRole('switch', { name: 'Switch to light mode' })).toBeInTheDocument()
     })
   })
 
@@ -64,14 +63,14 @@ describe('DarkModeToggle', () => {
   })
 
   it('has no accessibility violations in light mode', async () => {
-    const {container} = render(<DarkModeToggle />)
+    const { container } = render(<DarkModeToggle />)
 
     expect(await axe(container)).toHaveNoViolations()
   })
 
   it('has no accessibility violations in dark mode', async () => {
-    useThemeStore.setState({isDark: true})
-    const {container} = render(<DarkModeToggle />)
+    useThemeStore.setState({ isDark: true })
+    const { container } = render(<DarkModeToggle />)
 
     expect(await axe(container)).toHaveNoViolations()
   })

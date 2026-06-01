@@ -1,12 +1,12 @@
 'use client'
 
-import {Slot} from '@radix-ui/react-slot'
-import {type VariantProps} from 'class-variance-authority'
+import { Slot } from '@radix-ui/react-slot'
+import { type VariantProps } from 'class-variance-authority'
 import * as React from 'react'
 
-import {buttonVariants} from './button.variants'
+import { buttonVariants } from './button.variants'
 
-import {cn} from '@/lib/utils'
+import { cn } from '@/lib/utils'
 
 function Button({
   className,
@@ -23,10 +23,10 @@ function Button({
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({variant, size, className}))}
+      className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     />
   )
 }
 
-export {Button}
+export { Button }

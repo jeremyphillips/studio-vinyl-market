@@ -1,8 +1,7 @@
+import { ButtonBlock } from './button-block'
+import { ImageBlock } from './image-block'
 
-import {ButtonBlock} from './button-block'
-import {ImageBlock} from './image-block'
-
-import type {PAGE_QUERY_RESULT} from '@/sanity/types'
+import type { PAGE_QUERY_RESULT } from '@/sanity/types'
 
 type PageBuilderBlocks = NonNullable<NonNullable<PAGE_QUERY_RESULT>['pageBuilder']>
 
@@ -10,7 +9,7 @@ type PageBuilderProps = {
   blocks: PageBuilderBlocks | null | undefined
 }
 
-export function PageBuilder({blocks}: PageBuilderProps) {
+export function PageBuilder({ blocks }: PageBuilderProps) {
   if (!blocks?.length) return null
 
   return (
