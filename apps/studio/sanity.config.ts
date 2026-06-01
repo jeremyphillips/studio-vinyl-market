@@ -1,5 +1,5 @@
 import {defineConfig} from 'sanity'
-import {presentationTool} from 'sanity/presentation'
+import {defineLocations, presentationTool} from 'sanity/presentation'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {getSanityApiConfig, getSanityPreviewUrl} from './sanity.project'
@@ -23,6 +23,66 @@ export default defineConfig({
   plugins: [
     structureTool({structure}),
     presentationTool({
+      resolve: {
+        locations: {
+          release: defineLocations({
+            select: {title: 'releaseName', slug: 'slug.current'},
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.title ?? 'Untitled release',
+                  href: `/releases/${doc?.slug}`,
+                },
+              ],
+            }),
+          }),
+          artist: defineLocations({
+            select: {title: 'name', slug: 'slug.current'},
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.title ?? 'Untitled artist',
+                  href: `/artists/${doc?.slug}`,
+                },
+              ],
+            }),
+          }),
+          label: defineLocations({
+            select: {title: 'name', slug: 'slug.current'},
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.title ?? 'Untitled label',
+                  href: `/labels/${doc?.slug}`,
+                },
+              ],
+            }),
+          }),
+          page: defineLocations({
+            select: {title: 'title', slug: 'slug.current'},
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.title ?? 'Untitled page',
+                  href: `/pages/${doc?.slug}`,
+                },
+              ],
+            }),
+          }),
+          siteSettings: defineLocations({
+            message: 'This document controls the site-wide header navigation.',
+            tone: 'caution',
+            resolve: () => ({
+              locations: [{title: 'All pages (header)', href: '/'}],
+            }),
+          }),
+          releasesPage: defineLocations({
+            resolve: () => ({
+              locations: [{title: 'Releases page', href: '/releases'}],
+            }),
+          }),
+        },
+      },
       previewUrl: {
         origin: previewUrl,
         preview: '/',

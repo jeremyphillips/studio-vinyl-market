@@ -57,6 +57,7 @@ export const HOME_RELEASES_QUERY = defineQuery(`
     | order(coalesce(releaseDate, _createdAt) desc)
     [0...12]{
       _id,
+      _type,
       releaseName,
       "slug": slug.current,
       format,
@@ -72,6 +73,7 @@ export const RELEASES_QUERY = defineQuery(`
   *[_type == "release" && defined(slug.current)]
     | order(coalesce(releaseDate, _createdAt) desc){
       _id,
+      _type,
       releaseName,
       "slug": slug.current,
       format,
@@ -91,6 +93,7 @@ export const RELEASE_SLUGS_QUERY = defineQuery(`
 export const RELEASE_QUERY = defineQuery(`
   *[_type == "release" && slug.current == $slug][0]{
     _id,
+    _type,
     releaseName,
     "slug": slug.current,
     format,
@@ -125,6 +128,7 @@ export const ARTIST_SLUGS_QUERY = defineQuery(`
 export const ARTIST_QUERY = defineQuery(`
   *[_type == "artist" && slug.current == $slug][0]{
     _id,
+    _type,
     name,
     "slug": slug.current,
     cover{asset, hotspot, crop, alt, caption},
@@ -196,6 +200,7 @@ export const PAGE_QUERY = defineQuery(`
 export const LABEL_QUERY = defineQuery(`
   *[_type == "label" && slug.current == $slug][0]{
     _id,
+    _type,
     name,
     "slug": slug.current,
     cover{asset, hotspot, crop, alt, caption},

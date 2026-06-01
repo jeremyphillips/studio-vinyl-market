@@ -9,7 +9,7 @@ import {formatYear} from '@/catalog/format'
 import type {ImageWithAltSource} from '@/sanity/image-types'
 import type {ReleaseFormat} from '@/sanity/release-types'
 
-type ReleaseData = {
+export type ReleaseData = {
   releaseName: string
   slug: string
   format: ReleaseFormat | string
@@ -27,21 +27,13 @@ const ReleaseCardContext = createContext<ReleaseCardContextValue | null>(null)
 
 function useReleaseCardContext(): ReleaseCardContextValue {
   const ctx = use(ReleaseCardContext)
-  if (!ctx) {
-    throw new Error('ReleaseCard sub-components must be used inside <ReleaseCard>')
-  }
+  if (!ctx) throw new Error('ReleaseCard must be used inside ReleaseCardContext')
   return ctx
 }
 
-// ─── Sub-components ──────────────────────────────────────────────────────────
+// ─── Private sub-components ───────────────────────────────────────────────────
 
-function ReleaseCardCover({
-  priority,
-  size = 400,
-}: {
-  priority?: boolean
-  size?: number
-}) {
+function Cover({priority, size = 400}: {priority?: boolean; size?: number}) {
   const {release} = useReleaseCardContext()
   return (
     <CoverImage
@@ -54,18 +46,14 @@ function ReleaseCardCover({
   )
 }
 
-function ReleaseCardContent({children}: {children: React.ReactNode}) {
-  return <CardContent className="space-y-1 px-4 py-4">{children}</CardContent>
-}
-
-function ReleaseCardTitle() {
+function Title() {
   const {release} = useReleaseCardContext()
   return (
     <p className="line-clamp-2 font-medium leading-snug">{release.releaseName}</p>
   )
 }
 
-function ReleaseCardArtist() {
+function Artist() {
   const {release} = useReleaseCardContext()
   if (!release.artist) return null
   return (
@@ -73,7 +61,7 @@ function ReleaseCardArtist() {
   )
 }
 
-function ReleaseCardMeta() {
+function Meta() {
   const {release} = useReleaseCardContext()
   const year = formatYear(release.releaseDate, release.dateUnknown)
   return (
@@ -83,14 +71,15 @@ function ReleaseCardMeta() {
   )
 }
 
-// ─── Root ─────────────────────────────────────────────────────────────────────
+// ─── Public component ─────────────────────────────────────────────────────────
 
-type ReleaseCardProps = {
+export type ReleaseCardProps = {
   release: ReleaseData
-  children: React.ReactNode
+  /** Pass `true` for above-the-fold cards to hint the browser to prioritise the image. */
+  priority?: boolean
 }
 
-export function ReleaseCard({release, children}: ReleaseCardProps) {
+export function ReleaseCard({release, priority}: ReleaseCardProps) {
   return (
     <ReleaseCardContext value={{release}}>
       <Card className="overflow-hidden py-0">
@@ -98,15 +87,14 @@ export function ReleaseCard({release, children}: ReleaseCardProps) {
           href={`/releases/${release.slug}` as const}
           className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          {children}
+          <Cover priority={priority} />
+          <CardContent className="space-y-1 px-4 py-4">
+            <Title />
+            <Artist />
+            <Meta />
+          </CardContent>
         </Link>
       </Card>
     </ReleaseCardContext>
   )
 }
-
-ReleaseCard.Cover = ReleaseCardCover
-ReleaseCard.Content = ReleaseCardContent
-ReleaseCard.Title = ReleaseCardTitle
-ReleaseCard.Artist = ReleaseCardArtist
-ReleaseCard.Meta = ReleaseCardMeta
