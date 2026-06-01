@@ -1,5 +1,5 @@
 import type {Meta, StoryObj} from '@storybook/react'
-
+import {P} from '@/components/ui/typography'
 import {DisableDraftMode} from './disable-draft-mode.client'
 
 const meta: Meta<typeof DisableDraftMode> = {
@@ -20,8 +20,8 @@ export const Visible: Story = {}
  */
 export const HiddenInPresentation: Story = {
   render: () => (
-    <p className="p-4 text-sm text-muted-foreground">
+    <P size="body-sm" color="muted" className="p-4">
       (Component renders null — hidden when inside the Presentation Tool)
-    </p>
+    </P>
   ),
 }

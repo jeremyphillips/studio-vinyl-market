@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import {HeaderNav} from '@/components/layout/header-nav/header-nav.client'
+import {P} from '@/components/ui/typography'
 import {FIXED_PATH_BY_TYPE, SLUG_PATH_BY_TYPE} from '@/lib/routes'
 import {sanityFetch} from '@/sanity/live'
 import {SITE_SETTINGS_QUERY} from '@/sanity/queries'
@@ -81,10 +82,10 @@ export async function Header() {
         {links.length > 0 ? (
           <HeaderNav links={links} />
         ) : (
-          <p className="text-sm text-muted-foreground">
+          <P size="body-sm" color="muted">
             Add navigation in{' '}
             <span className="font-mono">Site settings</span> in the Studio.
-          </p>
+          </P>
         )}
       </div>
     </header>

@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import {ReleaseCard} from '@/components/catalog/release-card/release-card.client'
 import {Button} from '@/components/ui/button'
-import {H1} from '@/components/ui/typography'
+import {H1, P} from '@/components/ui/typography'
 import {sanityFetch} from '@/sanity/live'
 import {HOME_RELEASES_QUERY} from '@/sanity/queries'
 
@@ -15,13 +15,13 @@ export default async function HomePage() {
         <H1>
           Latest releases
         </H1>
-        <p className="text-muted-foreground">
+        <P color="muted">
           The most recently dated records in the catalogue.
-        </p>
+        </P>
       </header>
 
       {releases.length === 0 ? (
-        <p className="text-muted-foreground">No releases published yet.</p>
+        <P color="muted">No releases published yet.</P>
       ) : (
         <ul className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
           {releases.map((release, index) => (

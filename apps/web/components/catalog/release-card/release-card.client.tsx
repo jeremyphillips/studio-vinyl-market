@@ -5,6 +5,7 @@ import Link from 'next/link'
 
 import {Card, CardContent} from '@/components/ui/card'
 import {CoverImage} from '@/components/catalog/cover-image/cover-image'
+import {P, Small} from '@/components/ui/typography'
 import {formatYear} from '@/catalog/format'
 import type {ImageWithAltSource} from '@/sanity/image-types'
 import type {ReleaseFormat} from '@/sanity/release-types'
@@ -49,7 +50,7 @@ function Cover({priority, size = 400}: {priority?: boolean; size?: number}) {
 function Title() {
   const {release} = useReleaseCardContext()
   return (
-    <p className="line-clamp-2 font-medium leading-snug">{release.releaseName}</p>
+    <P weight="medium" lines={2} className="leading-snug">{release.releaseName}</P>
   )
 }
 
@@ -57,7 +58,7 @@ function Artist() {
   const {release} = useReleaseCardContext()
   if (!release.artist) return null
   return (
-    <p className="text-sm text-muted-foreground">{release.artist.name}</p>
+    <P size="body-sm" color="muted">{release.artist.name}</P>
   )
 }
 
@@ -65,9 +66,9 @@ function Meta() {
   const {release} = useReleaseCardContext()
   const year = formatYear(release.releaseDate, release.dateUnknown)
   return (
-    <p className="text-xs text-muted-foreground">
+    <Small>
       {[release.format, year].filter(Boolean).join(' · ')}
-    </p>
+    </Small>
   )
 }
 

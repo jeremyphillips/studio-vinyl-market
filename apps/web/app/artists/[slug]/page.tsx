@@ -3,7 +3,7 @@ import {notFound} from 'next/navigation'
 
 import {CoverImage} from '@/components/catalog/cover-image/cover-image'
 import {ReleaseCard} from '@/components/catalog/release-card/release-card.client'
-import {H1, H2, Label} from '@/components/ui/typography'
+import {H1, H2, Label, P} from '@/components/ui/typography'
 import {client} from '@/sanity/client'
 import {sanityFetch} from '@/sanity/live'
 import {ARTIST_QUERY, ARTIST_SLUGS_QUERY} from '@/sanity/queries'
@@ -58,9 +58,9 @@ export default async function ArtistPage({params}: {params: Params}) {
             Artist
           </Label>
           <H1>{artist.name}</H1>
-          <p className="text-muted-foreground">
+          <P color="muted">
             {releases.length} {releases.length === 1 ? 'release' : 'releases'}
-          </p>
+          </P>
         </div>
       </header>
 
@@ -69,7 +69,7 @@ export default async function ArtistPage({params}: {params: Params}) {
           Releases
         </H2>
         {releases.length === 0 ? (
-          <p className="text-muted-foreground">No releases yet.</p>
+          <P color="muted">No releases yet.</P>
         ) : (
           <ul className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
             {releases.map((release) => (
