@@ -1,6 +1,7 @@
 import type {Meta, StoryObj} from '@storybook/react'
 import {HeaderNav} from './header-nav.client'
 import type {HeaderNavLink} from './header-nav.client'
+import {SLUG_PATH_BY_TYPE} from '@/lib/routes'
 
 const meta: Meta<typeof HeaderNav> = {
   title: 'Layout/HeaderNav',
@@ -12,9 +13,9 @@ export default meta
 type Story = StoryObj<typeof HeaderNav>
 
 const internalLinks: HeaderNavLink[] = [
-  {key: 'releases', label: 'Releases', href: '/releases', isExternal: false},
-  {key: 'artists', label: 'Artists', href: '/artists', isExternal: false},
-  {key: 'labels', label: 'Labels', href: '/labels', isExternal: false},
+  {key: 'releases', label: 'Releases', href: SLUG_PATH_BY_TYPE.release, isExternal: false},
+  {key: 'artists', label: 'Artists', href: SLUG_PATH_BY_TYPE.artist, isExternal: false},
+  {key: 'labels', label: 'Labels', href: SLUG_PATH_BY_TYPE.label, isExternal: false},
 ]
 
 export const Default: Story = {

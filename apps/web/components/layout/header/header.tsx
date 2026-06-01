@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import {HeaderNav} from '@/components/layout/header-nav/header-nav.client'
+import {FIXED_PATH_BY_TYPE, SLUG_PATH_BY_TYPE} from '@/lib/routes'
 import {sanityFetch} from '@/sanity/live'
 import {SITE_SETTINGS_QUERY} from '@/sanity/queries'
 import type {SITE_SETTINGS_QUERY_RESULT} from '@/sanity/types'
@@ -12,16 +13,9 @@ type NavLink = {
   isExternal: boolean
 }
 
-const INTERNAL_PATH_BY_TYPE: Record<'release' | 'artist' | 'label' | 'page', string> = {
-  release: '/releases',
-  artist: '/artists',
-  label: '/labels',
-  page: '/pages',
-}
+const INTERNAL_PATH_BY_TYPE = SLUG_PATH_BY_TYPE
 
-const FIXED_INTERNAL_HREF = {
-  releasesPage: '/releases',
-} as const
+const FIXED_INTERNAL_HREF = FIXED_PATH_BY_TYPE
 
 type NavItem = Extract<
   SITE_SETTINGS_QUERY_RESULT,

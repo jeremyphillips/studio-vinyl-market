@@ -6,6 +6,7 @@ import {CoverImage} from '@/components/catalog/cover-image/cover-image'
 import {DiscogsMeta} from '@/components/preview/discogs-meta/discogs-meta'
 import {Tracklist} from '@/components/catalog/tracklist/tracklist'
 import {formatYear} from '@/catalog/format'
+import {SLUG_PATH_BY_TYPE} from '@/lib/routes'
 import {client} from '@/sanity/client'
 import {sanityFetch} from '@/sanity/live'
 import {RELEASE_QUERY, RELEASE_SLUGS_QUERY} from '@/sanity/queries'
@@ -85,7 +86,7 @@ export default async function ReleasePage({params}: {params: Params}) {
             <p className="text-lg text-muted-foreground">
               by{' '}
               <Link
-                href={`/artists/${release.artist.slug}` as const}
+                href={`${SLUG_PATH_BY_TYPE.artist}/${release.artist.slug}` as const}
                 className="underline-offset-4 hover:underline"
               >
                 {release.artist.name}
@@ -112,7 +113,7 @@ export default async function ReleasePage({params}: {params: Params}) {
           <dd>
             {release.label ? (
               <Link
-                href={`/labels/${release.label.slug}` as const}
+                href={`${SLUG_PATH_BY_TYPE.label}/${release.label.slug}` as const}
                 className="underline-offset-4 hover:underline"
               >
                 {release.label.name}
