@@ -1,13 +1,14 @@
 import {defineQuery} from 'next-sanity'
 
-/**
- * Reusable projection for a single image with alt text. Returned shape:
- *   {asset, hotspot, crop, alt, caption}
- *
- * Inlined into the parent projections rather than referenced as a fragment
- * because TypeGen doesn't follow GROQ functions across constants — keeping
- * this comment as the source of truth for the field list.
- */
+import {galleryProjection, imageWithAltCaption} from './fragments/image'
+import {internalLinkResolved} from './fragments/link'
+import {
+  releaseCardListFields,
+  releaseCardNestedFields,
+  releaseCardNestedWithArtistFields,
+  releasesOrder,
+} from './fragments/release'
+import {seoProjection} from './fragments/seo'
 
 /**
  * Header navigation, read from the site-settings singleton.
@@ -24,10 +25,7 @@ export const SITE_SETTINGS_QUERY = defineQuery(`
       label,
       linkType,
       externalUrl,
-      "internal": internalLink->{
-        _type,
-        "slug": slug.current
-      }
+      "internal": internalLink->{${internalLinkResolved}}
     }
   }
 `)
@@ -37,50 +35,24 @@ export const RELEASES_PAGE_QUERY = defineQuery(`
   *[_id == "releasesPage"][0]{
     title,
     intro,
-    seo{
-      metaTitle,
-      metaDescription,
-      noIndex,
-      ogImage{
-        asset,
-        hotspot,
-        crop,
-        alt
-      }
-    }
+    ${seoProjection}
   }
 `)
 
 /** Most recent releases, used on the home page. */
 export const HOME_RELEASES_QUERY = defineQuery(`
   *[_type == "release" && defined(slug.current)]
-    | order(coalesce(releaseDate, _createdAt) desc)
+    | ${releasesOrder}
     [0...12]{
-      _id,
-      _type,
-      releaseName,
-      "slug": slug.current,
-      format,
-      releaseDate,
-      dateUnknown,
-      "artist": artist->{name, "slug": slug.current},
-      cover{asset, hotspot, crop, alt}
+      ${releaseCardListFields}
     }
 `)
 
 /** Full release list page. */
 export const RELEASES_QUERY = defineQuery(`
   *[_type == "release" && defined(slug.current)]
-    | order(coalesce(releaseDate, _createdAt) desc){
-      _id,
-      _type,
-      releaseName,
-      "slug": slug.current,
-      format,
-      releaseDate,
-      dateUnknown,
-      "artist": artist->{name, "slug": slug.current},
-      cover{asset, hotspot, crop, alt}
+    | ${releasesOrder}{
+      ${releaseCardListFields}
     }
 `)
 
@@ -103,8 +75,8 @@ export const RELEASE_QUERY = defineQuery(`
     noLabel,
     "artist": artist->{name, "slug": slug.current},
     "label": label->{name, "slug": slug.current},
-    cover{asset, hotspot, crop, alt, caption},
-    gallery[]{_key, asset, hotspot, crop, alt, caption},
+    cover${imageWithAltCaption},
+    gallery${galleryProjection},
     discs[]{
       _key,
       discNumber,
@@ -131,17 +103,11 @@ export const ARTIST_QUERY = defineQuery(`
     _type,
     name,
     "slug": slug.current,
-    cover{asset, hotspot, crop, alt, caption},
-    gallery[]{_key, asset, hotspot, crop, alt, caption},
+    cover${imageWithAltCaption},
+    gallery${galleryProjection},
     "releases": *[_type == "release" && artist._ref == ^._id && defined(slug.current)]
-      | order(coalesce(releaseDate, _createdAt) desc){
-        _id,
-        releaseName,
-        "slug": slug.current,
-        format,
-        releaseDate,
-        dateUnknown,
-        cover{asset, hotspot, crop, alt}
+      | ${releasesOrder}{
+        ${releaseCardNestedFields}
       }
   }
 `)
@@ -175,24 +141,14 @@ export const PAGE_QUERY = defineQuery(`
       size,
       linkType,
       externalUrl,
-      "internalLink": internalLink->{ _type, "slug": slug.current },
+      "internalLink": internalLink->{${internalLinkResolved}},
       asset,
       hotspot,
       crop,
       alt,
       caption
     },
-    seo{
-      metaTitle,
-      metaDescription,
-      noIndex,
-      ogImage{
-        asset,
-        hotspot,
-        crop,
-        alt
-      }
-    }
+    ${seoProjection}
   }
 `)
 
@@ -203,18 +159,11 @@ export const LABEL_QUERY = defineQuery(`
     _type,
     name,
     "slug": slug.current,
-    cover{asset, hotspot, crop, alt, caption},
-    gallery[]{_key, asset, hotspot, crop, alt, caption},
+    cover${imageWithAltCaption},
+    gallery${galleryProjection},
     "releases": *[_type == "release" && label._ref == ^._id && defined(slug.current)]
-      | order(coalesce(releaseDate, _createdAt) desc){
-        _id,
-        releaseName,
-        "slug": slug.current,
-        format,
-        releaseDate,
-        dateUnknown,
-        "artist": artist->{name, "slug": slug.current},
-        cover{asset, hotspot, crop, alt}
+      | ${releasesOrder}{
+        ${releaseCardNestedWithArtistFields}
       }
   }
 `)
