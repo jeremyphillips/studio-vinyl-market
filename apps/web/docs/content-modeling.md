@@ -37,7 +37,7 @@ import { RELEASES_PAGE_ID } from 'apps/studio/schemaTypes/releasesPage'
 
 `buttonBlock.ts` is the **SSoT** for button variant/size options. The web derives its CVA vocabulary from the generated type:
 
-`buttonBlock.ts` → `yarn typegen` → `ButtonBlock` in `sanity/types.ts` → `ColorVariant`/`SizeVariant` in `components/ui/variants.ts` → `button.variants.ts` (`satisfies Record<ColorVariant, string>`)
+`buttonBlock.ts` → `yarn typegen` → `ButtonBlock` in `sanity/types.generated.ts` → `ColorVariant`/`SizeVariant` in `components/ui/variants.ts` → `button.variants.ts` (`satisfies Record<ColorVariant, string>`)
 
 After changing variant/size options, run `yarn typegen` — mismatched CVA keys surface as TypeScript errors.
 
@@ -53,7 +53,7 @@ Adding a new block: (1) define schema object, (2) add to `page.pageBuilder`, (3)
 
 ## SEO schema
 
-`seo` object is embedded in `releasesPage` and `page`. Convert with `toNextMetadata()` from `apps/web/sanity/seo.ts`. See [routing.md](routing.md) for usage in `generateMetadata`.
+`seo` object is embedded in `releasesPage` and `page`. Convert with `toNextMetadata()` from `apps/web/sanity/metadata.ts`. See [routing.md](routing.md) for usage in `generateMetadata`.
 
 ---
 

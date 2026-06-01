@@ -1,0 +1,2 @@
+# Mark generated files so GitHub collapses them in PR diffs by default.
+apps/web/sanity/types.generated.ts linguist-generated=true

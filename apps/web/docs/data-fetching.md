@@ -59,6 +59,6 @@ When active: `sanityFetch` switches to `drafts` + stega; `<VisualEditing />` is 
 yarn typegen   # run from repo root
 ```
 
-Runs `sanity schema extract` + `sanity typegen generate` in `apps/studio`. Output: `apps/web/sanity/types.ts`.
+Runs `sanity schema extract` + `sanity typegen generate` in `apps/studio`. Output: `apps/web/sanity/types.generated.ts` — do not edit manually.
 
 **Run after:** any schema field change, adding/modifying a `defineQuery`, or changing `buttonBlock` variant/size options (see [content-modeling.md](content-modeling.md)).
