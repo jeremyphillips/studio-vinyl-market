@@ -24,6 +24,10 @@ Run whenever a field is added, removed, or renamed; when a type is registered or
 
 Studio `buttonBlock.ts` is the **SSoT** for button variant and size options. The web derives `ColorVariant` / `SizeVariant` from the generated `ButtonBlock` type via `components/ui/variants.ts`. After changing options, run `yarn typegen` — mismatched CVA keys surface as TypeScript errors.
 
+## Shared option constants
+
+When a schema field uses a `list` of `{title, value}` options that also need a display label in the web app, add the array to `packages/release-constants/index.ts` — not inside either app. The Studio re-exports from there; the web derives label maps with `Object.fromEntries`. See [content-modeling.md](../../apps/web/docs/content-modeling.md#shared-option-constants----packagesrelease-constants).
+
 ## Singleton ID constants
 
 Never hardcode singleton document IDs — use the exported constants:
