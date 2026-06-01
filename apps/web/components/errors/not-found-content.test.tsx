@@ -27,9 +27,20 @@ describe('NotFoundContent', () => {
     expect(screen.getByText('This pressing is not listed.')).toBeInTheDocument()
   })
 
-  it('renders catalogue escape links', () => {
+  it('renders default catalogue escape links', () => {
     render(<NotFoundContent />)
 
     expectCatalogueEscapeLinks()
+  })
+
+  it('renders custom browse link', () => {
+    render(
+      <NotFoundContent
+        browseHref="/"
+        browseLabel="Back to catalogue"
+      />,
+    )
+
+    expectCatalogueEscapeLinks('Back to catalogue', '/')
   })
 })

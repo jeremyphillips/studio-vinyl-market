@@ -5,11 +5,15 @@ import {Button} from '@/components/ui/button'
 type NotFoundContentProps = {
   title?: string
   description?: string
+  browseHref?: '/' | '/releases'
+  browseLabel?: string
 }
 
 export function NotFoundContent({
   title = 'Page not found',
   description = 'That record, artist, or page isn’t in the catalogue.',
+  browseHref = '/releases',
+  browseLabel = 'Browse releases',
 }: NotFoundContentProps) {
   return (
     <div className="space-y-6">
@@ -24,7 +28,7 @@ export function NotFoundContent({
           <Link href="/">Back to home</Link>
         </Button>
         <Button asChild variant="outline">
-          <Link href="/releases">Browse releases</Link>
+          <Link href={browseHref}>{browseLabel}</Link>
         </Button>
       </div>
     </div>
