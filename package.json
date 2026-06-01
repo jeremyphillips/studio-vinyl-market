@@ -13,11 +13,17 @@
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "typegen": "turbo run typegen",
-    "clean": "turbo run clean && rm -rf node_modules"
+    "clean": "turbo run clean && rm -rf node_modules",
+    "prepare": "husky"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.0.2",
+    "@commitlint/config-conventional": "^21.0.2",
     "@testing-library/dom": "^10.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.7",
     "prettier": "^3.5",
+    "prettier-plugin-tailwindcss": "^0.8.0",
     "turbo": "^2.5.0",
     "typescript": "^5.8",
     "vite": "^8.0.14",
@@ -28,9 +34,21 @@
     "node": ">=20.11"
   },
   "prettier": {
-    "bracketSpacing": false,
+    "bracketSpacing": true,
     "printWidth": 100,
     "semi": false,
-    "singleQuote": true
+    "singleQuote": true,
+    "trailingComma": "all",
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ]
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx,json,css,md}": [
+      "prettier --write"
+    ],
+    "apps/web/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ]
   }
 }
