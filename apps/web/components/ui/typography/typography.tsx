@@ -1,8 +1,9 @@
-import * as React from 'react'
 import {type VariantProps} from 'class-variance-authority'
+import * as React from 'react'
+
+import {textVariants} from './typography.variants'
 
 import {cn} from '@/lib/utils'
-import {textVariants} from './typography.variants'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 

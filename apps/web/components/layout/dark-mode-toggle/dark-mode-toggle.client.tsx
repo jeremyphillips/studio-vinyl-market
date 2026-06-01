@@ -2,9 +2,10 @@
 
 import { Moon, Sun } from 'lucide-react'
 
+import { thumbVariants, trackVariants } from './dark-mode-toggle.variants'
+
 import { useThemeStore } from '@/stores/theme-store'
 
-import { thumbVariants, trackVariants } from './dark-mode-toggle.variants'
 
 export function DarkModeToggle() {
   const { isDark, toggle } = useThemeStore()

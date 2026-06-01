@@ -2,9 +2,9 @@
 
 import {useEffect} from 'react'
 
+import {CatalogueEscapeLinks} from '@/components/errors/shared/catalogue-escape-links'
 import {Button} from '@/components/ui/button'
 import {H1, P, Small} from '@/components/ui/typography'
-import {CatalogueEscapeLinks} from '@/components/errors/shared/catalogue-escape-links'
 
 type ErrorContentProps = {
   error: Error & {digest?: string}

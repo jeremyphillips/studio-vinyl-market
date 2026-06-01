@@ -1,9 +1,11 @@
 import {render, screen} from '@testing-library/react'
 import {describe, expect, it} from 'vitest'
+import {axe} from 'vitest-axe'
+
+import {DiscogsMeta} from './discogs-meta'
 
 import {discogsMasterUrl, discogsReleaseUrl} from '@/lib/discogs'
 
-import {DiscogsMeta} from './discogs-meta'
 
 describe('DiscogsMeta', () => {
   it('renders nothing without a releaseId', () => {
@@ -34,5 +36,11 @@ describe('DiscogsMeta', () => {
       'href',
       discogsMasterUrl(67890),
     )
+  })
+
+  it('has no accessibility violations', async () => {
+    const {container} = render(<DiscogsMeta releaseId={12345} masterId={67890} />)
+
+    expect(await axe(container)).toHaveNoViolations()
   })
 })

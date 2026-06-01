@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
-import { cookies, draftMode } from 'next/headers'
 import { Geist, Geist_Mono } from 'next/font/google'
+import { cookies, draftMode } from 'next/headers'
 import { VisualEditing } from 'next-sanity/visual-editing'
 
-import { DisableDraftMode } from '@/components/preview/disable-draft-mode/disable-draft-mode.client'
 import { Header } from '@/components/layout/header/header'
+import { DisableDraftMode } from '@/components/preview/disable-draft-mode/disable-draft-mode.client'
 import { ThemeProvider } from '@/components/providers/theme-provider.client'
 import { SanityLive } from '@/sanity/live'
 

@@ -1,4 +1,5 @@
 import {describe, expect, it} from 'vitest'
+
 import rawFixture from './fixtures/raw-search-response.json'
 import {mapDiscogsSearchResponse, mapDiscogsSearchResult} from './map-discogs-result'
 

@@ -1,8 +1,8 @@
 import Image from 'next/image'
 
+import {cn} from '@/lib/utils'
 import {urlFor} from '@/sanity/image'
 import type {ImageWithAltSource} from '@/sanity/image-types'
-import {cn} from '@/lib/utils'
 
 type CoverImageProps = {
   source: ImageWithAltSource

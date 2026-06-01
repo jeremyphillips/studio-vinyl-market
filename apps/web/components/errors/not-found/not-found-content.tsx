@@ -1,7 +1,8 @@
-import {H1, P} from '@/components/ui/typography'
-import {CatalogueEscapeLinks} from '@/components/errors/shared/catalogue-escape-links'
-
 import type {NotFoundMessage} from './not-found-messages'
+
+import {CatalogueEscapeLinks} from '@/components/errors/shared/catalogue-escape-links'
+import {H1, P} from '@/components/ui/typography'
+
 
 type NotFoundContentProps = {
   title?: string

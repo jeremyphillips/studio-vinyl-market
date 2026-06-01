@@ -1,4 +1,5 @@
 import {NextRequest, NextResponse} from 'next/server'
+
 import {mapDiscogsSearchResponse} from './map-discogs-result'
 
 export type {DiscogsSearchResult, DiscogsSearchResponse} from './map-discogs-result'

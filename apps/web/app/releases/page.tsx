@@ -2,9 +2,9 @@ import type {Metadata} from 'next'
 
 import {ReleaseCard} from '@/components/catalog/release-card/release-card.client'
 import {H1, P} from '@/components/ui/typography'
-import {toNextMetadata} from '@/sanity/seo'
 import {sanityFetch} from '@/sanity/live'
 import {RELEASES_PAGE_QUERY, RELEASES_QUERY} from '@/sanity/queries'
+import {toNextMetadata} from '@/sanity/seo'
 
 const DEFAULT_TITLE = 'Releases'
 const DEFAULT_DESCRIPTION =
