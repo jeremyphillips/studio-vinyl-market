@@ -1,12 +1,12 @@
 import Link from 'next/link'
 
-import {DarkModeToggle} from '@/components/layout/dark-mode-toggle'
-import {HeaderNav} from '@/components/layout/header-nav/header-nav.client'
-import {P} from '@/components/ui/typography'
-import {FIXED_PATH_BY_TYPE, SLUG_PATH_BY_TYPE} from '@/lib/routes'
-import {sanityFetch} from '@/sanity/live'
-import {SITE_SETTINGS_QUERY} from '@/sanity/queries'
-import type {SITE_SETTINGS_QUERY_RESULT} from '@/sanity/types'
+import { DarkModeToggle } from '@/components/layout/dark-mode-toggle'
+import { HeaderNav } from '@/components/layout/header-nav/header-nav.client'
+import { P } from '@/components/ui/typography'
+import { FIXED_PATH_BY_TYPE, SLUG_PATH_BY_TYPE } from '@/lib/routes'
+import { sanityFetch } from '@/sanity/live'
+import { SITE_SETTINGS_QUERY } from '@/sanity/queries'
+import type { SITE_SETTINGS_QUERY_RESULT } from '@/sanity/types'
 
 type NavLink = {
   key: string
@@ -21,7 +21,7 @@ const FIXED_INTERNAL_HREF = FIXED_PATH_BY_TYPE
 
 type NavItem = Extract<
   SITE_SETTINGS_QUERY_RESULT,
-  {navigation: ReadonlyArray<unknown>}
+  { navigation: ReadonlyArray<unknown> }
 >['navigation'][number]
 
 function resolveNavLink(item: NavItem): NavLink | null {
@@ -62,21 +62,16 @@ function resolveNavLink(item: NavItem): NavLink | null {
 }
 
 export async function Header() {
-  const {data: settings} = await sanityFetch({query: SITE_SETTINGS_QUERY})
+  const { data: settings } = await sanityFetch({ query: SITE_SETTINGS_QUERY })
 
   const title = settings?.title ?? 'Vinyl Market'
   const navigation = settings?.navigation ?? []
-  const links = navigation
-    .map(resolveNavLink)
-    .filter((link): link is NavLink => link !== null)
+  const links = navigation.map(resolveNavLink).filter((link): link is NavLink => link !== null)
 
   return (
     <header className="border-b">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4">
-        <Link
-          href="/"
-          className="text-lg font-semibold tracking-tight hover:underline"
-        >
+        <Link href="/" className="text-lg font-semibold tracking-tight hover:underline">
           {title}
         </Link>
 
@@ -85,8 +80,7 @@ export async function Header() {
             <HeaderNav links={links} />
           ) : (
             <P size="body-sm" color="muted">
-              Add navigation in{' '}
-              <span className="font-mono">Site settings</span> in the Studio.
+              Add navigation in <span className="font-mono">Site settings</span> in the Studio.
             </P>
           )}
           <DarkModeToggle />

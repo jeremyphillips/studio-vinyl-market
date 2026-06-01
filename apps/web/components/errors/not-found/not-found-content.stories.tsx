@@ -1,12 +1,12 @@
-import type {Meta, StoryObj} from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 
-import {NotFoundContent} from './not-found-content'
-import {notFoundMessages} from './not-found-messages'
+import { NotFoundContent } from './not-found-content'
+import { notFoundMessages } from './not-found-messages'
 
 const meta: Meta<typeof NotFoundContent> = {
   title: 'Errors/NotFoundContent',
   component: NotFoundContent,
-  parameters: {layout: 'padded'},
+  parameters: { layout: 'padded' },
 }
 
 export default meta

@@ -1,20 +1,22 @@
-import {Label, P} from '@/components/ui/typography'
+import { Label, P } from '@/components/ui/typography'
 
 type Disc = {
   _key: string
   discNumber: number
   name?: string | null
-  tracks?: Array<{_key: string; position: string; title: string}> | null
+  tracks?: Array<{ _key: string; position: string; title: string }> | null
 }
 
 type TracklistProps = {
   discs?: Disc[] | null
 }
 
-export function Tracklist({discs}: TracklistProps) {
+export function Tracklist({ discs }: TracklistProps) {
   if (!discs || discs.length === 0) {
     return (
-      <P size="body-sm" color="muted">No tracklist yet.</P>
+      <P size="body-sm" color="muted">
+        No tracklist yet.
+      </P>
     )
   }
 
@@ -29,15 +31,14 @@ export function Tracklist({discs}: TracklistProps) {
               {heading}
             </Label>
             {tracks.length === 0 ? (
-              <P size="body-sm" color="muted">No tracks yet.</P>
+              <P size="body-sm" color="muted">
+                No tracks yet.
+              </P>
             ) : (
               <ol className="divide-y rounded-md border">
                 {tracks.map((track) => (
-                  <li
-                    key={track._key}
-                    className="flex items-baseline gap-3 px-3 py-2 text-sm"
-                  >
-                    <span className="w-12 shrink-0 font-mono text-xs text-muted-foreground">
+                  <li key={track._key} className="flex items-baseline gap-3 px-3 py-2 text-sm">
+                    <span className="text-muted-foreground w-12 shrink-0 font-mono text-xs">
                       {track.position}
                     </span>
                     <span>{track.title}</span>

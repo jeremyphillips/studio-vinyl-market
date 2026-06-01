@@ -1,4 +1,4 @@
-import {defineArrayMember, defineField, defineType} from 'sanity'
+import { defineArrayMember, defineField, defineType } from 'sanity'
 
 export const artist = defineType({
   name: 'artist',
@@ -15,7 +15,7 @@ export const artist = defineType({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      options: {source: 'name', maxLength: 96},
+      options: { source: 'name', maxLength: 96 },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -27,21 +27,20 @@ export const artist = defineType({
     defineField({
       name: 'gallery',
       title: 'Gallery',
-      description:
-        'Additional images (live shots, logos, etc.). Order matches display order.',
+      description: 'Additional images (live shots, logos, etc.). Order matches display order.',
       type: 'array',
-      of: [defineArrayMember({type: 'imageWithAlt'})],
-      options: {layout: 'grid'},
+      of: [defineArrayMember({ type: 'imageWithAlt' })],
+      options: { layout: 'grid' },
     }),
   ],
   orderings: [
     {
       title: 'Name (A–Z)',
       name: 'nameAsc',
-      by: [{field: 'name', direction: 'asc'}],
+      by: [{ field: 'name', direction: 'asc' }],
     },
   ],
   preview: {
-    select: {title: 'name', media: 'cover'},
+    select: { title: 'name', media: 'cover' },
   },
 })

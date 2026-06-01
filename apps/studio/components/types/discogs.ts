@@ -34,7 +34,7 @@ function getPreviewUrl(): string {
 
 export function buildDiscogsSearchUrl(query: string, page = 1): string {
   const base = getPreviewUrl().replace(/\/$/, '')
-  const params = new URLSearchParams({q: query, page: String(page), per_page: '20'})
+  const params = new URLSearchParams({ q: query, page: String(page), per_page: '20' })
   return `${base}/api/discogs/search?${params.toString()}`
 }
 

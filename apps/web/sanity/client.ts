@@ -1,6 +1,6 @@
-import {createClient} from 'next-sanity'
+import { createClient } from 'next-sanity'
 
-import {apiVersion, dataset, projectId, studioUrl} from './env'
+import { apiVersion, dataset, projectId, studioUrl } from './env'
 
 /**
  * Public Sanity client used for all server-side reads. `useCdn` is `true`

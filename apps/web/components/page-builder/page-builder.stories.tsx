@@ -1,11 +1,11 @@
-import type {Meta, StoryObj} from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 
-import {PageBuilder} from './page-builder'
+import { PageBuilder } from './page-builder'
 
 const meta: Meta<typeof PageBuilder> = {
   title: 'PageBuilder/PageBuilder',
   component: PageBuilder,
-  parameters: {layout: 'padded'},
+  parameters: { layout: 'padded' },
 }
 
 export default meta
@@ -41,7 +41,7 @@ export const WithButtonBlock: Story = {
         size: 'default',
         linkType: 'internal',
         externalUrl: null,
-        internalLink: {_type: 'releasesPage', slug: null},
+        internalLink: { _type: 'releasesPage', slug: null },
       },
     ],
   },
@@ -70,7 +70,7 @@ export const WithImageBlock: Story = {
       {
         ...imageBlock,
         _key: 'img-1',
-        asset: {_type: 'reference', _ref: 'image-abc123-1200x675-jpg'},
+        asset: { _type: 'reference', _ref: 'image-abc123-1200x675-jpg' },
         hotspot: null,
         crop: null,
         alt: 'A vinyl record store',
@@ -86,7 +86,7 @@ export const Mixed: Story = {
       {
         ...imageBlock,
         _key: 'img-2',
-        asset: {_type: 'reference', _ref: 'image-abc123-1200x675-jpg'},
+        asset: { _type: 'reference', _ref: 'image-abc123-1200x675-jpg' },
         hotspot: null,
         crop: null,
         alt: 'Hero image',
@@ -100,12 +100,12 @@ export const Mixed: Story = {
         size: 'lg',
         linkType: 'internal',
         externalUrl: null,
-        internalLink: {_type: 'releasesPage', slug: null},
+        internalLink: { _type: 'releasesPage', slug: null },
       },
     ],
   },
 }
 
 export const Empty: Story = {
-  args: {blocks: []},
+  args: { blocks: [] },
 }

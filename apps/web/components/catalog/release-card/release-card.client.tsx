@@ -1,14 +1,14 @@
-"use client"
+'use client'
 
 import Link from 'next/link'
-import {createContext, use} from 'react'
+import { createContext, use } from 'react'
 
-import {formatYear} from '@/catalog/format'
-import {CoverImage} from '@/components/catalog/cover-image/cover-image'
-import {Card, CardContent} from '@/components/ui/card'
-import {P, Small} from '@/components/ui/typography'
-import type {ImageWithAltSource} from '@/sanity/image-types'
-import type {ReleaseFormat} from '@/sanity/release-types'
+import { formatYear } from '@/catalog/format'
+import { CoverImage } from '@/components/catalog/cover-image/cover-image'
+import { Card, CardContent } from '@/components/ui/card'
+import { P, Small } from '@/components/ui/typography'
+import type { ImageWithAltSource } from '@/sanity/image-types'
+import type { ReleaseFormat } from '@/sanity/release-types'
 
 export type ReleaseData = {
   releaseName: string
@@ -16,7 +16,7 @@ export type ReleaseData = {
   format: ReleaseFormat | string
   releaseDate?: string | null
   dateUnknown?: boolean | null
-  artist?: {name: string; slug: string} | null
+  artist?: { name: string; slug: string } | null
   cover?: ImageWithAltSource
 }
 
@@ -34,8 +34,8 @@ function useReleaseCardContext(): ReleaseCardContextValue {
 
 // ─── Private sub-components ───────────────────────────────────────────────────
 
-function Cover({priority, size = 400}: {priority?: boolean; size?: number}) {
-  const {release} = useReleaseCardContext()
+function Cover({ priority, size = 400 }: { priority?: boolean; size?: number }) {
+  const { release } = useReleaseCardContext()
   return (
     <CoverImage
       source={release.cover}
@@ -48,28 +48,28 @@ function Cover({priority, size = 400}: {priority?: boolean; size?: number}) {
 }
 
 function Title() {
-  const {release} = useReleaseCardContext()
+  const { release } = useReleaseCardContext()
   return (
-    <P weight="medium" lines={2} className="leading-snug">{release.releaseName}</P>
+    <P weight="medium" lines={2} className="leading-snug">
+      {release.releaseName}
+    </P>
   )
 }
 
 function Artist() {
-  const {release} = useReleaseCardContext()
+  const { release } = useReleaseCardContext()
   if (!release.artist) return null
   return (
-    <P size="body-sm" color="muted">{release.artist.name}</P>
+    <P size="body-sm" color="muted">
+      {release.artist.name}
+    </P>
   )
 }
 
 function Meta() {
-  const {release} = useReleaseCardContext()
+  const { release } = useReleaseCardContext()
   const year = formatYear(release.releaseDate, release.dateUnknown)
-  return (
-    <Small>
-      {[release.format, year].filter(Boolean).join(' · ')}
-    </Small>
-  )
+  return <Small>{[release.format, year].filter(Boolean).join(' · ')}</Small>
 }
 
 // ─── Public component ─────────────────────────────────────────────────────────
@@ -80,13 +80,13 @@ export type ReleaseCardProps = {
   priority?: boolean
 }
 
-export function ReleaseCard({release, priority}: ReleaseCardProps) {
+export function ReleaseCard({ release, priority }: ReleaseCardProps) {
   return (
-    <ReleaseCardContext value={{release}}>
+    <ReleaseCardContext value={{ release }}>
       <Card className="overflow-hidden py-0">
         <Link
           href={`/releases/${release.slug}` as const}
-          className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="focus-visible:ring-ring block focus-visible:ring-2 focus-visible:outline-none"
         >
           <Cover priority={priority} />
           <CardContent className="space-y-1 px-4 py-4">

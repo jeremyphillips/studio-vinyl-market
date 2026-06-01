@@ -3,12 +3,12 @@
  *
  * Run from apps/studio: yarn seed:releases-page
  */
-import {createClient} from '@sanity/client'
+import { createClient } from '@sanity/client'
 
-import {RELEASES_PAGE_ID} from '../schemaTypes/releasesPage'
-import {getSanityApiConfig} from '../sanity.project'
+import { RELEASES_PAGE_ID } from '../schemaTypes/releasesPage'
+import { getSanityApiConfig } from '../sanity.project'
 
-const {projectId, dataset} = getSanityApiConfig()
+const { projectId, dataset } = getSanityApiConfig()
 
 const client = createClient({
   projectId,

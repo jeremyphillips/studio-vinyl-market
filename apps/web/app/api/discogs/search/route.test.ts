@@ -1,8 +1,8 @@
-import {NextRequest} from 'next/server'
-import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest'
+import { NextRequest } from 'next/server'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import rawFixture from './fixtures/raw-search-response.json'
-import {GET, OPTIONS} from './route'
+import { GET, OPTIONS } from './route'
 
 const CORS_HEADERS = {
   'access-control-allow-origin': '*',
@@ -55,7 +55,7 @@ describe('GET /api/discogs/search', () => {
     const fetchMock = vi.fn().mockResolvedValue(
       new Response(JSON.stringify(rawFixture), {
         status: 200,
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
       }),
     )
     vi.stubGlobal('fetch', fetchMock)
@@ -80,9 +80,11 @@ describe('GET /api/discogs/search', () => {
   })
 
   it('maps artist and title params to Discogs release_title', async () => {
-    const fetchMock = vi.fn().mockResolvedValue(
-      new Response(JSON.stringify({results: [], pagination: {}}), {status: 200}),
-    )
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValue(
+        new Response(JSON.stringify({ results: [], pagination: {} }), { status: 200 }),
+      )
     vi.stubGlobal('fetch', fetchMock)
 
     await GET(createRequest('/api/discogs/search?artist=Radiohead&title=OK+Computer'))
@@ -95,7 +97,7 @@ describe('GET /api/discogs/search', () => {
   it('forwards Discogs API errors', async () => {
     vi.stubGlobal(
       'fetch',
-      vi.fn().mockResolvedValue(new Response('Rate limit exceeded', {status: 429})),
+      vi.fn().mockResolvedValue(new Response('Rate limit exceeded', { status: 429 })),
     )
 
     const response = await GET(createRequest('/api/discogs/search?q=radiohead'))

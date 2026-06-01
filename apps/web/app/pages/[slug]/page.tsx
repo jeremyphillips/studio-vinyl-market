@@ -1,44 +1,40 @@
-import type {Metadata} from 'next'
-import {notFound} from 'next/navigation'
+import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 
-import {PageBuilder} from '@/components/page-builder/page-builder'
-import {H1} from '@/components/ui/typography'
-import {client} from '@/sanity/client'
-import {sanityFetch} from '@/sanity/live'
-import {PAGE_QUERY, PAGE_SLUGS_QUERY} from '@/sanity/queries'
-import {toNextMetadata} from '@/sanity/seo'
+import { PageBuilder } from '@/components/page-builder/page-builder'
+import { H1 } from '@/components/ui/typography'
+import { client } from '@/sanity/client'
+import { sanityFetch } from '@/sanity/live'
+import { PAGE_QUERY, PAGE_SLUGS_QUERY } from '@/sanity/queries'
+import { toNextMetadata } from '@/sanity/seo'
 
-type Params = Promise<{slug: string}>
+type Params = Promise<{ slug: string }>
 
 export async function generateStaticParams() {
   const slugs = await client
-    .withConfig({useCdn: false, perspective: 'published', stega: false})
+    .withConfig({ useCdn: false, perspective: 'published', stega: false })
     .fetch(PAGE_SLUGS_QUERY)
-  return slugs.map((slug) => ({slug}))
+  return slugs.map((slug) => ({ slug }))
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Params
-}): Promise<Metadata> {
-  const {slug} = await params
-  const {data: page} = await sanityFetch({
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+  const { slug } = await params
+  const { data: page } = await sanityFetch({
     query: PAGE_QUERY,
-    params: {slug},
+    params: { slug },
     stega: false,
   })
 
   if (!page) return {}
 
-  return toNextMetadata(page.seo, {title: page.title ?? slug})
+  return toNextMetadata(page.seo, { title: page.title ?? slug })
 }
 
-export default async function PageRoute({params}: {params: Params}) {
-  const {slug} = await params
-  const {data: page} = await sanityFetch({
+export default async function PageRoute({ params }: { params: Params }) {
+  const { slug } = await params
+  const { data: page } = await sanityFetch({
     query: PAGE_QUERY,
-    params: {slug},
+    params: { slug },
   })
 
   if (!page) notFound()

@@ -1,19 +1,19 @@
-import {defineField, defineType} from 'sanity'
+import { defineField, defineType } from 'sanity'
 
-const LINK_TYPE_OPTIONS: {title: string; value: 'internal' | 'external'}[] = [
+const LINK_TYPE_OPTIONS: { title: string; value: 'internal' | 'external' }[] = [
   {
     title: 'Internal (releases page, release, artist, label, or page)',
     value: 'internal',
   },
-  {title: 'External (URL)', value: 'external'},
+  { title: 'External (URL)', value: 'external' },
 ]
 
 const LINKABLE_TYPES = [
-  {type: 'release'},
-  {type: 'artist'},
-  {type: 'label'},
-  {type: 'releasesPage'},
-  {type: 'page'},
+  { type: 'release' },
+  { type: 'artist' },
+  { type: 'label' },
+  { type: 'releasesPage' },
+  { type: 'page' },
 ]
 
 export const navItem = defineType({
@@ -24,7 +24,8 @@ export const navItem = defineType({
     defineField({
       name: 'label',
       title: 'Label',
-      description: 'Text shown in the navigation. Required even for internal links so editors can override the document title.',
+      description:
+        'Text shown in the navigation. Required even for internal links so editors can override the document title.',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
@@ -32,7 +33,7 @@ export const navItem = defineType({
       name: 'linkType',
       title: 'Link type',
       type: 'string',
-      options: {list: LINK_TYPE_OPTIONS, layout: 'radio'},
+      options: { list: LINK_TYPE_OPTIONS, layout: 'radio' },
       initialValue: 'internal',
       validation: (Rule) => Rule.required(),
     }),
@@ -41,30 +42,26 @@ export const navItem = defineType({
       title: 'Internal link',
       type: 'reference',
       to: LINKABLE_TYPES,
-      hidden: ({parent}) => parent?.linkType !== 'internal',
+      hidden: ({ parent }) => parent?.linkType !== 'internal',
       validation: (Rule) =>
         Rule.custom((value, context) => {
-          const parent = context.parent as {linkType?: string} | undefined
+          const parent = context.parent as { linkType?: string } | undefined
           if (parent?.linkType !== 'internal') return true
-          const ref = (value as {_ref?: unknown} | undefined)?._ref
-          return typeof ref === 'string' && ref.length > 0
-            ? true
-            : 'Select a document to link to'
+          const ref = (value as { _ref?: unknown } | undefined)?._ref
+          return typeof ref === 'string' && ref.length > 0 ? true : 'Select a document to link to'
         }),
     }),
     defineField({
       name: 'externalUrl',
       title: 'External URL',
       type: 'url',
-      hidden: ({parent}) => parent?.linkType !== 'external',
+      hidden: ({ parent }) => parent?.linkType !== 'external',
       validation: (Rule) =>
-        Rule.uri({scheme: ['http', 'https'], allowRelative: false}).custom(
-          (value, context) => {
-            const parent = context.parent as {linkType?: string} | undefined
-            if (parent?.linkType !== 'external') return true
-            return typeof value === 'string' && value.length > 0 ? true : 'External URL is required'
-          },
-        ),
+        Rule.uri({ scheme: ['http', 'https'], allowRelative: false }).custom((value, context) => {
+          const parent = context.parent as { linkType?: string } | undefined
+          if (parent?.linkType !== 'external') return true
+          return typeof value === 'string' && value.length > 0 ? true : 'External URL is required'
+        }),
     }),
   ],
   preview: {
@@ -96,7 +93,7 @@ export const navItem = defineType({
             : `${internalType ?? 'internal'}: ${internalReleaseTitle || internalTitle || internalPageTitle || 'unset'}`
       const title = label?.trim() || 'Untitled nav item'
       const marker = linkType === 'external' ? ' ↗' : ''
-      return {title: `${title}${marker}`, subtitle: target}
+      return { title: `${title}${marker}`, subtitle: target }
     },
   },
 })

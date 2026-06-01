@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react'
+import { useCallback, useState } from 'react'
 import {
   buildDiscogsSearchUrl,
   type DiscogsApiResponse,
@@ -38,5 +38,5 @@ export function useDiscogsSearch() {
     setError(null)
   }, [])
 
-  return {results, loading, error, search, reset}
+  return { results, loading, error, search, reset }
 }

@@ -30,22 +30,15 @@ export const metadata: Metadata = {
   description: 'A small marketplace for vinyl releases.',
 }
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  const [{ isEnabled: isDraftMode }, cookieStore] = await Promise.all([
-    draftMode(),
-    cookies(),
-  ])
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const [{ isEnabled: isDraftMode }, cookieStore] = await Promise.all([draftMode(), cookies()])
 
   const isDark = cookieStore.get('theme')?.value === 'dark'
 
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable}${isDark ? ' dark' : ''}`}
+      className={`${geistSans.variable} ${geistMono.variable}${isDark ? 'dark' : ''}`}
     >
       <body className="min-h-screen font-sans antialiased">
         <ThemeProvider initialIsDark={isDark}>

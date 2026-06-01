@@ -1,7 +1,7 @@
-import {describe, expect, it} from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 import rawFixture from './fixtures/raw-search-response.json'
-import {mapDiscogsSearchResponse, mapDiscogsSearchResult} from './map-discogs-result'
+import { mapDiscogsSearchResponse, mapDiscogsSearchResult } from './map-discogs-result'
 
 describe('mapDiscogsSearchResult', () => {
   it('maps snake_case Discogs fields to camelCase', () => {

@@ -1,15 +1,15 @@
 import React from 'react'
-import {defineField, defineType} from 'sanity'
+import { defineField, defineType } from 'sanity'
 
-import {BlockPreview} from '../components/ui/BlockPreview'
+import { BlockPreview } from '../components/ui/BlockPreview'
 
 export const page = defineType({
   name: 'page',
   title: 'Page',
   type: 'document',
   groups: [
-    {name: 'content', title: 'Content', default: true},
-    {name: 'seo', title: 'SEO'},
+    { name: 'content', title: 'Content', default: true },
+    { name: 'seo', title: 'SEO' },
   ],
   fields: [
     defineField({
@@ -24,7 +24,7 @@ export const page = defineType({
       title: 'Slug',
       type: 'slug',
       group: 'content',
-      options: {source: 'title', maxLength: 96},
+      options: { source: 'title', maxLength: 96 },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -33,7 +33,7 @@ export const page = defineType({
       type: 'array',
       group: 'content',
       of: [
-        {type: 'buttonBlock'},
+        { type: 'buttonBlock' },
         // `imageWithAlt` is a shared object used in many places (cover images,
         // gallery, SEO OG). To avoid showing the "Image" badge everywhere it
         // appears, the `components.preview` override is applied here at the
@@ -41,8 +41,7 @@ export const page = defineType({
         {
           type: 'imageWithAlt',
           components: {
-            preview: (props) =>
-              React.createElement(BlockPreview, {...props, blockName: 'Image'}),
+            preview: (props) => React.createElement(BlockPreview, { ...props, blockName: 'Image' }),
           },
         },
       ],
@@ -55,8 +54,8 @@ export const page = defineType({
     }),
   ],
   preview: {
-    select: {title: 'title', slug: 'slug.current'},
-    prepare({title, slug}) {
+    select: { title: 'title', slug: 'slug.current' },
+    prepare({ title, slug }) {
       return {
         title: title || 'Untitled page',
         subtitle: slug ? `/pages/${slug}` : 'No slug',

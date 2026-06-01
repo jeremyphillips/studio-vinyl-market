@@ -1,10 +1,10 @@
-import {config as loadEnv} from 'dotenv'
-import {defineCliConfig} from 'sanity/cli'
-import {getSanityApiConfig} from './sanity.project'
+import { config as loadEnv } from 'dotenv'
+import { defineCliConfig } from 'sanity/cli'
+import { getSanityApiConfig } from './sanity.project'
 
 loadEnv()
 
-const {projectId, dataset} = getSanityApiConfig()
+const { projectId, dataset } = getSanityApiConfig()
 
 /**
  * TypeGen — extracts the schema and scans the Next.js app for `defineQuery`

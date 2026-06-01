@@ -1,4 +1,4 @@
-import {imageWithAltFields} from './image'
+import { imageWithAltFields } from './image'
 
 /** Shared release ordering for list and nested queries. */
 export const releasesOrder = /* groq */ `order(coalesce(releaseDate, _createdAt) desc)`

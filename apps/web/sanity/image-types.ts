@@ -1,8 +1,4 @@
-import type {
-  SanityImageAssetReference,
-  SanityImageCrop,
-  SanityImageHotspot,
-} from './types'
+import type { SanityImageAssetReference, SanityImageCrop, SanityImageHotspot } from './types'
 
 /** GROQ projection: `{asset, hotspot, crop, alt}` from `imageWithAlt` fields. */
 export type ImageWithAltSource =

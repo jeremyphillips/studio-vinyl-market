@@ -1,6 +1,6 @@
-import {ImageIcon} from '@sanity/icons'
-import {Box, Card, Flex, Stack, Text} from '@sanity/ui'
-import type {KeyboardEvent} from 'react'
+import { ImageIcon } from '@sanity/icons'
+import { Box, Card, Flex, Stack, Text } from '@sanity/ui'
+import type { KeyboardEvent } from 'react'
 
 export interface SelectableResultListItem {
   title: string
@@ -31,11 +31,11 @@ export function SelectableResultList<T>({
   onSelect,
 }: SelectableResultListProps<T>) {
   return (
-    <Card border overflow="auto" style={{maxHeight: 360}}>
+    <Card border overflow="auto" style={{ maxHeight: 360 }}>
       <Stack space={1} padding={1}>
         {items.map((item) => {
           const key = getKey(item)
-          const {title, detail, thumb} = renderItem(item)
+          const { title, detail, thumb } = renderItem(item)
           const selected = selectedKey === key
 
           return (
@@ -80,12 +80,20 @@ export function SelectableResultList<T>({
                     </Text>
                   </Flex>
                 )}
-                <Box flex={1} style={{minWidth: 0}}>
-                  <Text size={1} weight="medium" style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
+                <Box flex={1} style={{ minWidth: 0 }}>
+                  <Text
+                    size={1}
+                    weight="medium"
+                    style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                  >
                     {title}
                   </Text>
                   {detail && (
-                    <Text size={1} muted style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
+                    <Text
+                      size={1}
+                      muted
+                      style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                    >
                       {detail}
                     </Text>
                   )}

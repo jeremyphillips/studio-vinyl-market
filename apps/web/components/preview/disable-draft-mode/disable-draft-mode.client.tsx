@@ -1,6 +1,6 @@
 'use client'
 
-import {useIsPresentationTool} from 'next-sanity/hooks'
+import { useIsPresentationTool } from 'next-sanity/hooks'
 
 /**
  * Floating "Exit preview" button shown only when draft mode is on AND we're
@@ -14,7 +14,7 @@ export function DisableDraftMode() {
   return (
     <a
       href="/api/draft-mode/disable"
-      className="fixed bottom-4 right-4 rounded-md border bg-background px-4 py-2 text-sm shadow-md hover:bg-accent"
+      className="bg-background hover:bg-accent fixed right-4 bottom-4 rounded-md border px-4 py-2 text-sm shadow-md"
     >
       Exit preview
     </a>
