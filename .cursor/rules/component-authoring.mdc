@@ -1,0 +1,43 @@
+---
+description: Component authoring standards for apps/web — Storybook, tests, CVA pattern, naming, tokens
+globs: apps/web/components/**
+alwaysApply: false
+---
+
+# Component Authoring
+
+Docs: [design-system.md](../../apps/web/docs/design-system.md) · [components.md](../../apps/web/docs/components.md)
+
+## Every new component requires
+
+- A co-located `<name>.stories.tsx` (CSF3: `Meta<typeof Component>`, named `StoryObj` exports)
+- A co-located `<name>.test.tsx` (Vitest + Testing Library)
+
+## Server vs client
+
+- Client component → `<name>.client.tsx` + `'use client'` as the first line
+- Server component → `<name>.tsx`, no directive
+
+## UI primitives (`components/ui/`)
+
+Follow the CVA pattern:
+
+```
+<primitive>/
+├── index.ts                  barrel export
+├── <primitive>.variants.ts   all cva() definitions — Tailwind classes live here only
+├── <primitive>.types.ts      optional; add when the component exports non-trivial prop types for consumers
+├── <primitive>.tsx           component — no raw class strings
+└── <primitive>.stories.tsx
+```
+
+## Accessibility
+
+Components must not introduce WCAG 2.2 AA violations. Colour contrast, focus management, keyboard operability, and landmark structure are component-level concerns — not just test-time checks.
+
+## Tailwind / design tokens
+
+- Prefer named CVA variants over long inline class strings. When a combination of classes represents a reusable visual concept, it belongs in `*.variants.ts`, not the template.
+- All Tailwind class strings belong in `*.variants.ts`; compose in the component via `cn()` from `@/lib/utils`
+- Never hardcode color values or font sizes — use CSS token classes (`bg-background`, `text-foreground`, `text-h2`, etc.)
+- Design tokens are the SSoT: `styles/tokens/colors.css`, `typography.css`, `base.css`

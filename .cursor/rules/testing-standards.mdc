@@ -1,0 +1,58 @@
+---
+description: Testing standards for apps/web — query order, axe, mocks, Zustand
+globs: apps/web/**/*.test.{tsx,ts}
+alwaysApply: false
+---
+
+# Testing Standards
+
+Docs: [testing.md](../../apps/web/docs/testing.md)
+
+## Query order (most to least preferred)
+
+1. `getByRole` — reflects assistive technology
+2. `getByLabelText` — form inputs
+3. `getByText` — visible text
+4. `getByTestId` — last resort only
+
+Never query by class name or CSS selector.
+
+## Accessibility — target: WCAG 2.2 AA
+
+Every `ui/` or interactive component test must include an axe assertion:
+
+```tsx
+import { axe } from 'vitest-axe'
+it('has no accessibility violations', async () => {
+  const { container } = render(<MyComponent />)
+  expect(await axe(container)).toHaveNoViolations()
+})
+```
+
+## Mock conventions
+
+```ts
+// next/image
+vi.mock('next/image', () => ({
+  default: ({ src, alt, width, height }: React.ImgHTMLAttributes<HTMLImageElement>) => (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={src} alt={alt} width={width} height={height} />
+  ),
+}))
+
+// @/sanity/image (urlFor)
+vi.mock('@/sanity/image', () => ({
+  urlFor: () => ({ width: () => ({ height: () => ({ url: () => 'https://cdn.example.com/img.jpg' }) }) }),
+}))
+
+// next-sanity/hooks
+vi.mock('next-sanity/hooks', () => ({ useIsPresentationTool: () => false }))
+```
+
+## Zustand
+
+Reset store state in `afterEach` to prevent test bleed:
+
+```ts
+afterEach(() => { useMyStore.setState(initialState) })
+```

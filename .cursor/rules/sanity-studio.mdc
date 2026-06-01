@@ -1,0 +1,34 @@
+---
+description: Sanity Studio conventions — SKILL pointer, TypeGen, ButtonBlock→CVA pipeline, singleton IDs
+globs: apps/studio/**
+alwaysApply: false
+---
+
+# Sanity Studio
+
+Docs: [content-modeling.md](../../apps/web/docs/content-modeling.md)
+
+## Before any studio work
+
+Read and follow the **Sanity best-practices skill** listed under `available_skills` in the session context.
+
+## TypeGen — run after every schema change
+
+```bash
+yarn typegen
+```
+
+Run whenever a field is added, removed, or renamed; when a type is registered or removed; or when `variant`/`size` options change on `buttonBlock`.
+
+## ButtonBlock → CVA pipeline
+
+Studio `buttonBlock.ts` is the **SSoT** for button variant and size options. The web derives `ColorVariant` / `SizeVariant` from the generated `ButtonBlock` type via `components/ui/variants.ts`. After changing options, run `yarn typegen` — mismatched CVA keys surface as TypeScript errors.
+
+## Singleton ID constants
+
+Never hardcode singleton document IDs — use the exported constants:
+
+```ts
+import { SITE_SETTINGS_ID } from '../schemaTypes/siteSettings'
+import { RELEASES_PAGE_ID } from '../schemaTypes/releasesPage'
+```

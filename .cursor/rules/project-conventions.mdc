@@ -1,0 +1,50 @@
+---
+description: Project-wide conventions — quality gates, git safety, type reuse, string SSoT
+alwaysApply: true
+---
+
+# Project Conventions
+
+## Quality gates
+
+Work is not done until all three pass from the repo root:
+
+```bash
+yarn typecheck
+yarn lint
+yarn test
+```
+
+## Documentation
+
+Before closing a task, evaluate whether any file in `apps/web/docs/` needs updating to reflect the changes made. If unsure whether an update is warranted, ask the user. If substantial new work was done that has no existing doc home, proactively recommend creating a new doc.
+
+## Git safety
+
+Before deleting any file or directory, check whether it is tracked by git:
+
+```bash
+git status --short
+```
+
+Never remove untracked files or directories without explicit instruction from the user.
+
+## Type reuse
+
+Prefer extending, picking, or omitting existing types over duplicating them:
+
+```ts
+// Prefer
+type ReleaseCardProps = Pick<Release, 'releaseName' | 'slug' | 'cover'>
+type PartialConfig = Partial<SiteConfig>
+type WithoutId = Omit<Release, '_id'>
+
+// Avoid
+type ReleaseCardProps = { releaseName: string; slug: string; cover: ... }
+```
+
+## String single source of truth
+
+- Route paths → `apps/web/lib/routes.ts` (`SLUG_PATH_BY_TYPE`, `FIXED_PATH_BY_TYPE`)
+- Sanity singleton IDs → constants in each schema file (`SITE_SETTINGS_ID`, `RELEASES_PAGE_ID`)
+- Any string literal used in two or more places → extract to a named constant
