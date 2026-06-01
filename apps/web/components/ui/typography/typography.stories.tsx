@@ -1,4 +1,5 @@
 import type {Meta, StoryObj} from '@storybook/react'
+
 import {Text, H1, H2, H3, H4, H5, P, Small, Label, Prose} from './typography'
 
 // ─── Base <Text> ─────────────────────────────────────────────────────────────

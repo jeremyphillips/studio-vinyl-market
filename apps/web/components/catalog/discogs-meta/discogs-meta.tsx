@@ -1,6 +1,6 @@
+import {H2} from '@/components/ui/typography'
 import {discogsMasterUrl, discogsReleaseUrl} from '@/lib/discogs'
 
-import {H2} from '@/components/ui/typography'
 
 type DiscogsMetaProps = {
   releaseId?: number | null

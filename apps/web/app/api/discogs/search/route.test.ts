@@ -1,5 +1,6 @@
 import {NextRequest} from 'next/server'
 import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest'
+
 import rawFixture from './fixtures/raw-search-response.json'
 import {GET, OPTIONS} from './route'
 

@@ -10,6 +10,7 @@ node_modules
 **/.next
 **/build
 **/.turbo
+**/storybook-static
 
 # Sanity
 **/.sanity

@@ -1,5 +1,6 @@
 import {render, screen} from '@testing-library/react'
 import {describe, expect, it} from 'vitest'
+import {axe} from 'vitest-axe'
 
 import {NotFoundContent} from './not-found-content'
 import {expectCatalogueEscapeLinks} from './not-found.test-utils'
@@ -42,5 +43,11 @@ describe('NotFoundContent', () => {
     )
 
     expectCatalogueEscapeLinks('Back to catalogue', '/')
+  })
+
+  it('has no accessibility violations', async () => {
+    const {container} = render(<NotFoundContent />)
+
+    expect(await axe(container)).toHaveNoViolations()
   })
 })

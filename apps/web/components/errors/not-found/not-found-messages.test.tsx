@@ -1,8 +1,8 @@
 import {render, screen} from '@testing-library/react'
 import {describe, expect, it} from 'vitest'
 
-import {notFoundMessages} from './not-found-messages'
 import {NotFoundView} from './not-found-content'
+import {notFoundMessages} from './not-found-messages'
 import {expectCatalogueEscapeLinks} from './not-found.test-utils'
 
 describe('notFoundMessages', () => {

@@ -1,4 +1,5 @@
 import {cva} from 'class-variance-authority'
+
 import type {SizeVariant, ColorVariant} from '@/components/ui/variants'
 
 // SizeVariant and ColorVariant keys are the shared contract from @/components/ui/variants.

@@ -1,8 +1,13 @@
 import type {Preview} from '@storybook/react'
-import '../app/globals.css'
+import '../styles/globals.css'
 
 const preview: Preview = {
   parameters: {
+    a11y: {
+      config: {
+        rules: [{ id: 'color-contrast', enabled: true }],
+      },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,

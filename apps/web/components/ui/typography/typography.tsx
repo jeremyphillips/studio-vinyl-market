@@ -1,8 +1,9 @@
+import { type VariantProps } from 'class-variance-authority'
 import * as React from 'react'
-import {type VariantProps} from 'class-variance-authority'
 
-import {cn} from '@/lib/utils'
-import {textVariants} from './typography.variants'
+import { textVariants } from './typography.variants'
+
+import { cn } from '@/lib/utils'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -53,7 +54,7 @@ function Text<E extends React.ElementType = 'p'>({
   return (
     <Comp
       className={cn(
-        textVariants({size, weight, tracking, color, uppercase, truncate, lines}),
+        textVariants({ size, weight, tracking, color, uppercase, truncate, lines }),
         className,
       )}
       {...props}
@@ -72,7 +73,7 @@ type HeadingProps = Omit<TextProps<'h1'>, 'as'>
  * Top-level page heading. Renders an `<h1>` at h3 (mobile) → h2 (md) → h1 (lg).
  * Override `size` to decouple visual scale from semantic level.
  */
-function H1({className, size, weight = 'semibold', tracking = 'tight', ...props}: HeadingProps) {
+function H1({ className, size, weight = 'semibold', tracking = 'tight', ...props }: HeadingProps) {
   return (
     <Text
       as="h1"
@@ -88,7 +89,7 @@ function H1({className, size, weight = 'semibold', tracking = 'tight', ...props}
 /**
  * Section heading. Renders an `<h2>` at h4 (mobile) → h3 (md) → h2 (lg).
  */
-function H2({className, size, weight = 'semibold', tracking = 'tight', ...props}: HeadingProps) {
+function H2({ className, size, weight = 'semibold', tracking = 'tight', ...props }: HeadingProps) {
   return (
     <Text
       as="h2"
@@ -104,7 +105,7 @@ function H2({className, size, weight = 'semibold', tracking = 'tight', ...props}
 /**
  * Sub-section heading. Renders an `<h3>` at h5 (mobile) → h4 (md) → h3 (lg).
  */
-function H3({className, size, weight = 'semibold', tracking = 'tight', ...props}: HeadingProps) {
+function H3({ className, size, weight = 'semibold', tracking = 'tight', ...props }: HeadingProps) {
   return (
     <Text
       as="h3"
@@ -118,12 +119,12 @@ function H3({className, size, weight = 'semibold', tracking = 'tight', ...props}
 }
 
 /** Card or list heading — fixed size, no responsive scaling. */
-function H4({weight = 'semibold', tracking = 'tight', ...props}: HeadingProps) {
+function H4({ weight = 'semibold', tracking = 'tight', ...props }: HeadingProps) {
   return <Text as="h4" size="h4" weight={weight} tracking={tracking} {...props} />
 }
 
 /** Label-weight inline heading — fixed size. */
-function H5({weight = 'medium', tracking = 'comfortable', ...props}: HeadingProps) {
+function H5({ weight = 'medium', tracking = 'comfortable', ...props }: HeadingProps) {
   return <Text as="h5" size="h5" weight={weight} tracking={tracking} {...props} />
 }
 
@@ -137,12 +138,12 @@ type PProps = Omit<TextProps<'p'>, 'as'> & {
 /**
  * Body paragraph. Defaults to `body-md` with `relaxed` tracking for reading comfort.
  */
-function P({tracking = 'relaxed', size = 'body-md', ...props}: PProps) {
+function P({ tracking = 'relaxed', size = 'body-md', ...props }: PProps) {
   return <Text as="p" size={size} tracking={tracking} {...props} />
 }
 
 /** Fine-print / caption text. Renders a `<small>` element. */
-function Small({color = 'muted', ...props}: Omit<TextProps<'small'>, 'as'>) {
+function Small({ color = 'muted', ...props }: Omit<TextProps<'small'>, 'as'>) {
   return <Text as="small" size="small" color={color} {...props} />
 }
 
@@ -159,7 +160,14 @@ function Label<E extends React.ElementType = 'span'>({
   ...props
 }: Omit<TextProps<E>, 'uppercase'>) {
   return (
-    <Text<E> size={size} weight={weight} tracking={tracking} color={color} uppercase {...(props as TextProps<E>)} />
+    <Text<E>
+      size={size}
+      weight={weight}
+      tracking={tracking}
+      color={color}
+      uppercase
+      {...(props as TextProps<E>)}
+    />
   )
 }
 
@@ -174,18 +182,18 @@ type ProseProps = React.ComponentPropsWithRef<'div'>
  *
  * Extend with additional selectors in globals.css or via `className`.
  */
-function Prose({className, ...props}: ProseProps) {
+function Prose({ className, ...props }: ProseProps) {
   return (
     <div
       className={cn(
         // Base reading styles
         'text-body-md tracking-relaxed text-foreground',
         // Headings
-        '[&_h1]:text-h1 [&_h1]:font-semibold [&_h1]:tracking-tight [&_h1]:mb-4',
-        '[&_h2]:text-h2 [&_h2]:font-semibold [&_h2]:tracking-tight [&_h2]:mt-8 [&_h2]:mb-3',
-        '[&_h3]:text-h3 [&_h3]:font-semibold [&_h3]:tracking-tight [&_h3]:mt-6 [&_h3]:mb-2',
-        '[&_h4]:text-h4 [&_h4]:font-semibold [&_h4]:tracking-tight [&_h4]:mt-4 [&_h4]:mb-2',
-        '[&_h5]:text-h5 [&_h5]:font-medium [&_h5]:mt-4 [&_h5]:mb-1',
+        '[&_h1]:text-h1 [&_h1]:mb-4 [&_h1]:font-semibold [&_h1]:tracking-tight',
+        '[&_h2]:text-h2 [&_h2]:mt-8 [&_h2]:mb-3 [&_h2]:font-semibold [&_h2]:tracking-tight',
+        '[&_h3]:text-h3 [&_h3]:mt-6 [&_h3]:mb-2 [&_h3]:font-semibold [&_h3]:tracking-tight',
+        '[&_h4]:text-h4 [&_h4]:mt-4 [&_h4]:mb-2 [&_h4]:font-semibold [&_h4]:tracking-tight',
+        '[&_h5]:text-h5 [&_h5]:mt-4 [&_h5]:mb-1 [&_h5]:font-medium',
         // Paragraphs and lists
         '[&_p]:mb-4 [&_p:last-child]:mb-0',
         '[&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-6',
@@ -194,10 +202,10 @@ function Prose({className, ...props}: ProseProps) {
         // Inline
         '[&_strong]:font-semibold',
         '[&_em]:italic',
-        '[&_a]:underline [&_a]:underline-offset-2 [&_a]:decoration-foreground/40 hover:[&_a]:decoration-foreground',
-        '[&_code]:font-mono [&_code]:text-small [&_code]:bg-muted [&_code]:px-1 [&_code]:py-0.5 [&_code]:rounded',
+        '[&_a]:decoration-foreground/40 hover:[&_a]:decoration-foreground [&_a]:underline [&_a]:underline-offset-2',
+        '[&_code]:text-small [&_code]:bg-muted [&_code]:rounded [&_code]:px-1 [&_code]:py-0.5 [&_code]:font-mono',
         // Block
-        '[&_blockquote]:border-l-2 [&_blockquote]:border-border [&_blockquote]:pl-4 [&_blockquote]:text-muted-foreground [&_blockquote]:italic',
+        '[&_blockquote]:border-border [&_blockquote]:text-muted-foreground [&_blockquote]:border-l-2 [&_blockquote]:pl-4 [&_blockquote]:italic',
         className,
       )}
       {...props}
@@ -205,4 +213,4 @@ function Prose({className, ...props}: ProseProps) {
   )
 }
 
-export {Text, H1, H2, H3, H4, H5, P, Small, Label, Prose}
+export { Text, H1, H2, H3, H4, H5, P, Small, Label, Prose }

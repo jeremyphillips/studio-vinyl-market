@@ -2,18 +2,19 @@ import next from 'eslint-config-next'
 import nextCoreWebVitals from 'eslint-config-next/core-web-vitals'
 import nextTypeScript from 'eslint-config-next/typescript'
 import importX from 'eslint-plugin-import-x'
+import jsxA11y from 'eslint-plugin-jsx-a11y'
 
 const config = [
   ...next,
   ...nextCoreWebVitals,
   ...nextTypeScript,
   {
-    ignores: ['.next/**', 'node_modules/**', 'sanity/types.ts'],
+    ignores: ['.next/**', 'node_modules/**', 'sanity/types.ts', 'storybook-static/**'],
   },
   {
-    plugins: { import: importX },
+    plugins: { 'import-x': importX },
     rules: {
-      'import/order': [
+      'import-x/order': [
         'error',
         {
           groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
@@ -21,12 +22,15 @@ const config = [
           alphabetize: { order: 'asc', caseInsensitive: true },
         },
       ],
-      'import/no-duplicates': 'error',
+      'import-x/no-duplicates': 'error',
     },
     settings: {
       'import-x/resolver': { typescript: true },
     },
   },
+  // eslint-config-next already declares the jsx-a11y plugin; spread only the rules
+  // to avoid a "Cannot redefine plugin" flat-config error.
+  (({ plugins: _p, ...rest }) => rest)(jsxA11y.flatConfigs.recommended),
 ]
 
 export default config

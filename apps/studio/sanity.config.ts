@@ -1,13 +1,13 @@
-import {defineConfig} from 'sanity'
-import {defineLocations, presentationTool} from 'sanity/presentation'
-import {structureTool} from 'sanity/structure'
-import {visionTool} from '@sanity/vision'
-import {getSanityApiConfig, getSanityPreviewUrl} from './sanity.project'
-import {schemaTypes} from './schemaTypes'
-import {SITE_SETTINGS_ID} from './schemaTypes/siteSettings'
-import {structure} from './structure'
+import { defineConfig } from 'sanity'
+import { defineLocations, presentationTool } from 'sanity/presentation'
+import { structureTool } from 'sanity/structure'
+import { visionTool } from '@sanity/vision'
+import { getSanityApiConfig, getSanityPreviewUrl } from './sanity.project'
+import { schemaTypes } from './schemaTypes'
+import { SITE_SETTINGS_ID } from './schemaTypes/siteSettings'
+import { structure } from './structure'
 
-const {projectId, dataset} = getSanityApiConfig()
+const { projectId, dataset } = getSanityApiConfig()
 const previewUrl = getSanityPreviewUrl()
 
 const SINGLETON_TYPES = new Set<string>(['siteSettings'])
@@ -21,12 +21,12 @@ export default defineConfig({
   dataset,
 
   plugins: [
-    structureTool({structure}),
+    structureTool({ structure }),
     presentationTool({
       resolve: {
         locations: {
           release: defineLocations({
-            select: {title: 'releaseName', slug: 'slug.current'},
+            select: { title: 'releaseName', slug: 'slug.current' },
             resolve: (doc) => ({
               locations: [
                 {
@@ -37,7 +37,7 @@ export default defineConfig({
             }),
           }),
           artist: defineLocations({
-            select: {title: 'name', slug: 'slug.current'},
+            select: { title: 'name', slug: 'slug.current' },
             resolve: (doc) => ({
               locations: [
                 {
@@ -48,7 +48,7 @@ export default defineConfig({
             }),
           }),
           label: defineLocations({
-            select: {title: 'name', slug: 'slug.current'},
+            select: { title: 'name', slug: 'slug.current' },
             resolve: (doc) => ({
               locations: [
                 {
@@ -59,7 +59,7 @@ export default defineConfig({
             }),
           }),
           page: defineLocations({
-            select: {title: 'title', slug: 'slug.current'},
+            select: { title: 'title', slug: 'slug.current' },
             resolve: (doc) => ({
               locations: [
                 {
@@ -73,12 +73,13 @@ export default defineConfig({
             message: 'This document controls the site-wide header navigation.',
             tone: 'caution',
             resolve: () => ({
-              locations: [{title: 'All pages (header)', href: '/'}],
+              locations: [{ title: 'All pages (header)', href: '/' }],
             }),
           }),
           releasesPage: defineLocations({
-            resolve: () => ({
-              locations: [{title: 'Releases page', href: '/releases'}],
+            select: { title: 'title' },
+            resolve: (doc) => ({
+              locations: [{ title: doc?.title ?? 'Releases page', href: '/releases' }],
             }),
           }),
         },
@@ -101,7 +102,7 @@ export default defineConfig({
   document: {
     // Hide singletons from the global "+ Create" menu so editors can't
     // make duplicates. The Structure tool exposes the one canonical doc.
-    newDocumentOptions: (prev, {creationContext}) => {
+    newDocumentOptions: (prev, { creationContext }) => {
       if (creationContext.type === 'global') {
         return prev.filter((option) => !SINGLETON_TYPES.has(option.templateId))
       }
@@ -109,15 +110,13 @@ export default defineConfig({
     },
     // Restrict actions on singleton documents: no duplicate / no delete /
     // no unpublish.
-    actions: (input, {schemaType}) => {
+    actions: (input, { schemaType }) => {
       if (SINGLETON_TYPES.has(schemaType)) {
-        return input.filter(
-          ({action}) => action && SINGLETON_ACTIONS.has(action),
-        )
+        return input.filter(({ action }) => action && SINGLETON_ACTIONS.has(action))
       }
       return input
     },
   },
 })
 
-export {SITE_SETTINGS_ID}
+export { SITE_SETTINGS_ID }

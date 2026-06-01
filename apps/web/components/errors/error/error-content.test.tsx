@@ -1,6 +1,7 @@
 import {render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest'
+import {axe} from 'vitest-axe'
 
 import {ErrorContent} from './error-content'
 import {expectCatalogueEscapeLinks, mockConsoleError} from './error.test-utils'
@@ -96,5 +97,11 @@ describe('ErrorContent', () => {
 
     expect(screen.queryByText('Development details')).not.toBeInTheDocument()
     expect(screen.queryByText('Sanity fetch failed')).not.toBeInTheDocument()
+  })
+
+  it('has no accessibility violations', async () => {
+    const {container} = render(<ErrorContent error={new Error('boom')} reset={vi.fn()} />)
+
+    expect(await axe(container)).toHaveNoViolations()
   })
 })
