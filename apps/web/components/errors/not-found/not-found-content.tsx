@@ -1,6 +1,6 @@
-import Link from 'next/link'
+import {CatalogueEscapeLinks} from '@/components/errors/shared/catalogue-escape-links'
 
-import {Button} from '@/components/ui/button'
+import type {NotFoundMessage} from './not-found-messages'
 
 type NotFoundContentProps = {
   title?: string
@@ -24,13 +24,23 @@ export function NotFoundContent({
       </header>
 
       <div className="flex flex-wrap gap-3">
-        <Button asChild>
-          <Link href="/">Back to home</Link>
-        </Button>
-        <Button asChild variant="outline">
-          <Link href={browseHref}>{browseLabel}</Link>
-        </Button>
+        <CatalogueEscapeLinks browseHref={browseHref} browseLabel={browseLabel} />
       </div>
     </div>
+  )
+}
+
+type NotFoundViewProps = {
+  message: NotFoundMessage
+}
+
+export function NotFoundView({message}: NotFoundViewProps) {
+  return (
+    <NotFoundContent
+      title={message.title}
+      description={message.description}
+      browseHref={message.browseHref}
+      browseLabel={message.browseLabel}
+    />
   )
 }

@@ -1,9 +1,9 @@
 'use client'
 
 import {useEffect} from 'react'
-import Link from 'next/link'
 
 import {Button} from '@/components/ui/button'
+import {CatalogueEscapeLinks} from '@/components/errors/shared/catalogue-escape-links'
 
 type ErrorContentProps = {
   error: Error & {digest?: string}
@@ -51,12 +51,7 @@ export function ErrorContent({
         <Button type="button" onClick={reset}>
           Try again
         </Button>
-        <Button asChild variant="outline">
-          <Link href="/">Back to home</Link>
-        </Button>
-        <Button asChild variant="outline">
-          <Link href="/releases">Browse releases</Link>
-        </Button>
+        <CatalogueEscapeLinks homeVariant="outline" />
       </div>
     </div>
   )

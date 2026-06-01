@@ -2,8 +2,8 @@ import {render, screen} from '@testing-library/react'
 import {describe, expect, it} from 'vitest'
 
 import {notFoundMessages} from './not-found-messages'
-import {NotFoundView} from './not-found-view'
-import {expectCatalogueEscapeLinks} from './test-utils'
+import {NotFoundView} from './not-found-content'
+import {expectCatalogueEscapeLinks} from './not-found.test-utils'
 
 describe('notFoundMessages', () => {
   it.each(Object.entries(notFoundMessages))(

@@ -1,7 +1,6 @@
 import type {Metadata} from 'next'
 
-import {NotFoundView} from '@/components/errors/not-found-view'
-import {notFoundMessages, notFoundMetadata} from '@/components/errors/not-found-messages'
+import {NotFoundView, notFoundMessages, notFoundMetadata} from '@/components/errors/not-found'
 
 const message = notFoundMessages.default
 

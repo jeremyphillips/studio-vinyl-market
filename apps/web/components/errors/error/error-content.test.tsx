@@ -3,10 +3,10 @@ import userEvent from '@testing-library/user-event'
 import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest'
 
 import {ErrorContent} from './error-content'
-import {expectCatalogueEscapeLinks} from './test-utils'
+import {expectCatalogueEscapeLinks, mockConsoleError} from './error.test-utils'
 
 beforeEach(() => {
-  vi.spyOn(console, 'error').mockImplementation(() => {})
+  mockConsoleError()
 })
 
 afterEach(() => {
