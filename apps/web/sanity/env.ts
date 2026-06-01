@@ -17,8 +17,7 @@ export const dataset = required(
   process.env.NEXT_PUBLIC_SANITY_DATASET,
 )
 
-export const apiVersion =
-  process.env.NEXT_PUBLIC_SANITY_API_VERSION?.trim() || '2026-01-01'
+export const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION?.trim() || '2026-01-01'
 
 export const studioUrl =
   process.env.NEXT_PUBLIC_SANITY_STUDIO_URL?.trim() || 'http://localhost:3333'

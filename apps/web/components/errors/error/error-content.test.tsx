@@ -1,10 +1,10 @@
-import {render, screen} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest'
-import {axe} from 'vitest-axe'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { axe } from 'vitest-axe'
 
-import {ErrorContent} from './error-content'
-import {expectCatalogueEscapeLinks, mockConsoleError} from './error.test-utils'
+import { ErrorContent } from './error-content'
+import { expectCatalogueEscapeLinks, mockConsoleError } from './error.test-utils'
 
 beforeEach(() => {
   mockConsoleError()
@@ -20,11 +20,9 @@ describe('ErrorContent', () => {
     render(<ErrorContent error={new Error('boom')} reset={vi.fn()} />)
 
     expect(screen.getByText('Error')).toBeInTheDocument()
-    expect(screen.getByRole('heading', {level: 1})).toHaveTextContent('Something went wrong')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Something went wrong')
     expect(
-      screen.getByText(
-        'We couldn’t load this page. Try again, or head back to the catalogue.',
-      ),
+      screen.getByText('We couldn’t load this page. Try again, or head back to the catalogue.'),
     ).toBeInTheDocument()
   })
 
@@ -38,9 +36,7 @@ describe('ErrorContent', () => {
       />,
     )
 
-    expect(screen.getByRole('heading', {level: 1})).toHaveTextContent(
-      'Catalogue unavailable',
-    )
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Catalogue unavailable')
     expect(screen.getByText('Sanity is temporarily unreachable.')).toBeInTheDocument()
   })
 
@@ -49,7 +45,7 @@ describe('ErrorContent', () => {
     const reset = vi.fn()
 
     render(<ErrorContent error={new Error('boom')} reset={reset} />)
-    await user.click(screen.getByRole('button', {name: 'Try again'}))
+    await user.click(screen.getByRole('button', { name: 'Try again' }))
 
     expect(reset).toHaveBeenCalledOnce()
   })
@@ -82,7 +78,7 @@ describe('ErrorContent', () => {
 
   it('shows digest in development when provided', () => {
     vi.stubEnv('NODE_ENV', 'development')
-    const error = Object.assign(new Error('boom'), {digest: 'abc123'})
+    const error = Object.assign(new Error('boom'), { digest: 'abc123' })
 
     render(<ErrorContent error={error} reset={vi.fn()} />)
 
@@ -100,7 +96,7 @@ describe('ErrorContent', () => {
   })
 
   it('has no accessibility violations', async () => {
-    const {container} = render(<ErrorContent error={new Error('boom')} reset={vi.fn()} />)
+    const { container } = render(<ErrorContent error={new Error('boom')} reset={vi.fn()} />)
 
     expect(await axe(container)).toHaveNoViolations()
   })

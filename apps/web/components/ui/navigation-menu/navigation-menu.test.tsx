@@ -1,6 +1,6 @@
-import {render, screen} from '@testing-library/react'
-import {describe, expect, it} from 'vitest'
-import {axe} from 'vitest-axe'
+import { render, screen } from '@testing-library/react'
+import { describe, expect, it } from 'vitest'
+import { axe } from 'vitest-axe'
 
 import {
   NavigationMenu,
@@ -34,8 +34,8 @@ describe('NavigationMenu', () => {
   it('renders all nav links', () => {
     render(<BasicNav />)
 
-    expect(screen.getByRole('link', {name: 'Catalogue'})).toHaveAttribute('href', '/catalogue')
-    expect(screen.getByRole('link', {name: 'Artists'})).toHaveAttribute('href', '/artists')
+    expect(screen.getByRole('link', { name: 'Catalogue' })).toHaveAttribute('href', '/catalogue')
+    expect(screen.getByRole('link', { name: 'Artists' })).toHaveAttribute('href', '/artists')
   })
 
   it('nav links are keyboard-focusable', () => {
@@ -48,7 +48,7 @@ describe('NavigationMenu', () => {
   })
 
   it('has no accessibility violations', async () => {
-    const {container} = render(<BasicNav />)
+    const { container } = render(<BasicNav />)
 
     expect(await axe(container)).toHaveNoViolations()
   })

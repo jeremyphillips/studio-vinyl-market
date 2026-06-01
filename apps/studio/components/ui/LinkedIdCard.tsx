@@ -1,4 +1,4 @@
-import {Card, Flex, Text} from '@sanity/ui'
+import { Card, Flex, Text } from '@sanity/ui'
 
 export interface LinkedIdItem {
   label: string
@@ -11,7 +11,7 @@ export interface LinkedIdCardProps {
   items: LinkedIdItem[]
 }
 
-export function LinkedIdCard({title, items}: LinkedIdCardProps) {
+export function LinkedIdCard({ title, items }: LinkedIdCardProps) {
   return (
     <Card padding={3} border>
       <Text size={1} weight="semibold" muted>

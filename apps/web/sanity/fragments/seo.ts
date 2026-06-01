@@ -1,4 +1,4 @@
-import {imageWithAltFields} from './image'
+import { imageWithAltFields } from './image'
 
 /** seo object projection for page singletons and CMS pages. */
 export const seoProjection = /* groq */ `

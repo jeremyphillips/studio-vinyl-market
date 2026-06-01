@@ -1,13 +1,12 @@
-import {H2} from '@/components/ui/typography'
-import {discogsMasterUrl, discogsReleaseUrl} from '@/lib/discogs'
-
+import { H2 } from '@/components/ui/typography'
+import { discogsMasterUrl, discogsReleaseUrl } from '@/lib/discogs'
 
 type DiscogsMetaProps = {
   releaseId?: number | null
   masterId?: number | null
 }
 
-export function DiscogsMeta({releaseId, masterId}: DiscogsMetaProps) {
+export function DiscogsMeta({ releaseId, masterId }: DiscogsMetaProps) {
   if (!releaseId) return null
 
   return (

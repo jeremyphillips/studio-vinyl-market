@@ -21,16 +21,13 @@ type HeaderNavProps = {
   links: HeaderNavLink[]
 }
 
-export function HeaderNav({links}: HeaderNavProps) {
+export function HeaderNav({ links }: HeaderNavProps) {
   return (
     <NavigationMenu>
       <NavigationMenuList>
         {links.map((link) => (
           <NavigationMenuItem key={link.key}>
-            <NavigationMenuLink
-              asChild
-              className={navigationMenuTriggerStyle()}
-            >
+            <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
               {link.isExternal ? (
                 <a href={link.href} target="_blank" rel="noreferrer">
                   {link.label}

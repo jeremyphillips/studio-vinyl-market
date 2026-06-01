@@ -1,14 +1,14 @@
-import {defineQuery} from 'next-sanity'
+import { defineQuery } from 'next-sanity'
 
-import {galleryProjection, imageWithAltCaption} from './fragments/image'
-import {internalLinkResolved} from './fragments/link'
+import { galleryProjection, imageWithAltCaption } from './fragments/image'
+import { internalLinkResolved } from './fragments/link'
 import {
   releaseCardListFields,
   releaseCardNestedFields,
   releaseCardNestedWithArtistFields,
   releasesOrder,
 } from './fragments/release'
-import {seoProjection} from './fragments/seo'
+import { seoProjection } from './fragments/seo'
 
 /**
  * Header navigation, read from the site-settings singleton.

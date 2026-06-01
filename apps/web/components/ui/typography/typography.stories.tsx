@@ -1,13 +1,13 @@
-import type {Meta, StoryObj} from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 
-import {Text, H1, H2, H3, H4, H5, P, Small, Label, Prose} from './typography'
+import { Text, H1, H2, H3, H4, H5, P, Small, Label, Prose } from './typography'
 
 // ─── Base <Text> ─────────────────────────────────────────────────────────────
 
 const textMeta: Meta<typeof Text> = {
   title: 'UI/Typography/Text',
   component: Text,
-  parameters: {layout: 'padded'},
+  parameters: { layout: 'padded' },
   argTypes: {
     as: {
       control: 'select',
@@ -29,8 +29,8 @@ const textMeta: Meta<typeof Text> = {
       control: 'select',
       options: ['default', 'muted', 'subtle'],
     },
-    truncate: {control: 'boolean'},
-    uppercase: {control: 'boolean'},
+    truncate: { control: 'boolean' },
+    uppercase: { control: 'boolean' },
   },
 }
 
@@ -38,7 +38,7 @@ export default textMeta
 type TextStory = StoryObj<typeof Text>
 
 export const Default: TextStory = {
-  args: {children: 'The quick brown fox jumps over the lazy dog.'},
+  args: { children: 'The quick brown fox jumps over the lazy dog.' },
 }
 
 export const Playground: TextStory = {
@@ -58,16 +58,30 @@ export const TypeScale: TextStory = {
   name: 'Type Scale',
   render: () => (
     <div className="space-y-4">
-      <Text size="h1" weight="semibold" tracking="tight">H1 — 2.25rem / 36px</Text>
-      <Text size="h2" weight="semibold" tracking="tight">H2 — 1.875rem / 30px</Text>
-      <Text size="h3" weight="semibold" tracking="tight">H3 — 1.5rem / 24px</Text>
-      <Text size="h4" weight="semibold" tracking="tight">H4 — 1.25rem / 20px</Text>
-      <Text size="h5" weight="medium">H5 — 1.125rem / 18px</Text>
+      <Text size="h1" weight="semibold" tracking="tight">
+        H1 — 2.25rem / 36px
+      </Text>
+      <Text size="h2" weight="semibold" tracking="tight">
+        H2 — 1.875rem / 30px
+      </Text>
+      <Text size="h3" weight="semibold" tracking="tight">
+        H3 — 1.5rem / 24px
+      </Text>
+      <Text size="h4" weight="semibold" tracking="tight">
+        H4 — 1.25rem / 20px
+      </Text>
+      <Text size="h5" weight="medium">
+        H5 — 1.125rem / 18px
+      </Text>
       <hr className="border-border" />
       <Text size="body-lg">Body LG — 1.125rem / 18px. For introductory or featured copy.</Text>
       <Text size="body-md">Body MD — 1rem / 16px. The default reading size for most content.</Text>
-      <Text size="body-sm">Body SM — 0.875rem / 14px. Secondary information and supporting text.</Text>
-      <Text size="small" color="muted">Small — 0.75rem / 12px. Fine print, captions, and metadata.</Text>
+      <Text size="body-sm">
+        Body SM — 0.875rem / 14px. Secondary information and supporting text.
+      </Text>
+      <Text size="small" color="muted">
+        Small — 0.75rem / 12px. Fine print, captions, and metadata.
+      </Text>
     </div>
   ),
 }
@@ -95,16 +109,21 @@ export const LetterSpacing: TextStory = {
     <div className="space-y-4">
       <div>
         <Label>tight — headings &amp; hero text</Label>
-        <Text size="h3" weight="semibold" tracking="tight">Tight: Vinyl Records & Music</Text>
+        <Text size="h3" weight="semibold" tracking="tight">
+          Tight: Vinyl Records & Music
+        </Text>
       </div>
       <div>
         <Label>comfortable — neutral default</Label>
-        <Text size="h3" weight="semibold" tracking="comfortable">Comfortable: Vinyl Records & Music</Text>
+        <Text size="h3" weight="semibold" tracking="comfortable">
+          Comfortable: Vinyl Records & Music
+        </Text>
       </div>
       <div>
         <Label>relaxed — body copy</Label>
         <Text size="body-md" tracking="relaxed">
-          Relaxed: A curated selection of rare and classic vinyl releases for collectors and enthusiasts.
+          Relaxed: A curated selection of rare and classic vinyl releases for collectors and
+          enthusiasts.
         </Text>
       </div>
       <div>
@@ -161,14 +180,16 @@ export const Truncation: TextStory = {
       <div>
         <Label>truncate (single line)</Label>
         <Text truncate>
-          Caetano Veloso — Transa — A groundbreaking Brazilian rock album from 1972 recorded in London
+          Caetano Veloso — Transa — A groundbreaking Brazilian rock album from 1972 recorded in
+          London
         </Text>
       </div>
       <div>
         <Label>lines=2 (line-clamp)</Label>
         <Text lines={2}>
-          A curated selection of rare and classic vinyl releases. Browse our catalog of jazz, soul, funk,
-          rock, and electronic music from the golden era of vinyl manufacturing through to modern pressings.
+          A curated selection of rare and classic vinyl releases. Browse our catalog of jazz, soul,
+          funk, rock, and electronic music from the golden era of vinyl manufacturing through to
+          modern pressings.
         </Text>
       </div>
     </div>
@@ -227,8 +248,9 @@ export const ProseWrapper: TextStory = {
       <Prose>
         <h1>Miles Davis — Kind of Blue</h1>
         <p>
-          <em>Kind of Blue</em> is a studio album by American jazz musician Miles Davis. It was recorded
-          on March 2 and April 22, 1959, at Columbia&apos;s 30th Street Studio in New York City.
+          <em>Kind of Blue</em> is a studio album by American jazz musician Miles Davis. It was
+          recorded on March 2 and April 22, 1959, at Columbia&apos;s 30th Street Studio in New York
+          City.
         </p>
         <h2>Background</h2>
         <p>
@@ -237,9 +259,9 @@ export const ProseWrapper: TextStory = {
         </p>
         <h3>Modal Jazz</h3>
         <p>
-          Rather than chord changes, Davis built compositions on <strong>modes</strong> — scales that
-          gave musicians more freedom to improvise. The approach became one of the most influential
-          innovations in jazz history.
+          Rather than chord changes, Davis built compositions on <strong>modes</strong> — scales
+          that gave musicians more freedom to improvise. The approach became one of the most
+          influential innovations in jazz history.
         </p>
         <ul>
           <li>So What</li>
@@ -248,9 +270,7 @@ export const ProseWrapper: TextStory = {
           <li>All Blues</li>
           <li>Flamenco Sketches</li>
         </ul>
-        <blockquote>
-          There are no mistakes on the bandstand — Miles Davis
-        </blockquote>
+        <blockquote>There are no mistakes on the bandstand — Miles Davis</blockquote>
         <p>
           Press the <code>play</code> button to start listening.
         </p>

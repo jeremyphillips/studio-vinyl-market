@@ -41,6 +41,6 @@ export const notFoundMessages = {
 export function notFoundMetadata(message: NotFoundMessage) {
   return {
     title: message.title,
-    robots: {index: false, follow: true},
+    robots: { index: false, follow: true },
   } as const
 }

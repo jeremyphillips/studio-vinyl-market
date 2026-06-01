@@ -1,4 +1,4 @@
-import type {NextConfig} from 'next'
+import type { NextConfig } from 'next'
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
 
@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
     ],
   },
   logging: {
-    fetches: {fullUrl: false},
+    fetches: { fullUrl: false },
   },
   typedRoutes: true,
 }

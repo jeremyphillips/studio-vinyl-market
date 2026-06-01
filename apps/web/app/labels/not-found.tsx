@@ -1,6 +1,6 @@
-import type {Metadata} from 'next'
+import type { Metadata } from 'next'
 
-import {NotFoundView, notFoundMessages, notFoundMetadata} from '@/components/errors/not-found'
+import { NotFoundView, notFoundMessages, notFoundMetadata } from '@/components/errors/not-found'
 
 const message = notFoundMessages.label
 

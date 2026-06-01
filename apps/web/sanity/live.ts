@@ -1,7 +1,7 @@
-import {defineLive} from 'next-sanity/live'
+import { defineLive } from 'next-sanity/live'
 
-import {client} from './client'
-import {readToken} from './env'
+import { client } from './client'
+import { readToken } from './env'
 
 /**
  * Live Content API hookup. `sanityFetch` is the only fetch helper we use from
@@ -15,7 +15,7 @@ import {readToken} from './env'
  * We don't pass a `browserToken` because Presentation Tool runs the live
  * preview through its iframe + draft mode, not directly in the public bundle.
  */
-export const {sanityFetch, SanityLive} = defineLive({
+export const { sanityFetch, SanityLive } = defineLive({
   client,
   serverToken: readToken,
   browserToken: undefined,

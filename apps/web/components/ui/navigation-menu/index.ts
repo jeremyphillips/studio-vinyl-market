@@ -7,4 +7,4 @@ export {
   NavigationMenuLink,
   NavigationMenuViewport,
 } from './navigation-menu.client'
-export {navigationMenuTriggerStyle} from './navigation-menu.variants'
+export { navigationMenuTriggerStyle } from './navigation-menu.variants'

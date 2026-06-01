@@ -1,10 +1,10 @@
-import {defineArrayMember, defineField, defineType} from 'sanity'
-import {DiscogsSearchInput} from '../components/inputs/DiscogsSearchInput'
-import {releaseFormatOptions, releaseSpeedOptions} from './constants/release'
+import { defineArrayMember, defineField, defineType } from 'sanity'
+import { DiscogsSearchInput } from '../components/inputs/DiscogsSearchInput'
+import { releaseFormatOptions, releaseSpeedOptions } from './constants/release'
 
 function referenceHasRef(value: unknown): boolean {
   if (!value || typeof value !== 'object') return false
-  const ref = (value as {_ref?: unknown})._ref
+  const ref = (value as { _ref?: unknown })._ref
   return typeof ref === 'string' && ref.length > 0
 }
 
@@ -17,18 +17,18 @@ export const release = defineType({
   title: 'Release',
   type: 'document',
   groups: [
-    {name: 'identity', title: 'Identity', default: true},
-    {name: 'media', title: 'Media'},
-    {name: 'tracklist', title: 'Tracklist'},
-    {name: 'releaseInfo', title: 'Release info'},
-    {name: 'discogs', title: 'Discogs'},
+    { name: 'identity', title: 'Identity', default: true },
+    { name: 'media', title: 'Media' },
+    { name: 'tracklist', title: 'Tracklist' },
+    { name: 'releaseInfo', title: 'Release info' },
+    { name: 'discogs', title: 'Discogs' },
   ],
   fields: [
     defineField({
       name: 'artist',
       title: 'Artist',
       type: 'reference',
-      to: [{type: 'artist'}],
+      to: [{ type: 'artist' }],
       validation: (Rule) => Rule.required(),
       group: 'identity',
     }),
@@ -43,7 +43,7 @@ export const release = defineType({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      options: {source: 'releaseName', maxLength: 96},
+      options: { source: 'releaseName', maxLength: 96 },
       validation: (Rule) => Rule.required(),
       group: 'identity',
     }),
@@ -82,8 +82,8 @@ export const release = defineType({
       description:
         'Additional photos (back cover, labels, inserts, etc.). Order matches display order.',
       type: 'array',
-      of: [defineArrayMember({type: 'imageWithAlt'})],
-      options: {layout: 'grid'},
+      of: [defineArrayMember({ type: 'imageWithAlt' })],
+      options: { layout: 'grid' },
       group: 'media',
     }),
     defineField({
@@ -109,8 +109,7 @@ export const release = defineType({
               name: 'name',
               title: 'Disc name',
               type: 'string',
-              description:
-                'Optional label (e.g. “Bonus CD”, “DVD”, “Live set”).',
+              description: 'Optional label (e.g. “Bonus CD”, “DVD”, “Live set”).',
             }),
             defineField({
               name: 'tracks',
@@ -140,7 +139,7 @@ export const release = defineType({
                       position: 'position',
                       title: 'title',
                     },
-                    prepare({position, title}) {
+                    prepare({ position, title }) {
                       const pos = position?.trim()
                       const t = title?.trim() || 'Untitled track'
                       return {
@@ -158,17 +157,13 @@ export const release = defineType({
               name: 'name',
               tracks: 'tracks',
             },
-            prepare({discNumber, name, tracks}) {
+            prepare({ discNumber, name, tracks }) {
               const base =
-                name?.trim() ||
-                (typeof discNumber === 'number' ? `Disc ${discNumber}` : 'Disc')
+                name?.trim() || (typeof discNumber === 'number' ? `Disc ${discNumber}` : 'Disc')
               const count = Array.isArray(tracks) ? tracks.length : 0
               return {
                 title: base,
-                subtitle:
-                  count === 0
-                    ? 'No tracks yet'
-                    : `${count} track${count === 1 ? '' : 's'}`,
+                subtitle: count === 0 ? 'No tracks yet' : `${count} track${count === 1 ? '' : 's'}`,
               }
             },
           },
@@ -187,10 +182,10 @@ export const release = defineType({
       title: 'Release date',
       type: 'date',
       group: 'releaseInfo',
-      hidden: ({parent}) => Boolean(parent?.dateUnknown),
+      hidden: ({ parent }) => Boolean(parent?.dateUnknown),
       validation: (Rule) =>
         Rule.custom((value, context) => {
-          const parent = context.parent as {dateUnknown?: boolean} | undefined
+          const parent = context.parent as { dateUnknown?: boolean } | undefined
           const dateUnknown = parent?.dateUnknown === true
           if (dateUnknown) return true
           if (!value) return 'Release date is required when the date is known'
@@ -208,12 +203,12 @@ export const release = defineType({
       name: 'label',
       title: 'Label',
       type: 'reference',
-      to: [{type: 'label'}],
+      to: [{ type: 'label' }],
       group: 'releaseInfo',
-      hidden: ({parent}) => Boolean(parent?.noLabel),
+      hidden: ({ parent }) => Boolean(parent?.noLabel),
       validation: (Rule) =>
         Rule.custom((value, context) => {
-          const parent = context.parent as {noLabel?: boolean} | undefined
+          const parent = context.parent as { noLabel?: boolean } | undefined
           const noLabel = parent?.noLabel === true
           if (noLabel) return true
           if (!referenceHasRef(value)) return 'Label is required when the release has a label'
@@ -239,24 +234,24 @@ export const release = defineType({
           readOnly: true,
         }),
       ],
-      components: {input: DiscogsSearchInput},
+      components: { input: DiscogsSearchInput },
     }),
   ],
   orderings: [
     {
       title: 'Release date (newest first)',
       name: 'releaseDateDesc',
-      by: [{field: 'releaseDate', direction: 'desc'}],
+      by: [{ field: 'releaseDate', direction: 'desc' }],
     },
     {
       title: 'Artist (A–Z)',
       name: 'artistNameAsc',
-      by: [{field: 'artist.name', direction: 'asc'}],
+      by: [{ field: 'artist.name', direction: 'asc' }],
     },
     {
       title: 'Release name (A–Z)',
       name: 'releaseNameAsc',
-      by: [{field: 'releaseName', direction: 'asc'}],
+      by: [{ field: 'releaseName', direction: 'asc' }],
     },
   ],
   preview: {
@@ -268,16 +263,16 @@ export const release = defineType({
       dateUnknown: 'dateUnknown',
       media: 'cover',
     },
-    prepare({releaseName, artistName, format, releaseDate, dateUnknown, media}) {
+    prepare({ releaseName, artistName, format, releaseDate, dateUnknown, media }) {
       const title = releaseName || 'Untitled release'
-      const formatLabel = format ? formatLabelByValue[format] ?? format : undefined
+      const formatLabel = format ? (formatLabelByValue[format] ?? format) : undefined
       const year = dateUnknown
         ? 'Year unknown'
         : typeof releaseDate === 'string' && releaseDate.length >= 4
           ? releaseDate.slice(0, 4)
           : undefined
       const subtitle = [artistName, formatLabel, year].filter(Boolean).join(' · ')
-      return subtitle ? {title, subtitle, media} : {title, media}
+      return subtitle ? { title, subtitle, media } : { title, media }
     },
   },
 })

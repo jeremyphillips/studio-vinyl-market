@@ -1,13 +1,13 @@
 'use client'
 
-import {useEffect} from 'react'
+import { useEffect } from 'react'
 
-import {CatalogueEscapeLinks} from '@/components/errors/shared/catalogue-escape-links'
-import {Button} from '@/components/ui/button'
-import {H1, P, Small} from '@/components/ui/typography'
+import { CatalogueEscapeLinks } from '@/components/errors/shared/catalogue-escape-links'
+import { Button } from '@/components/ui/button'
+import { H1, P, Small } from '@/components/ui/typography'
 
 type ErrorContentProps = {
-  error: Error & {digest?: string}
+  error: Error & { digest?: string }
   reset: () => void
   title?: string
   description?: string
@@ -28,20 +28,20 @@ export function ErrorContent({
   return (
     <div className="space-y-6">
       <header className="space-y-2">
-        <P size="body-sm" weight="medium" color="muted">Error</P>
+        <P size="body-sm" weight="medium" color="muted">
+          Error
+        </P>
         <H1>{title}</H1>
         <P color="muted">{description}</P>
       </header>
 
       {isDev ? (
-        <div className="space-y-2 rounded-lg border border-destructive/30 bg-destructive/5 p-4">
-          <P size="body-sm" weight="medium" className="text-destructive">Development details</P>
-          {error.digest ? (
-            <Small className="font-mono">
-              Digest: {error.digest}
-            </Small>
-          ) : null}
-          <pre className="max-h-64 overflow-auto whitespace-pre-wrap break-words font-mono text-xs text-foreground">
+        <div className="border-destructive/30 bg-destructive/5 space-y-2 rounded-lg border p-4">
+          <P size="body-sm" weight="medium" className="text-destructive">
+            Development details
+          </P>
+          {error.digest ? <Small className="font-mono">Digest: {error.digest}</Small> : null}
+          <pre className="text-foreground max-h-64 overflow-auto font-mono text-xs break-words whitespace-pre-wrap">
             {error.message}
             {error.stack ? `\n\n${error.stack}` : ''}
           </pre>

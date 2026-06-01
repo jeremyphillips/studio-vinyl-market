@@ -1,16 +1,16 @@
-import type {Metadata} from 'next'
+import type { Metadata } from 'next'
 import Link from 'next/link'
-import {notFound} from 'next/navigation'
+import { notFound } from 'next/navigation'
 
-import {formatYear} from '@/catalog/format'
-import {CoverImage} from '@/components/catalog/cover-image/cover-image'
-import {DiscogsMeta} from '@/components/catalog/discogs-meta/discogs-meta'
-import {Tracklist} from '@/components/catalog/tracklist/tracklist'
-import {H1, H2, P} from '@/components/ui/typography'
-import {SLUG_PATH_BY_TYPE} from '@/lib/routes'
-import {client} from '@/sanity/client'
-import {sanityFetch} from '@/sanity/live'
-import {RELEASE_QUERY, RELEASE_SLUGS_QUERY} from '@/sanity/queries'
+import { formatYear } from '@/catalog/format'
+import { CoverImage } from '@/components/catalog/cover-image/cover-image'
+import { DiscogsMeta } from '@/components/catalog/discogs-meta/discogs-meta'
+import { Tracklist } from '@/components/catalog/tracklist/tracklist'
+import { H1, H2, P } from '@/components/ui/typography'
+import { SLUG_PATH_BY_TYPE } from '@/lib/routes'
+import { client } from '@/sanity/client'
+import { sanityFetch } from '@/sanity/live'
+import { RELEASE_QUERY, RELEASE_SLUGS_QUERY } from '@/sanity/queries'
 
 const FORMAT_LABEL: Record<string, string> = {
   LP: 'LP',
@@ -24,24 +24,20 @@ const SPEED_LABEL: Record<string, string> = {
   '78': '78 RPM',
 }
 
-type Params = Promise<{slug: string}>
+type Params = Promise<{ slug: string }>
 
 export async function generateStaticParams() {
   const slugs = await client
-    .withConfig({useCdn: false, perspective: 'published', stega: false})
+    .withConfig({ useCdn: false, perspective: 'published', stega: false })
     .fetch(RELEASE_SLUGS_QUERY)
-  return slugs.map((slug) => ({slug}))
+  return slugs.map((slug) => ({ slug }))
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Params
-}): Promise<Metadata> {
-  const {slug} = await params
-  const {data: release} = await sanityFetch({
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+  const { slug } = await params
+  const { data: release } = await sanityFetch({
     query: RELEASE_QUERY,
-    params: {slug},
+    params: { slug },
     stega: false,
   })
   if (!release) return {}
@@ -54,11 +50,11 @@ export async function generateMetadata({
   }
 }
 
-export default async function ReleasePage({params}: {params: Params}) {
-  const {slug} = await params
-  const {data: release} = await sanityFetch({
+export default async function ReleasePage({ params }: { params: Params }) {
+  const { slug } = await params
+  const { data: release } = await sanityFetch({
     query: RELEASE_QUERY,
-    params: {slug},
+    params: { slug },
   })
 
   if (!release) notFound()
@@ -80,9 +76,7 @@ export default async function ReleasePage({params}: {params: Params}) {
 
       <div className="space-y-6">
         <header className="space-y-2">
-          <H1>
-            {release.releaseName}
-          </H1>
+          <H1>{release.releaseName}</H1>
           {release.artist && (
             <P size="body-lg" color="muted">
               by{' '}
@@ -92,7 +86,7 @@ export default async function ReleasePage({params}: {params: Params}) {
               >
                 {release.artist.name}
               </Link>
-              </P>
+            </P>
           )}
         </header>
 
@@ -134,10 +128,7 @@ export default async function ReleasePage({params}: {params: Params}) {
           <Tracklist discs={release.discs} />
         </section>
 
-        <DiscogsMeta
-          releaseId={release.discogs?.releaseId}
-          masterId={release.discogs?.masterId}
-        />
+        <DiscogsMeta releaseId={release.discogs?.releaseId} masterId={release.discogs?.masterId} />
       </div>
     </article>
   )

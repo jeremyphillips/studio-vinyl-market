@@ -1,4 +1,4 @@
-import {defineField, defineType} from 'sanity'
+import { defineField, defineType } from 'sanity'
 
 export const RELEASES_PAGE_ID = 'releasesPage'
 
@@ -31,6 +31,6 @@ export const releasesPage = defineType({
     }),
   ],
   preview: {
-    prepare: () => ({title: 'Releases page', subtitle: '/releases'}),
+    prepare: () => ({ title: 'Releases page', subtitle: '/releases' }),
   },
 })

@@ -1,5 +1,5 @@
-import {SearchIcon} from '@sanity/icons'
-import {Box, Button, Flex, TextInput} from '@sanity/ui'
+import { SearchIcon } from '@sanity/icons'
+import { Box, Button, Flex, TextInput } from '@sanity/ui'
 
 export interface SearchToolbarProps {
   query: string

@@ -1,12 +1,13 @@
-import {act, renderHook, waitFor} from '@testing-library/react'
-import {afterEach, describe, expect, it, vi} from 'vitest'
-import {useDiscogsSearch} from './useDiscogsSearch'
+import { act, renderHook, waitFor } from '@testing-library/react'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { useDiscogsSearch } from './useDiscogsSearch'
 
 vi.mock('../types/discogs', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../types/discogs')>()
   return {
     ...actual,
-    buildDiscogsSearchUrl: (query: string) => `http://test.local/search?q=${encodeURIComponent(query)}`,
+    buildDiscogsSearchUrl: (query: string) =>
+      `http://test.local/search?q=${encodeURIComponent(query)}`,
   }
 })
 
@@ -26,7 +27,7 @@ const mappedResponse = {
       resourceUrl: 'https://api.discogs.com/releases/12345',
     },
   ],
-  pagination: {page: 1, pages: 1, items: 1, perPage: 20},
+  pagination: { page: 1, pages: 1, items: 1, perPage: 20 },
 }
 
 describe('useDiscogsSearch', () => {
@@ -38,7 +39,7 @@ describe('useDiscogsSearch', () => {
     const fetchMock = vi.fn()
     vi.stubGlobal('fetch', fetchMock)
 
-    const {result} = renderHook(() => useDiscogsSearch())
+    const { result } = renderHook(() => useDiscogsSearch())
 
     await act(async () => {
       await result.current.search('   ')
@@ -55,12 +56,12 @@ describe('useDiscogsSearch', () => {
       vi.fn().mockResolvedValue(
         new Response(JSON.stringify(mappedResponse), {
           status: 200,
-          headers: {'Content-Type': 'application/json'},
+          headers: { 'Content-Type': 'application/json' },
         }),
       ),
     )
 
-    const {result} = renderHook(() => useDiscogsSearch())
+    const { result } = renderHook(() => useDiscogsSearch())
 
     await act(async () => {
       await result.current.search('radiohead')
@@ -78,14 +79,14 @@ describe('useDiscogsSearch', () => {
     vi.stubGlobal(
       'fetch',
       vi.fn().mockResolvedValue(
-        new Response(JSON.stringify({error: 'DISCOGS_API_TOKEN is not configured'}), {
+        new Response(JSON.stringify({ error: 'DISCOGS_API_TOKEN is not configured' }), {
           status: 500,
-          headers: {'Content-Type': 'application/json'},
+          headers: { 'Content-Type': 'application/json' },
         }),
       ),
     )
 
-    const {result} = renderHook(() => useDiscogsSearch())
+    const { result } = renderHook(() => useDiscogsSearch())
 
     await act(async () => {
       await result.current.search('radiohead')
@@ -105,12 +106,12 @@ describe('useDiscogsSearch', () => {
       vi.fn().mockResolvedValue(
         new Response(JSON.stringify(mappedResponse), {
           status: 200,
-          headers: {'Content-Type': 'application/json'},
+          headers: { 'Content-Type': 'application/json' },
         }),
       ),
     )
 
-    const {result} = renderHook(() => useDiscogsSearch())
+    const { result } = renderHook(() => useDiscogsSearch())
 
     await act(async () => {
       await result.current.search('radiohead')

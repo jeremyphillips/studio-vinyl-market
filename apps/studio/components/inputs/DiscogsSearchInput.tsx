@@ -1,27 +1,17 @@
-import {useCallback, useEffect, useRef, useState} from 'react'
-import {Button, Flex, Stack} from '@sanity/ui'
-import {set, unset, useFormValue, type ObjectInputProps} from 'sanity'
-import {useDiscogsSearch} from '../hooks/useDiscogsSearch'
-import {useReferencedDocumentField} from '../hooks/useReferencedDocumentField'
-import {
-  buildDiscogsResultDetail,
-  type DiscogsResult,
-  type DiscogsValue,
-} from '../types/discogs'
-import {
-  EmptyState,
-  ErrorBanner,
-  LinkedIdCard,
-  SearchToolbar,
-  SelectableResultList,
-} from '../ui'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { Button, Flex, Stack } from '@sanity/ui'
+import { set, unset, useFormValue, type ObjectInputProps } from 'sanity'
+import { useDiscogsSearch } from '../hooks/useDiscogsSearch'
+import { useReferencedDocumentField } from '../hooks/useReferencedDocumentField'
+import { buildDiscogsResultDetail, type DiscogsResult, type DiscogsValue } from '../types/discogs'
+import { EmptyState, ErrorBanner, LinkedIdCard, SearchToolbar, SelectableResultList } from '../ui'
 
 export function DiscogsSearchInput(props: ObjectInputProps<DiscogsValue>) {
-  const {onChange, value} = props
+  const { onChange, value } = props
   const storedValue = value
 
   const releaseName = useFormValue(['releaseName']) as string | undefined
-  const artistRef = useFormValue(['artist']) as {_ref?: string} | undefined
+  const artistRef = useFormValue(['artist']) as { _ref?: string } | undefined
   const artistName = useReferencedDocumentField(artistRef?._ref, 'name')
 
   const queryInitialized = useRef(false)
@@ -29,7 +19,7 @@ export function DiscogsSearchInput(props: ObjectInputProps<DiscogsValue>) {
   const [selectedId, setSelectedId] = useState<number | null>(storedValue?.releaseId ?? null)
   const [showSearch, setShowSearch] = useState(!storedValue?.releaseId)
 
-  const {results, loading, error, search, reset} = useDiscogsSearch()
+  const { results, loading, error, search, reset } = useDiscogsSearch()
 
   const hasValue = Boolean(storedValue?.releaseId)
 

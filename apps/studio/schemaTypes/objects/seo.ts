@@ -1,4 +1,4 @@
-import {defineField, defineType} from 'sanity'
+import { defineField, defineType } from 'sanity'
 
 export const seo = defineType({
   name: 'seo',
@@ -17,8 +17,7 @@ export const seo = defineType({
       title: 'Meta description',
       type: 'text',
       rows: 3,
-      validation: (Rule) =>
-        Rule.max(160).warning('Keep under ~160 characters for search snippets'),
+      validation: (Rule) => Rule.max(160).warning('Keep under ~160 characters for search snippets'),
     }),
     defineField({
       name: 'ogImage',

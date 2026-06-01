@@ -1,41 +1,37 @@
-import type {Metadata} from 'next'
-import {notFound} from 'next/navigation'
+import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 
-import {CoverImage} from '@/components/catalog/cover-image/cover-image'
-import {ReleaseCard} from '@/components/catalog/release-card/release-card.client'
-import {H1, H2, Label, P} from '@/components/ui/typography'
-import {client} from '@/sanity/client'
-import {sanityFetch} from '@/sanity/live'
-import {ARTIST_QUERY, ARTIST_SLUGS_QUERY} from '@/sanity/queries'
+import { CoverImage } from '@/components/catalog/cover-image/cover-image'
+import { ReleaseCard } from '@/components/catalog/release-card/release-card.client'
+import { H1, H2, Label, P } from '@/components/ui/typography'
+import { client } from '@/sanity/client'
+import { sanityFetch } from '@/sanity/live'
+import { ARTIST_QUERY, ARTIST_SLUGS_QUERY } from '@/sanity/queries'
 
-type Params = Promise<{slug: string}>
+type Params = Promise<{ slug: string }>
 
 export async function generateStaticParams() {
   const slugs = await client
-    .withConfig({useCdn: false, perspective: 'published', stega: false})
+    .withConfig({ useCdn: false, perspective: 'published', stega: false })
     .fetch(ARTIST_SLUGS_QUERY)
-  return slugs.map((slug) => ({slug}))
+  return slugs.map((slug) => ({ slug }))
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Params
-}): Promise<Metadata> {
-  const {slug} = await params
-  const {data: artist} = await sanityFetch({
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+  const { slug } = await params
+  const { data: artist } = await sanityFetch({
     query: ARTIST_QUERY,
-    params: {slug},
+    params: { slug },
     stega: false,
   })
-  return artist ? {title: artist.name} : {}
+  return artist ? { title: artist.name } : {}
 }
 
-export default async function ArtistPage({params}: {params: Params}) {
-  const {slug} = await params
-  const {data: artist} = await sanityFetch({
+export default async function ArtistPage({ params }: { params: Params }) {
+  const { slug } = await params
+  const { data: artist } = await sanityFetch({
     query: ARTIST_QUERY,
-    params: {slug},
+    params: { slug },
   })
 
   if (!artist) notFound()
@@ -54,9 +50,7 @@ export default async function ArtistPage({params}: {params: Params}) {
           />
         )}
         <div className="space-y-2">
-          <Label>
-            Artist
-          </Label>
+          <Label>Artist</Label>
           <H1>{artist.name}</H1>
           <P color="muted">
             {releases.length} {releases.length === 1 ? 'release' : 'releases'}

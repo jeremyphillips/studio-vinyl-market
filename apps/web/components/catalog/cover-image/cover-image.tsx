@@ -1,8 +1,8 @@
 import Image from 'next/image'
 
-import {cn} from '@/lib/utils'
-import {urlFor} from '@/sanity/image'
-import type {ImageWithAltSource} from '@/sanity/image-types'
+import { cn } from '@/lib/utils'
+import { urlFor } from '@/sanity/image'
+import type { ImageWithAltSource } from '@/sanity/image-types'
 
 type CoverImageProps = {
   source: ImageWithAltSource
@@ -25,7 +25,7 @@ export function CoverImage({
     return (
       <div
         className={cn(
-          'flex aspect-square w-full items-center justify-center rounded-md border bg-muted text-xs text-muted-foreground',
+          'bg-muted text-muted-foreground flex aspect-square w-full items-center justify-center rounded-md border text-xs',
           className,
         )}
         role="img"

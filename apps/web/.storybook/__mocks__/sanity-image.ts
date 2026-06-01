@@ -1,7 +1,7 @@
 const PLACEHOLDER_URL = '/placeholder-cover.png'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Chain = {[key: string]: (...args: any[]) => Chain | string}
+type Chain = { [key: string]: (...args: any[]) => Chain | string }
 
 function buildChain(): Chain {
   return {
@@ -13,7 +13,7 @@ function buildChain(): Chain {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
 export function urlFor(_source: any): Chain {
   return buildChain()
 }

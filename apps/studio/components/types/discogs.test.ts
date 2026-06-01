@@ -1,5 +1,5 @@
-import {describe, expect, it, vi} from 'vitest'
-import {buildDiscogsResultDetail, buildDiscogsSearchUrl, type DiscogsResult} from './discogs'
+import { describe, expect, it, vi } from 'vitest'
+import { buildDiscogsResultDetail, buildDiscogsSearchUrl, type DiscogsResult } from './discogs'
 
 describe('buildDiscogsSearchUrl', () => {
   it('builds a search URL with encoded query params', () => {

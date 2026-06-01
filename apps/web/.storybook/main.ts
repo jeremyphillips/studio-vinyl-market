@@ -1,7 +1,7 @@
 import path from 'path'
-import {fileURLToPath} from 'url'
+import { fileURLToPath } from 'url'
 
-import type {StorybookConfig} from '@storybook/nextjs'
+import type { StorybookConfig } from '@storybook/nextjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -18,7 +18,10 @@ const nextSanityHooksMock = path.resolve(__dirname, '__mocks__/next-sanity-hooks
 
 // Yarn 1 hoists uuid to the root, leaving @sanity/uuid/node_modules/uuid as a phantom
 // reference that Webpack tries to resolve but can't find. Alias it to the hoisted copy.
-const sanityUuidNestedReal = path.resolve(__dirname, '../../node_modules/@sanity/uuid/node_modules/uuid')
+const sanityUuidNestedReal = path.resolve(
+  __dirname,
+  '../../node_modules/@sanity/uuid/node_modules/uuid',
+)
 const uuidHoisted = path.resolve(__dirname, '../../node_modules/uuid')
 
 const config: StorybookConfig = {

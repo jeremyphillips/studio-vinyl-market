@@ -1,31 +1,31 @@
 import Link from 'next/link'
 
-import {Button} from '@/components/ui/button'
-import {FIXED_PATH_BY_TYPE, SLUG_PATH_BY_TYPE} from '@/lib/routes'
-import type {PAGE_QUERY_RESULT} from '@/sanity/types'
+import { Button } from '@/components/ui/button'
+import { FIXED_PATH_BY_TYPE, SLUG_PATH_BY_TYPE } from '@/lib/routes'
+import type { PAGE_QUERY_RESULT } from '@/sanity/types'
 
 type PageBuilderBlocks = NonNullable<NonNullable<PAGE_QUERY_RESULT>['pageBuilder']>
-type ButtonBlockData = Extract<PageBuilderBlocks[number], {_type: 'buttonBlock'}>
+type ButtonBlockData = Extract<PageBuilderBlocks[number], { _type: 'buttonBlock' }>
 
 function resolveHref(
   linkType: ButtonBlockData['linkType'],
   externalUrl: ButtonBlockData['externalUrl'],
   internalLink: ButtonBlockData['internalLink'],
-): {href: string; isExternal: boolean} | null {
+): { href: string; isExternal: boolean } | null {
   if (linkType === 'external') {
     if (!externalUrl) return null
-    return {href: externalUrl, isExternal: true}
+    return { href: externalUrl, isExternal: true }
   }
 
   if (!internalLink?._type) return null
 
   if (internalLink._type === 'releasesPage') {
-    return {href: FIXED_PATH_BY_TYPE.releasesPage, isExternal: false}
+    return { href: FIXED_PATH_BY_TYPE.releasesPage, isExternal: false }
   }
 
   const base = SLUG_PATH_BY_TYPE[internalLink._type as keyof typeof SLUG_PATH_BY_TYPE]
   if (!base || !internalLink.slug) return null
-  return {href: `${base}/${internalLink.slug}`, isExternal: false}
+  return { href: `${base}/${internalLink.slug}`, isExternal: false }
 }
 
 type ButtonBlockProps = Pick<

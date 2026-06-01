@@ -1,4 +1,4 @@
-import {defineArrayMember, defineField, defineType} from 'sanity'
+import { defineArrayMember, defineField, defineType } from 'sanity'
 
 export const SITE_SETTINGS_ID = 'siteSettings'
 
@@ -20,10 +20,10 @@ export const siteSettings = defineType({
       title: 'Header navigation',
       description: 'Items shown in the site header, in order.',
       type: 'array',
-      of: [defineArrayMember({type: 'navItem'})],
+      of: [defineArrayMember({ type: 'navItem' })],
     }),
   ],
   preview: {
-    prepare: () => ({title: 'Site settings'}),
+    prepare: () => ({ title: 'Site settings' }),
   },
 })

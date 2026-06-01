@@ -1,13 +1,13 @@
-import type {Meta, StoryObj} from '@storybook/react'
-import {fn} from 'storybook/test'
+import type { Meta, StoryObj } from '@storybook/react'
+import { fn } from 'storybook/test'
 
-import {ErrorContent} from './error-content'
+import { ErrorContent } from './error-content'
 
 const meta: Meta<typeof ErrorContent> = {
   title: 'Errors/ErrorContent',
   component: ErrorContent,
-  parameters: {layout: 'padded'},
-  args: {reset: fn()},
+  parameters: { layout: 'padded' },
+  args: { reset: fn() },
 }
 
 export default meta
@@ -29,7 +29,7 @@ export const WithCustomTitle: Story = {
 
 export const WithDigest: Story = {
   args: {
-    error: Object.assign(new Error('Internal server error'), {digest: 'abc123xyz'}),
+    error: Object.assign(new Error('Internal server error'), { digest: 'abc123xyz' }),
     title: 'Server error',
   },
 }

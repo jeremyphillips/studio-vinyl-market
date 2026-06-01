@@ -1,4 +1,4 @@
-import type {Meta, StoryObj} from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 
 import {
   NavigationMenu,
@@ -8,12 +8,12 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from './navigation-menu.client'
-import {navigationMenuTriggerStyle} from './navigation-menu.variants'
+import { navigationMenuTriggerStyle } from './navigation-menu.variants'
 
 const meta: Meta<typeof NavigationMenu> = {
   title: 'UI/NavigationMenu',
   component: NavigationMenu,
-  parameters: {layout: 'centered'},
+  parameters: { layout: 'centered' },
 }
 
 export default meta
@@ -24,21 +24,19 @@ export const Default: Story = {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            Releases
-          </NavigationMenuLink>
+          <NavigationMenuLink className={navigationMenuTriggerStyle()}>Releases</NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger>Explore</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-48 gap-1 p-2">
               <li>
-                <NavigationMenuLink className="block rounded-sm px-3 py-2 text-sm hover:bg-accent">
+                <NavigationMenuLink className="hover:bg-accent block rounded-sm px-3 py-2 text-sm">
                   Artists
                 </NavigationMenuLink>
               </li>
               <li>
-                <NavigationMenuLink className="block rounded-sm px-3 py-2 text-sm hover:bg-accent">
+                <NavigationMenuLink className="hover:bg-accent block rounded-sm px-3 py-2 text-sm">
                   Labels
                 </NavigationMenuLink>
               </li>
@@ -46,9 +44,7 @@ export const Default: Story = {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            About ↗
-          </NavigationMenuLink>
+          <NavigationMenuLink className={navigationMenuTriggerStyle()}>About ↗</NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>

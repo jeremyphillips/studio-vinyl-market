@@ -1,15 +1,15 @@
-import {render, screen} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import {describe, expect, it, vi} from 'vitest'
-import {axe} from 'vitest-axe'
+import { describe, expect, it, vi } from 'vitest'
+import { axe } from 'vitest-axe'
 
-import {Button} from './button.client'
+import { Button } from './button.client'
 
 describe('Button', () => {
   it('renders with a visible label', () => {
     render(<Button>Add to cart</Button>)
 
-    expect(screen.getByRole('button', {name: 'Add to cart'})).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Add to cart' })).toBeInTheDocument()
   })
 
   it.each(['default', 'destructive', 'outline', 'secondary', 'ghost', 'link'] as const)(
@@ -17,7 +17,7 @@ describe('Button', () => {
     (variant) => {
       render(<Button variant={variant}>Action</Button>)
 
-      expect(screen.getByRole('button', {name: 'Action'})).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Action' })).toBeInTheDocument()
     },
   )
 
@@ -34,7 +34,7 @@ describe('Button', () => {
       </Button>,
     )
 
-    const link = screen.getByRole('link', {name: 'Browse catalogue'})
+    const link = screen.getByRole('link', { name: 'Browse catalogue' })
     expect(link).toBeInTheDocument()
     expect(link).toHaveAttribute('href', '/catalogue')
   })
@@ -42,7 +42,7 @@ describe('Button', () => {
   it('is disabled when the disabled prop is set', () => {
     render(<Button disabled>Unavailable</Button>)
 
-    expect(screen.getByRole('button', {name: 'Unavailable'})).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'Unavailable' })).toBeDisabled()
   })
 
   it('calls the onClick handler when clicked', async () => {
@@ -50,7 +50,7 @@ describe('Button', () => {
     const onClick = vi.fn()
 
     render(<Button onClick={onClick}>Click me</Button>)
-    await user.click(screen.getByRole('button', {name: 'Click me'}))
+    await user.click(screen.getByRole('button', { name: 'Click me' }))
 
     expect(onClick).toHaveBeenCalledOnce()
   })
@@ -64,13 +64,13 @@ describe('Button', () => {
         Disabled
       </Button>,
     )
-    await user.click(screen.getByRole('button', {name: 'Disabled'}))
+    await user.click(screen.getByRole('button', { name: 'Disabled' }))
 
     expect(onClick).not.toHaveBeenCalled()
   })
 
   it('has no accessibility violations', async () => {
-    const {container} = render(<Button>Submit</Button>)
+    const { container } = render(<Button>Submit</Button>)
 
     expect(await axe(container)).toHaveNoViolations()
   })
