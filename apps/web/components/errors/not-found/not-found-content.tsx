@@ -1,3 +1,4 @@
+import {H1} from '@/components/ui/typography'
 import {CatalogueEscapeLinks} from '@/components/errors/shared/catalogue-escape-links'
 
 import type {NotFoundMessage} from './not-found-messages'
@@ -19,7 +20,7 @@ export function NotFoundContent({
     <div className="space-y-6">
       <header className="space-y-2">
         <p className="text-sm font-medium text-muted-foreground">404</p>
-        <h1 className="text-3xl font-semibold tracking-tight">{title}</h1>
+        <H1>{title}</H1>
         <p className="text-muted-foreground">{description}</p>
       </header>
 

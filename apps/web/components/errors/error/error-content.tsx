@@ -3,6 +3,7 @@
 import {useEffect} from 'react'
 
 import {Button} from '@/components/ui/button'
+import {H1} from '@/components/ui/typography'
 import {CatalogueEscapeLinks} from '@/components/errors/shared/catalogue-escape-links'
 
 type ErrorContentProps = {
@@ -28,7 +29,7 @@ export function ErrorContent({
     <div className="space-y-6">
       <header className="space-y-2">
         <p className="text-sm font-medium text-muted-foreground">Error</p>
-        <h1 className="text-3xl font-semibold tracking-tight">{title}</h1>
+        <H1>{title}</H1>
         <p className="text-muted-foreground">{description}</p>
       </header>
 

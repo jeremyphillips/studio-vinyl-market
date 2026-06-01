@@ -3,6 +3,7 @@ import {notFound} from 'next/navigation'
 
 import {CoverImage} from '@/components/catalog/cover-image/cover-image'
 import {ReleaseCard} from '@/components/catalog/release-card/release-card.client'
+import {H1, H2, Label} from '@/components/ui/typography'
 import {client} from '@/sanity/client'
 import {sanityFetch} from '@/sanity/live'
 import {LABEL_QUERY, LABEL_SLUGS_QUERY} from '@/sanity/queries'
@@ -53,10 +54,10 @@ export default async function LabelPage({params}: {params: Params}) {
           />
         )}
         <div className="space-y-2">
-          <p className="text-sm uppercase tracking-wide text-muted-foreground">
+          <Label>
             Label
-          </p>
-          <h1 className="text-3xl font-semibold tracking-tight">{label.name}</h1>
+          </Label>
+          <H1>{label.name}</H1>
           <p className="text-muted-foreground">
             {releases.length} {releases.length === 1 ? 'release' : 'releases'}
           </p>
@@ -64,9 +65,9 @@ export default async function LabelPage({params}: {params: Params}) {
       </header>
 
       <section aria-labelledby="releases-heading" className="space-y-4">
-        <h2 id="releases-heading" className="text-xl font-semibold">
+        <H2 id="releases-heading" size="h4">
           Releases
-        </h2>
+        </H2>
         {releases.length === 0 ? (
           <p className="text-muted-foreground">No releases yet.</p>
         ) : (

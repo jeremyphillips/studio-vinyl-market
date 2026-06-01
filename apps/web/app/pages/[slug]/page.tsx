@@ -2,6 +2,7 @@ import type {Metadata} from 'next'
 import {notFound} from 'next/navigation'
 
 import {PageBuilder} from '@/components/page-builder/page-builder'
+import {H1} from '@/components/ui/typography'
 import {client} from '@/sanity/client'
 import {sanityFetch} from '@/sanity/live'
 import {PAGE_QUERY, PAGE_SLUGS_QUERY} from '@/sanity/queries'
@@ -45,7 +46,7 @@ export default async function PageRoute({params}: {params: Params}) {
   return (
     <div className="space-y-8">
       <header>
-        <h1 className="text-3xl font-semibold tracking-tight">{page.title}</h1>
+        <H1>{page.title}</H1>
       </header>
 
       <PageBuilder blocks={page.pageBuilder} />

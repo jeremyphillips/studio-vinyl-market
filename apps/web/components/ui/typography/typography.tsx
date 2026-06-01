@@ -148,17 +148,18 @@ function Small({color = 'muted', ...props}: Omit<TextProps<'small'>, 'as'>) {
 
 /**
  * Eyebrow / label. Uppercase, wide letter-spacing.
- * Renders a `<span>` by default — override with `as` for semantic context.
+ * Renders a `<span>` by default — override with `as` for semantic context
+ * (e.g. `as="h3"` when the label is the only heading in a section).
  */
-function Label({
+function Label<E extends React.ElementType = 'span'>({
   weight = 'medium',
   tracking = 'wide',
   size = 'small',
   color = 'muted',
   ...props
-}: Omit<TextProps<'span'>, 'as' | 'uppercase'>) {
+}: Omit<TextProps<E>, 'uppercase'>) {
   return (
-    <Text as="span" size={size} weight={weight} tracking={tracking} color={color} uppercase {...props} />
+    <Text<E> size={size} weight={weight} tracking={tracking} color={color} uppercase {...(props as TextProps<E>)} />
   )
 }
 
