@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import {ReleaseCard} from '@/components/catalog/release-card/release-card.client'
 import {Button} from '@/components/ui/button'
+import {H1, P} from '@/components/ui/typography'
 import {sanityFetch} from '@/sanity/live'
 import {HOME_RELEASES_QUERY} from '@/sanity/queries'
 
@@ -11,16 +12,16 @@ export default async function HomePage() {
   return (
     <div className="space-y-8">
       <header className="space-y-2">
-        <h1 className="text-3xl font-semibold tracking-tight">
+        <H1>
           Latest releases
-        </h1>
-        <p className="text-muted-foreground">
+        </H1>
+        <P color="muted">
           The most recently dated records in the catalogue.
-        </p>
+        </P>
       </header>
 
       {releases.length === 0 ? (
-        <p className="text-muted-foreground">No releases published yet.</p>
+        <P color="muted">No releases published yet.</P>
       ) : (
         <ul className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
           {releases.map((release, index) => (

@@ -5,6 +5,7 @@ import {notFound} from 'next/navigation'
 import {CoverImage} from '@/components/catalog/cover-image/cover-image'
 import {DiscogsMeta} from '@/components/preview/discogs-meta/discogs-meta'
 import {Tracklist} from '@/components/catalog/tracklist/tracklist'
+import {H1, H2, P} from '@/components/ui/typography'
 import {formatYear} from '@/catalog/format'
 import {SLUG_PATH_BY_TYPE} from '@/lib/routes'
 import {client} from '@/sanity/client'
@@ -79,11 +80,11 @@ export default async function ReleasePage({params}: {params: Params}) {
 
       <div className="space-y-6">
         <header className="space-y-2">
-          <h1 className="text-3xl font-semibold tracking-tight">
+          <H1>
             {release.releaseName}
-          </h1>
+          </H1>
           {release.artist && (
-            <p className="text-lg text-muted-foreground">
+            <P size="body-lg" color="muted">
               by{' '}
               <Link
                 href={`${SLUG_PATH_BY_TYPE.artist}/${release.artist.slug}` as const}
@@ -91,7 +92,7 @@ export default async function ReleasePage({params}: {params: Params}) {
               >
                 {release.artist.name}
               </Link>
-            </p>
+              </P>
           )}
         </header>
 
@@ -127,9 +128,9 @@ export default async function ReleasePage({params}: {params: Params}) {
         </dl>
 
         <section aria-labelledby="tracklist-heading" className="space-y-3">
-          <h2 id="tracklist-heading" className="text-lg font-semibold">
+          <H2 id="tracklist-heading" size="h5">
             Tracklist
-          </h2>
+          </H2>
           <Tracklist discs={release.discs} />
         </section>
 

@@ -1,6 +1,7 @@
 import type {Meta, StoryObj} from '@storybook/react'
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from './index'
 import {Button} from '@/components/ui/button'
+import {P} from '@/components/ui/typography'
 
 const meta: Meta<typeof Card> = {
   title: 'UI/Card',
@@ -20,9 +21,9 @@ export const Default: Story = {
         <CardDescription>A brief description of the card content.</CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-muted-foreground">
+        <P size="body-sm" color="muted">
           Card body content goes here. This can contain any elements.
-        </p>
+        </P>
       </CardContent>
       <CardFooter className="gap-2">
         <Button size="sm">Confirm</Button>
@@ -36,7 +37,7 @@ export const ContentOnly: Story = {
   render: () => (
     <Card>
       <CardContent>
-        <p className="text-sm">A minimal card with only content.</p>
+        <P size="body-sm">A minimal card with only content.</P>
       </CardContent>
     </Card>
   ),
@@ -50,7 +51,7 @@ export const WithFooter: Story = {
         <CardDescription>Manage your plan.</CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-muted-foreground">You are on the free plan.</p>
+        <P size="body-sm" color="muted">You are on the free plan.</P>
       </CardContent>
       <CardFooter>
         <Button className="w-full">Upgrade</Button>

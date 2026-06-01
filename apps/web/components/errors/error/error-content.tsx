@@ -3,6 +3,7 @@
 import {useEffect} from 'react'
 
 import {Button} from '@/components/ui/button'
+import {H1, P, Small} from '@/components/ui/typography'
 import {CatalogueEscapeLinks} from '@/components/errors/shared/catalogue-escape-links'
 
 type ErrorContentProps = {
@@ -27,18 +28,18 @@ export function ErrorContent({
   return (
     <div className="space-y-6">
       <header className="space-y-2">
-        <p className="text-sm font-medium text-muted-foreground">Error</p>
-        <h1 className="text-3xl font-semibold tracking-tight">{title}</h1>
-        <p className="text-muted-foreground">{description}</p>
+        <P size="body-sm" weight="medium" color="muted">Error</P>
+        <H1>{title}</H1>
+        <P color="muted">{description}</P>
       </header>
 
       {isDev ? (
         <div className="space-y-2 rounded-lg border border-destructive/30 bg-destructive/5 p-4">
-          <p className="text-sm font-medium text-destructive">Development details</p>
+          <P size="body-sm" weight="medium" className="text-destructive">Development details</P>
           {error.digest ? (
-            <p className="font-mono text-xs text-muted-foreground">
+            <Small className="font-mono">
               Digest: {error.digest}
-            </p>
+            </Small>
           ) : null}
           <pre className="max-h-64 overflow-auto whitespace-pre-wrap break-words font-mono text-xs text-foreground">
             {error.message}

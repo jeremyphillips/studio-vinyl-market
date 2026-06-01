@@ -1,6 +1,7 @@
 import type {Metadata} from 'next'
 
 import {ReleaseCard} from '@/components/catalog/release-card/release-card.client'
+import {H1, P} from '@/components/ui/typography'
 import {toNextMetadata} from '@/sanity/seo'
 import {sanityFetch} from '@/sanity/live'
 import {RELEASES_PAGE_QUERY, RELEASES_QUERY} from '@/sanity/queries'
@@ -39,17 +40,17 @@ export default async function ReleasesPage() {
   return (
     <div className="space-y-8">
       <header className="space-y-2">
-        <h1 className="text-3xl font-semibold tracking-tight">{heading}</h1>
+        <H1>{heading}</H1>
         {intro ? (
-          <p className="text-muted-foreground">{intro}</p>
+          <P color="muted">{intro}</P>
         ) : null}
-        <p className="text-muted-foreground">
+        <P color="muted">
           {releaseCountLabel(releases.length)}
-        </p>
+        </P>
       </header>
 
       {releases.length === 0 ? (
-        <p className="text-muted-foreground">No releases published yet.</p>
+        <P color="muted">No releases published yet.</P>
       ) : (
         <ul className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
           {releases.map((release) => (

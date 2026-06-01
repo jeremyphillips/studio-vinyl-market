@@ -1,3 +1,5 @@
+import {H2} from '@/components/ui/typography'
+
 type DiscogsMetaProps = {
   releaseId?: number | null
   masterId?: number | null
@@ -8,9 +10,9 @@ export function DiscogsMeta({releaseId, masterId}: DiscogsMetaProps) {
 
   return (
     <section aria-labelledby="discogs-heading" className="space-y-3">
-      <h2 id="discogs-heading" className="text-lg font-semibold">
+      <H2 id="discogs-heading" size="h5">
         Discogs
-      </h2>
+      </H2>
       <dl className="grid grid-cols-2 gap-y-3 text-sm">
         <dt className="text-muted-foreground">Release</dt>
         <dd>

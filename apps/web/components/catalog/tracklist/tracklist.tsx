@@ -1,3 +1,5 @@
+import {Label, P} from '@/components/ui/typography'
+
 type Disc = {
   _key: string
   discNumber: number
@@ -12,7 +14,7 @@ type TracklistProps = {
 export function Tracklist({discs}: TracklistProps) {
   if (!discs || discs.length === 0) {
     return (
-      <p className="text-sm text-muted-foreground">No tracklist yet.</p>
+      <P size="body-sm" color="muted">No tracklist yet.</P>
     )
   }
 
@@ -23,11 +25,11 @@ export function Tracklist({discs}: TracklistProps) {
         const tracks = disc.tracks ?? []
         return (
           <section key={disc._key} aria-label={heading}>
-            <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+            <Label as="small" className="mb-2">
               {heading}
-            </h3>
+            </Label>
             {tracks.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No tracks yet.</p>
+              <P size="body-sm" color="muted">No tracks yet.</P>
             ) : (
               <ol className="divide-y rounded-md border">
                 {tracks.map((track) => (

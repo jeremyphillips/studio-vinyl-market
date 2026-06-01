@@ -3,6 +3,7 @@ import {notFound} from 'next/navigation'
 
 import {CoverImage} from '@/components/catalog/cover-image/cover-image'
 import {ReleaseCard} from '@/components/catalog/release-card/release-card.client'
+import {H1, H2, Label, P} from '@/components/ui/typography'
 import {client} from '@/sanity/client'
 import {sanityFetch} from '@/sanity/live'
 import {ARTIST_QUERY, ARTIST_SLUGS_QUERY} from '@/sanity/queries'
@@ -53,22 +54,22 @@ export default async function ArtistPage({params}: {params: Params}) {
           />
         )}
         <div className="space-y-2">
-          <p className="text-sm uppercase tracking-wide text-muted-foreground">
+          <Label>
             Artist
-          </p>
-          <h1 className="text-3xl font-semibold tracking-tight">{artist.name}</h1>
-          <p className="text-muted-foreground">
+          </Label>
+          <H1>{artist.name}</H1>
+          <P color="muted">
             {releases.length} {releases.length === 1 ? 'release' : 'releases'}
-          </p>
+          </P>
         </div>
       </header>
 
       <section aria-labelledby="releases-heading" className="space-y-4">
-        <h2 id="releases-heading" className="text-xl font-semibold">
+        <H2 id="releases-heading" size="h4">
           Releases
-        </h2>
+        </H2>
         {releases.length === 0 ? (
-          <p className="text-muted-foreground">No releases yet.</p>
+          <P color="muted">No releases yet.</P>
         ) : (
           <ul className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
             {releases.map((release) => (
