@@ -6,6 +6,7 @@ import { DiscogsMeta } from './discogs-meta'
 
 import { discogsMasterUrl, discogsReleaseUrl } from '@/lib/discogs'
 
+
 describe('DiscogsMeta', () => {
   it('renders nothing without a releaseId', () => {
     const { container } = render(<DiscogsMeta releaseId={null} masterId={123} />)

@@ -30,7 +30,11 @@ const config = [
   },
   // eslint-config-next already declares the jsx-a11y plugin; spread only the rules
   // to avoid a "Cannot redefine plugin" flat-config error.
-  (({ plugins: _p, ...rest }) => rest)(jsxA11y.flatConfigs.recommended),
+  (() => {
+    const {plugins, ...jsxA11yRecommended} = jsxA11y.flatConfigs.recommended
+    void plugins
+    return jsxA11yRecommended
+  })(),
 ]
 
 export default config

@@ -8,6 +8,7 @@ import { navigationMenuTriggerStyle } from './navigation-menu.variants'
 
 import { cn } from '@/lib/utils'
 
+
 function NavigationMenu({
   className,
   children,
