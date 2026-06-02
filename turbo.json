@@ -37,7 +37,7 @@
       "dependsOn": ["^lint"]
     },
     "typecheck": {
-      "dependsOn": ["^typecheck", "@vinyl-market/studio#typegen"]
+      "dependsOn": ["^typecheck"]
     },
     "test": {
       "dependsOn": ["^test"]
