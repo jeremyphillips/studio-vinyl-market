@@ -21,13 +21,13 @@
     "sanity"
   ],
   "dependencies": {
-    "@vinyl-market/release-constants": "*",
     "@sanity/icons": "^3.7.4",
     "@sanity/ui": "^3.2.0",
-    "@sanity/vision": "5.28.0",
+    "@sanity/vision": "5.29.0",
+    "@vinyl-market/release-constants": "*",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "sanity": "5.28.0",
+    "sanity": "5.29.0",
     "styled-components": "^6.1.18"
   },
   "devDependencies": {
