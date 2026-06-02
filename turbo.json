@@ -1,12 +1,8 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
-  "globalEnv": [
-    "NODE_ENV"
-  ],
-  "globalPassThroughEnv": [
-    "SANITY_AUTH_TOKEN"
-  ],
+  "globalEnv": ["NODE_ENV"],
+  "globalPassThroughEnv": ["SANITY_AUTH_TOKEN"],
   "tasks": {
     "dev": {
       "cache": false,
@@ -28,7 +24,8 @@
     },
     "typegen": {
       "outputs": ["sanity.types.ts", "schema.json", "../web/sanity/types.ts"],
-      "inputs": ["schemaTypes/**", "../web/sanity/**", "sanity.cli.ts"]
+      "inputs": ["schemaTypes/**", "../web/sanity/**", "sanity.cli.ts"],
+      "env": ["SANITY_STUDIO_PROJECT_ID", "SANITY_STUDIO_DATASET"]
     },
     "lint": {
       "dependsOn": ["^lint"]
