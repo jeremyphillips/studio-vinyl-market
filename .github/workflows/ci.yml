@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - feat/**
+      - fix/**
+      - chore/**
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Typecheck
+        run: yarn typecheck
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Test
+        run: yarn test
+
+      - name: Check typegen is up to date
+        run: |
+          yarn typegen
+          git diff --exit-code apps/web/sanity/types.generated.ts
