@@ -1,8 +1,7 @@
-import type { NotFoundMessage } from './not-found-messages'
-
 import { CatalogueEscapeLinks } from '@/components/errors/shared/catalogue-escape-links'
 import { H1, P } from '@/components/ui/typography'
 
+import type { NotFoundMessage } from './not-found-messages'
 
 type NotFoundContentProps = {
   title?: string

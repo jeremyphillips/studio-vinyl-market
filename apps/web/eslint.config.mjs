@@ -18,6 +18,14 @@ const config = [
         'error',
         {
           groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+          pathGroups: [
+            {
+              pattern: '@/**',
+              group: 'internal',
+              position: 'before',
+            },
+          ],
+          pathGroupsExcludedImportTypes: ['builtin'],
           'newlines-between': 'always',
           alphabetize: { order: 'asc', caseInsensitive: true },
         },
@@ -31,7 +39,7 @@ const config = [
   // eslint-config-next already declares the jsx-a11y plugin; spread only the rules
   // to avoid a "Cannot redefine plugin" flat-config error.
   (() => {
-    const {plugins, ...jsxA11yRecommended} = jsxA11y.flatConfigs.recommended
+    const { plugins, ...jsxA11yRecommended } = jsxA11y.flatConfigs.recommended
     void plugins
     return jsxA11yRecommended
   })(),

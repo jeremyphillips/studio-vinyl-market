@@ -19,6 +19,29 @@ yarn workspace @vinyl-market/web test:watch  # watch mode
 
 ---
 
+## CI workflows
+
+Two GitHub Actions workflows enforce quality gates on every push to `feat/**`, `fix/**`, `chore/**` and on PRs to `main`.
+
+### `.github/workflows/ci.yml`
+
+Runs sequentially on every push/PR:
+
+1. **Typecheck** — `yarn typecheck`
+2. **Lint** — `yarn lint`
+3. **Test** — `yarn test` (Vitest unit suite)
+4. **Typegen drift** — runs `yarn typegen` then `git diff --exit-code apps/web/sanity/types.generated.ts` to ensure generated types are committed and up to date
+
+### `.github/workflows/storybook-a11y.yml`
+
+Builds Storybook statically and runs every story through `axe-playwright` in headless Chromium. This is the only layer that can detect **color contrast** violations (jsdom has no layout engine and cannot compute CSS custom properties). On failure, the Storybook static build is uploaded as an artifact for local inspection.
+
+### Why `vitest-axe` does not catch color contrast
+
+`vitest-axe` runs axe-core in jsdom, which does not apply stylesheets or compute CSS custom properties. Axe skips the `color-contrast` rule rather than report false positives. The Storybook test runner uses real Chromium, so contrast is accurately reported. This means a `vitest-axe` pass does not guarantee contrast compliance — that is enforced exclusively by the CI Storybook workflow.
+
+---
+
 ## File conventions
 
 Tests are co-located with the component they cover:
@@ -164,9 +187,9 @@ This project enforces accessibility at four levels:
 | Write-time | `eslint-plugin-jsx-a11y`                    | On every file save / pre-commit | No               |
 | Test-time  | `vitest-axe`                                | `yarn test` / CI                | No (jsdom)       |
 | Dev review | `@storybook/addon-a11y`                     | Storybook panel per story       | Yes              |
-| CI         | `@storybook/test-runner` + `axe-playwright` | Every push / PR                 | Yes              |
+| CI         | `@storybook/test-runner` + `axe-playwright` | Every push / PR                 | Yes (Chromium)   |
 
-The ESLint rules catch static issues (missing `alt`, invalid ARIA roles, keyboard-inaccessible elements). The axe runtime tests catch structural issues that require a rendered DOM (landmark order, focus management). The Storybook addon provides a visual audit panel while building components. The test runner is the highest-fidelity layer — it runs every story headlessly in Playwright with real computed CSS, which means **color contrast is accurately reported**.
+The ESLint rules catch static issues (missing `alt`, invalid ARIA roles, keyboard-inaccessible elements). The axe runtime tests catch structural issues that require a rendered DOM (landmark order, focus management). The Storybook addon provides a visual audit panel while building components. The test runner is the highest-fidelity layer — it runs every story headlessly in Playwright with real computed CSS, which means **color contrast is accurately reported**. `vitest-axe` will not catch contrast violations because jsdom cannot resolve CSS custom properties.
 
 ---
 

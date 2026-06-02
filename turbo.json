@@ -1,12 +1,8 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
-  "globalEnv": [
-    "NODE_ENV"
-  ],
-  "globalPassThroughEnv": [
-    "SANITY_AUTH_TOKEN"
-  ],
+  "globalEnv": ["NODE_ENV"],
+  "globalPassThroughEnv": ["SANITY_AUTH_TOKEN"],
   "tasks": {
     "dev": {
       "cache": false,
@@ -27,8 +23,26 @@
       ]
     },
     "typegen": {
-      "outputs": ["sanity.types.ts", "schema.json", "../web/sanity/types.ts"],
-      "inputs": ["schemaTypes/**", "../web/sanity/**", "sanity.cli.ts"]
+      "outputs": ["schema.json", "../web/sanity/types.generated.ts"],
+      "inputs": [
+        "schemaTypes/**",
+        "sanity.config.ts",
+        "sanity.cli.ts",
+        "sanity.project.ts",
+        "../web/sanity/**/*.{ts,tsx}",
+        "!../web/sanity/types.generated.ts"
+      ]
+    },
+    "@vinyl-market/web#typegen": {
+      "outputs": ["../studio/schema.json", "sanity/types.generated.ts"],
+      "inputs": [
+        "../studio/schemaTypes/**",
+        "../studio/sanity.config.ts",
+        "../studio/sanity.cli.ts",
+        "../studio/sanity.project.ts",
+        "sanity/**/*.{ts,tsx}",
+        "!sanity/types.generated.ts"
+      ]
     },
     "lint": {
       "dependsOn": ["^lint"]

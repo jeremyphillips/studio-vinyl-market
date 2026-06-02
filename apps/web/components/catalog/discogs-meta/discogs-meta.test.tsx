@@ -2,10 +2,9 @@ import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { axe } from 'vitest-axe'
 
-import { DiscogsMeta } from './discogs-meta'
-
 import { discogsMasterUrl, discogsReleaseUrl } from '@/lib/discogs'
 
+import { DiscogsMeta } from './discogs-meta'
 
 describe('DiscogsMeta', () => {
   it('renders nothing without a releaseId', () => {
