@@ -26,14 +26,12 @@ export function CoverImage({
     return (
       <div
         className={cn(
-          'bg-muted text-muted-foreground flex aspect-square w-full items-center justify-center rounded-md border text-xs',
+          'bg-muted flex aspect-square w-full items-center justify-center rounded-md border',
           className,
         )}
         role="img"
         aria-label="No cover image"
-      >
-        No cover
-      </div>
+      />
     )
   }
 

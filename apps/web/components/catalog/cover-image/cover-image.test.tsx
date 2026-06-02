@@ -49,7 +49,7 @@ describe('CoverImage', () => {
 
       const fallback = screen.getByRole('img', { name: 'No cover image' })
       expect(fallback).toBeInTheDocument()
-      expect(fallback).toHaveTextContent('No cover')
+      expect(fallback).toBeEmptyDOMElement()
     })
 
     it('has no accessibility violations', async () => {
