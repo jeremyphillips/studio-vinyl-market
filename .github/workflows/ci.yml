@@ -35,9 +35,12 @@ jobs:
         run: yarn test
 
       - name: Check typegen is up to date
+        # TypeGen reads the local schema only, so no Sanity project credentials
+        # are required (apps/studio/sanity.project.ts falls back to placeholders
+        # when SANITY_TYPEGEN is set). DEBUG surfaces the real cause if the
+        # Sanity CLI config ever fails to load instead of the opaque wrapper.
         env:
-          SANITY_STUDIO_PROJECT_ID: 1on695jt
-          SANITY_STUDIO_DATASET: production
+          DEBUG: sanity:cli*
         run: |
           yarn workspace @vinyl-market/studio typegen
           git diff --exit-code apps/web/sanity/types.generated.ts

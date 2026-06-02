@@ -62,3 +62,5 @@ yarn typegen   # run from repo root
 Runs `sanity schema extract` + `sanity typegen generate` in `apps/studio`. Output: `apps/web/sanity/types.generated.ts` — do not edit manually.
 
 **Run after:** any schema field change, adding/modifying a `defineQuery`, or changing `buttonBlock` variant/size options (see [content-modeling.md](content-modeling.md)).
+
+TypeGen reads the local schema only, so it needs no Sanity credentials. The `typegen` script sets `SANITY_TYPEGEN=true`, which makes `apps/studio/sanity.project.ts` fall back to placeholder `projectId`/`dataset` instead of requiring `SANITY_STUDIO_*` env vars — this is why CI can verify types without secrets. `sanity dev`/deploy still require the real env.
