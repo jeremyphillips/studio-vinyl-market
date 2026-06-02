@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { DisableDraftMode } from './disable-draft-mode.client'
-
 import { P } from '@/components/ui/typography'
 
+import { DisableDraftMode } from './disable-draft-mode.client'
 
 const meta: Meta<typeof DisableDraftMode> = {
   title: 'Preview/DisableDraftMode',

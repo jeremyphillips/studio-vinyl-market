@@ -1,10 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
+import { SLUG_PATH_BY_TYPE } from '@/lib/routes'
 
 import { HeaderNav } from './header-nav.client'
 import type { HeaderNavLink } from './header-nav.client'
-
-import { SLUG_PATH_BY_TYPE } from '@/lib/routes'
 
 const meta: Meta<typeof HeaderNav> = {
   title: 'Layout/HeaderNav',
