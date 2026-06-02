@@ -1,14 +1,26 @@
 'use client'
 
 import { Moon, Sun } from 'lucide-react'
+import { useState } from 'react'
+
 
 import { thumbVariants, trackVariants } from './dark-mode-toggle.variants'
 
-import { useThemeStore } from '@/stores/theme-store'
+const ONE_YEAR_IN_SECONDS = 60 * 60 * 24 * 365
 
+type DarkModeToggleProps = {
+  initialIsDark: boolean
+}
 
-export function DarkModeToggle() {
-  const { isDark, toggle } = useThemeStore()
+export function DarkModeToggle({ initialIsDark }: DarkModeToggleProps) {
+  const [isDark, setIsDark] = useState(initialIsDark)
+
+  function toggle() {
+    const next = !isDark
+    setIsDark(next)
+    document.documentElement.classList.toggle('dark', next)
+    document.cookie = `theme=${next ? 'dark' : 'light'}; path=/; max-age=${ONE_YEAR_IN_SECONDS}; SameSite=Lax`
+  }
 
   return (
     <button

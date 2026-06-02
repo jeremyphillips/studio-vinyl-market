@@ -1,49 +1,40 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { afterEach, describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { axe } from 'vitest-axe'
 
 import { DarkModeToggle } from './dark-mode-toggle.client'
 
-import { useThemeStore } from '@/stores/theme-store'
-
-
-afterEach(() => {
-  useThemeStore.setState({ isDark: false })
-})
-
 describe('DarkModeToggle', () => {
   it('renders a switch with the correct role', () => {
-    render(<DarkModeToggle />)
+    render(<DarkModeToggle initialIsDark={false} />)
 
     expect(screen.getByRole('switch')).toBeInTheDocument()
   })
 
-  describe('light mode (isDark: false)', () => {
+  describe('light mode (initialIsDark: false)', () => {
     it('has aria-checked="false"', () => {
-      render(<DarkModeToggle />)
+      render(<DarkModeToggle initialIsDark={false} />)
 
       expect(screen.getByRole('switch')).toHaveAttribute('aria-checked', 'false')
     })
 
     it('labels the switch "Switch to dark mode"', () => {
-      render(<DarkModeToggle />)
+      render(<DarkModeToggle initialIsDark={false} />)
 
       expect(screen.getByRole('switch', { name: 'Switch to dark mode' })).toBeInTheDocument()
     })
   })
 
-  describe('dark mode (isDark: true)', () => {
+  describe('dark mode (initialIsDark: true)', () => {
     it('has aria-checked="true"', () => {
-      useThemeStore.setState({ isDark: true })
-      render(<DarkModeToggle />)
+      render(<DarkModeToggle initialIsDark={true} />)
 
       expect(screen.getByRole('switch')).toHaveAttribute('aria-checked', 'true')
     })
 
     it('labels the switch "Switch to light mode"', () => {
-      useThemeStore.setState({ isDark: true })
-      render(<DarkModeToggle />)
+      render(<DarkModeToggle initialIsDark={true} />)
 
       expect(screen.getByRole('switch', { name: 'Switch to light mode' })).toBeInTheDocument()
     })
@@ -51,7 +42,7 @@ describe('DarkModeToggle', () => {
 
   it('toggles dark mode when clicked', async () => {
     const user = userEvent.setup()
-    render(<DarkModeToggle />)
+    render(<DarkModeToggle initialIsDark={false} />)
 
     const toggle = screen.getByRole('switch')
     expect(toggle).toHaveAttribute('aria-checked', 'false')
@@ -64,14 +55,13 @@ describe('DarkModeToggle', () => {
   })
 
   it('has no accessibility violations in light mode', async () => {
-    const { container } = render(<DarkModeToggle />)
+    const { container } = render(<DarkModeToggle initialIsDark={false} />)
 
     expect(await axe(container)).toHaveNoViolations()
   })
 
   it('has no accessibility violations in dark mode', async () => {
-    useThemeStore.setState({ isDark: true })
-    const { container } = render(<DarkModeToggle />)
+    const { container } = render(<DarkModeToggle initialIsDark={true} />)
 
     expect(await axe(container)).toHaveNoViolations()
   })

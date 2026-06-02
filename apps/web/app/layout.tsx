@@ -5,7 +5,6 @@ import { VisualEditing } from 'next-sanity/visual-editing'
 
 import { Header } from '@/components/layout/header/header'
 import { DisableDraftMode } from '@/components/preview/disable-draft-mode/disable-draft-mode.client'
-import { ThemeProvider } from '@/components/providers/theme-provider.client'
 import { SanityLive } from '@/sanity/live'
 
 import '../styles/globals.css'
@@ -38,20 +37,18 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable}${isDark ? 'dark' : ''}`}
+      className={`${geistSans.variable} ${geistMono.variable} ${isDark ? 'dark' : ''}`}
     >
       <body className="min-h-screen font-sans antialiased">
-        <ThemeProvider initialIsDark={isDark}>
-          <Header />
-          <main className="mx-auto max-w-6xl px-6 py-10">{children}</main>
-          <SanityLive />
-          {isDraftMode && (
-            <>
-              <DisableDraftMode />
-              <VisualEditing />
-            </>
-          )}
-        </ThemeProvider>
+        <Header initialIsDark={isDark} />
+        <main className="mx-auto max-w-6xl px-6 py-10">{children}</main>
+        <SanityLive />
+        {isDraftMode && (
+          <>
+            <DisableDraftMode />
+            <VisualEditing />
+          </>
+        )}
       </body>
     </html>
   )
