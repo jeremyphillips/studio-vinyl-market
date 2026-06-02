@@ -162,8 +162,8 @@ export const SemanticDecoupling: TextStory = {
         </Text>
       </div>
       <div>
-        <Label>h3 element → h1 visual size</Label>
-        <Text as="h3" size="h1" weight="bold" tracking="tight">
+        <Label>h2 element → h1 visual size</Label>
+        <Text as="h2" size="h1" weight="bold" tracking="tight">
           Section rendered at hero scale
         </Text>
       </div>
