@@ -3730,7 +3730,7 @@
   resolved "https://registry.npmjs.org/@nolyfill/is-core-module/-/is-core-module-1.0.39.tgz"
   integrity sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA==
 
-"@oclif/core@^4", "@oclif/core@^4.10.6", "@oclif/core@^4.11.0", "@oclif/core@^4.11.3":
+"@oclif/core@^4", "@oclif/core@^4.11.0", "@oclif/core@^4.11.3":
   version "4.11.3"
   resolved "https://registry.npmjs.org/@oclif/core/-/core-4.11.3.tgz"
   integrity sha512-gQCSYAtUhJilGKaSaZhqejH9X1dDu+jWQjLmtGOgN/XcKaAEPPSeT2mu1UvlvtPox1/NNRdlBcUa8KRKo2HnJQ==
@@ -4650,13 +4650,13 @@
   resolved "https://registry.npmjs.org/@sanity/blueprints/-/blueprints-0.18.0.tgz"
   integrity sha512-iEFEDtfBt12PiMbqmI4khLVvAhsYDX7OCLnfQ8OvgbhZzrzjsDDzAIrAOoXNmAfW/CgkUMG9qdYqhu1aTAI0dg==
 
-"@sanity/cli-build@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@sanity/cli-build/-/cli-build-0.2.0.tgz#7bdb8b642b3e10bb92ff34f94f45954217a49229"
-  integrity sha512-axMQRNxlnSomdpaWkxxWfZ5NeUVFHy+/lkQpbeGAeIEaynd8Vr2u/uCrTA5AF7po3Sr6Wn5jWWLbBIj3WsSCoQ==
+"@sanity/cli-build@0.2.1", "@sanity/cli-build@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@sanity/cli-build/-/cli-build-0.2.1.tgz#f712fc5c3812cf330d181694c6b6d3e0f8060350"
+  integrity sha512-6UMnVWdobc3PMHGNDzYvlxOlhI9SKQO7ldDgmhp+QGNcDYm5QRQBkldo1st5nSWEwcbzdOcVscVv5E/OLDnhzg==
   dependencies:
     "@oclif/core" "^4.11.0"
-    "@sanity/cli-core" "^1.3.2"
+    "@sanity/cli-core" "^1.3.3"
     "@sanity/generate-help-url" "^4.0.0"
     "@sanity/schema" "^5.26.0"
     "@sanity/telemetry" "^0.9.0"
@@ -4674,42 +4674,42 @@
     vite "^7.3.3"
     zod "^4.3.6"
 
-"@sanity/cli-core@^1.3.2":
-  version "1.3.2"
-  resolved "https://registry.npmjs.org/@sanity/cli-core/-/cli-core-1.3.2.tgz"
-  integrity sha512-PJAH2CnnhWzuRPayg/hOxsaxvBKmgFFXnZmjzJxtDSAwBSYJ/LwtQICQo3/km7Z2eh7wAaxdThF2Q5yNsd31ag==
+"@sanity/cli-core@1.3.3", "@sanity/cli-core@^1.3.3":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@sanity/cli-core/-/cli-core-1.3.3.tgz#5691dee0019f32a346c928766e8448eb78802799"
+  integrity sha512-zKyK52GjqlXWRmk6Ly6kBKYMGM++Ybqv1y69wfHmNYo14hVrOhrIl/x0vftDqNRnMwa9mLG/y3E1yfd9mWGxCg==
   dependencies:
     "@inquirer/prompts" "^8.3.0"
-    "@oclif/core" "^4.10.6"
+    "@oclif/core" "^4.11.0"
     "@sanity/client" "^7.22.0"
     babel-plugin-react-compiler "^1.0.0"
     boxen "^8.0.1"
     debug "^4.4.3"
     get-it "^8.7.0"
-    get-tsconfig "^4.13.7"
+    get-tsconfig "^4.14.0"
     import-meta-resolve "^4.2.0"
     jiti "^2.7.0"
-    jsdom "^29.0.2"
+    jsdom "^29.1.1"
     json-lexer "^1.2.0"
     log-symbols "^7.0.1"
     ora "^9.0.0"
     read-package-up "^12.0.0"
     rxjs "^7.8.2"
     tsx "^4.21.0"
-    vite "^7.3.2"
+    vite "^7.3.3"
     vite-node "^5.3.0"
     zod "^4.3.6"
 
-"@sanity/cli@^6.7.0":
-  version "6.7.0"
-  resolved "https://registry.yarnpkg.com/@sanity/cli/-/cli-6.7.0.tgz#a82ec1072db045533d11197e3139bc81529619ca"
-  integrity sha512-G00kg4OGgJDusEhpsiVuBwH0ymf8lU4ZReYu5cSvLK51kaWAzmkHj6/yiYWZjmNTyEo1eQeCTkKA2pgGCqgo3Q==
+"@sanity/cli@6.7.1", "@sanity/cli@^6.7.0":
+  version "6.7.1"
+  resolved "https://registry.yarnpkg.com/@sanity/cli/-/cli-6.7.1.tgz#a14a053d215d4cfedd38be466d405484780008e9"
+  integrity sha512-Xk4n53ux/AV/M2AazBJUegaeDMKtXzJv+T4qNLHz0+5HajD4h2QwX+RdfRw1HfyOzp9r953mvJ0Lzjh/F2risA==
   dependencies:
     "@oclif/core" "^4.11.0"
     "@oclif/plugin-help" "^6.2.45"
     "@oclif/plugin-not-found" "^3.2.81"
-    "@sanity/cli-build" "^0.2.0"
-    "@sanity/cli-core" "^1.3.2"
+    "@sanity/cli-build" "^0.2.1"
+    "@sanity/cli-core" "^1.3.3"
     "@sanity/client" "^7.22.0"
     "@sanity/codegen" "^6.1.0"
     "@sanity/descriptors" "^1.3.0"
@@ -9865,9 +9865,9 @@ get-symbol-description@^1.1.0:
     es-errors "^1.3.0"
     get-intrinsic "^1.2.6"
 
-get-tsconfig@^4.10.0, get-tsconfig@^4.10.1, get-tsconfig@^4.13.7:
+get-tsconfig@^4.10.0, get-tsconfig@^4.10.1, get-tsconfig@^4.14.0:
   version "4.14.0"
-  resolved "https://registry.npmjs.org/get-tsconfig/-/get-tsconfig-4.14.0.tgz"
+  resolved "https://registry.yarnpkg.com/get-tsconfig/-/get-tsconfig-4.14.0.tgz#985d85c52a9903864280ccc2448d413fbf1efed8"
   integrity sha512-yTb+8DXzDREzgvYmh6s9vHsSVCHeC0G3PI5bEXNBHtmshPnO+S5O7qgLEOn0I5QvMy6kpZN8K1NKGyilLb93wA==
   dependencies:
     resolve-pkg-maps "^1.0.0"
@@ -11511,7 +11511,7 @@ jsdom@^28.0.0:
     whatwg-url "^16.0.0"
     xml-name-validator "^5.0.0"
 
-jsdom@^29.0.2, jsdom@^29.1.1:
+jsdom@^29.1.1:
   version "29.1.1"
   resolved "https://registry.npmjs.org/jsdom/-/jsdom-29.1.1.tgz"
   integrity sha512-ECi4Fi2f7BdJtUKTflYRTiaMxIB0O6zfR1fX0GXpUrf6flp8QIYn1UT20YQqdSOfk2dfkCwS8LAFoJDEppNK5Q==
@@ -15623,7 +15623,7 @@ vite-tsconfig-paths@^6.1.1:
     globrex "^0.1.2"
     tsconfck "^3.0.3"
 
-"vite@^5.0.0 || ^6.0.0 || ^7.0.0-0", vite@^7.3.1, vite@^7.3.2, vite@^7.3.3:
+"vite@^5.0.0 || ^6.0.0 || ^7.0.0-0", vite@^7.3.1, vite@^7.3.3:
   version "7.3.5"
   resolved "https://registry.npmjs.org/vite/-/vite-7.3.5.tgz"
   integrity sha512-KuOaNhcnGFN2zIPGA7wRmzF+lJA1sea7rHq17aiJ++9lzY1WWG6Jpwqwe1KNbRVPIqHmr8GLYx7jbrQcN/7/ww==
