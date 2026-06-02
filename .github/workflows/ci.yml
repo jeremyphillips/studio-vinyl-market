@@ -35,6 +35,9 @@ jobs:
         run: yarn test
 
       - name: Check typegen is up to date
+        env:
+          SANITY_STUDIO_PROJECT_ID: 1on695jt
+          SANITY_STUDIO_DATASET: production
         run: |
           yarn typegen
           git diff --exit-code apps/web/sanity/types.generated.ts
