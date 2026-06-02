@@ -1,28 +1,8 @@
-export interface DiscogsSearchResult {
-  id: number
-  masterId: number | null
-  title: string
-  year: string | null
-  country: string | null
-  format: string[]
-  label: string[]
-  catno: string | null
-  thumb: string | null
-  coverImage: string | null
-  resourceUrl: string
-}
+import type { DiscogsResult, DiscogsSearchResponse } from '@vinyl-market/discogs'
 
-export interface DiscogsSearchResponse {
-  results: DiscogsSearchResult[]
-  pagination: {
-    page: number
-    pages: number
-    items: number
-    perPage: number
-  }
-}
+export type { DiscogsResult, DiscogsSearchResponse }
 
-export function mapDiscogsSearchResult(raw: Record<string, unknown>): DiscogsSearchResult {
+export function mapDiscogsSearchResult(raw: Record<string, unknown>): DiscogsResult {
   return {
     id: raw.id as number,
     masterId: (raw.master_id as number | undefined) ?? null,

@@ -1,31 +1,14 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
+
+import { corsJson, fetchDiscogs } from '../_lib/discogs'
 
 import { mapDiscogsSearchResponse } from './map-discogs-result'
 
-export type { DiscogsSearchResult, DiscogsSearchResponse } from './map-discogs-result'
+export type { DiscogsResult, DiscogsSearchResponse } from './map-discogs-result'
 
-const DISCOGS_API_BASE = 'https://api.discogs.com'
-const USER_AGENT = 'VinylMarket/1.0 +https://github.com/vinyl-market'
-
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-}
-
-export function OPTIONS() {
-  return new NextResponse(null, { status: 204, headers: CORS_HEADERS })
-}
+export { OPTIONS } from '../_lib/discogs'
 
 export async function GET(request: NextRequest) {
-  const token = process.env.DISCOGS_API_TOKEN
-  if (!token) {
-    return NextResponse.json(
-      { error: 'DISCOGS_API_TOKEN is not configured' },
-      { status: 500, headers: CORS_HEADERS },
-    )
-  }
-
   const { searchParams } = request.nextUrl
   const q = searchParams.get('q')
   const artist = searchParams.get('artist')
@@ -34,10 +17,7 @@ export async function GET(request: NextRequest) {
   const perPage = searchParams.get('per_page') ?? '20'
 
   if (!q && !artist && !title) {
-    return NextResponse.json(
-      { error: 'At least one of q, artist, or title is required' },
-      { status: 400, headers: CORS_HEADERS },
-    )
+    return corsJson({ error: 'At least one of q, artist, or title is required' }, { status: 400 })
   }
 
   const params = new URLSearchParams({ type: 'release', page, per_page: perPage })
@@ -45,27 +25,10 @@ export async function GET(request: NextRequest) {
   if (artist) params.set('artist', artist)
   if (title) params.set('release_title', title)
 
-  const url = `${DISCOGS_API_BASE}/database/search?${params.toString()}`
+  const result = await fetchDiscogs(`/database/search?${params.toString()}`)
+  if (!result.ok) return result.response
 
-  const discogsRes = await fetch(url, {
-    headers: {
-      Authorization: `Discogs token=${token}`,
-      'User-Agent': USER_AGENT,
-      Accept: 'application/vnd.discogs.v2.plaintext+json',
-    },
-    next: { revalidate: 60 },
-  })
-
-  if (!discogsRes.ok) {
-    const text = await discogsRes.text()
-    return NextResponse.json(
-      { error: `Discogs API error ${discogsRes.status}: ${text}` },
-      { status: discogsRes.status, headers: CORS_HEADERS },
-    )
-  }
-
-  const raw = await discogsRes.json()
-  const response = mapDiscogsSearchResponse(raw)
-
-  return NextResponse.json(response, { headers: CORS_HEADERS })
+  return corsJson(
+    mapDiscogsSearchResponse(result.data as Parameters<typeof mapDiscogsSearchResponse>[0]),
+  )
 }

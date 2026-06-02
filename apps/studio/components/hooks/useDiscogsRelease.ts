@@ -1,31 +1,24 @@
 import { useCallback, useState } from 'react'
-import {
-  buildDiscogsSearchUrl,
-  type DiscogsResult,
-  type DiscogsSearchResponse,
-} from '../types/discogs'
+import { buildDiscogsReleaseUrl, type DiscogsReleaseDetail } from '../types/discogs'
 
-export function useDiscogsSearch() {
-  const [results, setResults] = useState<DiscogsResult[] | null>(null)
+export function useDiscogsRelease() {
+  const [data, setData] = useState<DiscogsReleaseDetail | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const search = useCallback(async (query: string) => {
-    const trimmed = query.trim()
-    if (!trimmed) return
-
+  const fetchRelease = useCallback(async (id: number) => {
     setLoading(true)
     setError(null)
-    setResults(null)
+    setData(null)
 
     try {
-      const res = await fetch(buildDiscogsSearchUrl(trimmed))
+      const res = await fetch(buildDiscogsReleaseUrl(id))
       if (!res.ok) {
         const body = await res.json().catch(() => ({}))
         throw new Error(body.error ?? `Request failed with status ${res.status}`)
       }
-      const data: DiscogsSearchResponse = await res.json()
-      setResults(data.results)
+      const detail: DiscogsReleaseDetail = await res.json()
+      setData(detail)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
     } finally {
@@ -34,9 +27,9 @@ export function useDiscogsSearch() {
   }, [])
 
   const reset = useCallback(() => {
-    setResults(null)
+    setData(null)
     setError(null)
   }, [])
 
-  return { results, loading, error, search, reset }
+  return { data, loading, error, fetch: fetchRelease, reset }
 }

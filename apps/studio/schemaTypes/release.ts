@@ -53,7 +53,7 @@ export const release = defineType({
       type: 'string',
       options: {
         list: releaseFormatOptions,
-        layout: 'radio',
+        layout: 'dropdown',
       },
       validation: (Rule) => Rule.required(),
       group: 'identity',
@@ -64,7 +64,7 @@ export const release = defineType({
       type: 'string',
       options: {
         list: releaseSpeedOptions,
-        layout: 'radio',
+        layout: 'dropdown',
       },
       validation: (Rule) => Rule.required(),
       group: 'identity',

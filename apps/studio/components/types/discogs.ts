@@ -1,26 +1,11 @@
-export interface DiscogsResult {
-  id: number
-  masterId: number | null
-  title: string
-  year: string | null
-  country: string | null
-  format: string[]
-  label: string[]
-  catno: string | null
-  thumb: string | null
-  coverImage: string | null
-  resourceUrl: string
-}
+import type { DiscogsResult } from '@vinyl-market/discogs'
 
-export interface DiscogsApiResponse {
-  results: DiscogsResult[]
-  pagination: {
-    page: number
-    pages: number
-    items: number
-    perPage: number
-  }
-}
+export type {
+  DiscogsResult,
+  DiscogsSearchResponse,
+  DiscogsTrack,
+  DiscogsReleaseDetail,
+} from '@vinyl-market/discogs'
 
 export interface DiscogsValue {
   _type?: string
@@ -36,6 +21,11 @@ export function buildDiscogsSearchUrl(query: string, page = 1): string {
   const base = getPreviewUrl().replace(/\/$/, '')
   const params = new URLSearchParams({ q: query, page: String(page), per_page: '20' })
   return `${base}/api/discogs/search?${params.toString()}`
+}
+
+export function buildDiscogsReleaseUrl(id: number): string {
+  const base = getPreviewUrl().replace(/\/$/, '')
+  return `${base}/api/discogs/releases/${id}`
 }
 
 export function buildDiscogsResultDetail(result: DiscogsResult): string {

@@ -1,0 +1,9 @@
+{
+  "name": "@vinyl-market/discogs",
+  "private": true,
+  "version": "0.1.0",
+  "license": "UNLICENSED",
+  "exports": {
+    ".": "./index.ts"
+  }
+}

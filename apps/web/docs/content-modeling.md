@@ -94,7 +94,22 @@ SSoT for all content-type URL paths (`SLUG_PATH_BY_TYPE`, `FIXED_PATH_BY_TYPE`).
 
 ## Discogs metadata
 
-`release.discogs.releaseId` and `release.discogs.masterId` are read-only fields populated by `DiscogsSearchInput` (`apps/studio/components/inputs/`). Do not add free-text editing.
+`release.discogs.releaseId` and `release.discogs.masterId` are the only Discogs values stored on the document. They are read-only fields populated by `DiscogsSearchInput` (`apps/studio/components/inputs/`). Do not add free-text editing.
+
+### Importing (tracklist)
+
+Linking a release and importing its data are separate steps. Once a release is linked, `DiscogsImportPanel` renders inside `DiscogsSearchInput`. It fetches the release detail (via `GET /api/discogs/releases/[id]`) and lets the editor import the **tracklist** into the document's own `discs` field. Importing pre-fills typed fields — no raw Discogs blob is ever stored, so document size is unaffected and the data is freely editable afterwards.
+
+- Tracklist headings (`type_: "heading"`) are skipped; index tracks (`type_: "index"`) are flattened into their `sub_tracks`.
+- All tracks map onto a single disc (`discNumber: 1`). Multi-disc structure is not split yet.
+- Importing **replaces** the existing `discs` array; the panel warns when tracks are already present.
+- The cross-field write uses `useDocumentOperation(...).patch.execute(...)` because the input is scoped to the `discogs` object and cannot patch the sibling `discs` field directly.
+
+Format, release date, speed, and credits import are deferred (see the import-panel plan).
+
+### Shared types — `@vinyl-market/discogs`
+
+Discogs API shapes (`DiscogsResult`, `DiscogsSearchResponse`, `DiscogsTrack`, `DiscogsReleaseDetail`) live in the `@vinyl-market/discogs` workspace package — the SSoT consumed by both the web API normalizers and the Studio. Studio-only helpers (URL builders) stay in `apps/studio/components/types/discogs.ts`.
 
 ---
 
