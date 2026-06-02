@@ -17,6 +17,7 @@
     "clean": "rm -rf .next .turbo"
   },
   "dependencies": {
+    "@vinyl-market/discogs": "*",
     "@vinyl-market/release-constants": "*",
     "@portabletext/react": "^6.2.0",
     "@radix-ui/react-navigation-menu": "^1.2.14",

@@ -5,6 +5,7 @@ import { useDiscogsSearch } from '../hooks/useDiscogsSearch'
 import { useReferencedDocumentField } from '../hooks/useReferencedDocumentField'
 import { buildDiscogsResultDetail, type DiscogsResult, type DiscogsValue } from '../types/discogs'
 import { EmptyState, ErrorBanner, LinkedIdCard, SearchToolbar, SelectableResultList } from '../ui'
+import { DiscogsImportPanel } from './DiscogsImportPanel'
 
 export function DiscogsSearchInput(props: ObjectInputProps<DiscogsValue>) {
   const { onChange, value } = props
@@ -86,6 +87,7 @@ export function DiscogsSearchInput(props: ObjectInputProps<DiscogsValue>) {
       {hasValue && !showSearch && (
         <>
           <LinkedIdCard title="Linked Discogs release" items={linkedItems} />
+          <DiscogsImportPanel releaseId={storedValue!.releaseId!} />
           <Flex gap={2}>
             <Button mode="ghost" text="Search again" onClick={handleSearchAgain} />
             <Button mode="ghost" tone="critical" text="Clear" onClick={handleClear} />
