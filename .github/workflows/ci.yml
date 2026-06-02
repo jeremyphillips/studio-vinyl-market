@@ -54,9 +54,6 @@ jobs:
       NEXT_PUBLIC_SANITY_API_VERSION: ${{ secrets.NEXT_PUBLIC_SANITY_API_VERSION }}
       NEXT_PUBLIC_SANITY_STUDIO_URL: ${{ secrets.NEXT_PUBLIC_SANITY_STUDIO_URL }}
       SANITY_API_READ_TOKEN: ${{ secrets.SANITY_API_READ_TOKEN }}
-      SANITY_STUDIO_PROJECT_ID: ${{ secrets.SANITY_STUDIO_PROJECT_ID }}
-      SANITY_STUDIO_DATASET: ${{ secrets.SANITY_STUDIO_DATASET }}
-      SANITY_STUDIO_PREVIEW_URL: ${{ secrets.SANITY_STUDIO_PREVIEW_URL }}
 
     steps:
       - uses: actions/checkout@v4
@@ -70,4 +67,4 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build
-        run: yarn build --force
+        run: yarn turbo run build --filter=@vinyl-market/web

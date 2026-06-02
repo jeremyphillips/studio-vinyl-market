@@ -1,1 +1,1 @@
-yarn build --force
+yarn turbo run build --filter=@vinyl-market/web
