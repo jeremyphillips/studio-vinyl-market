@@ -61,7 +61,11 @@ function resolveNavLink(item: NavItem): NavLink | null {
   }
 }
 
-export async function Header() {
+type HeaderProps = {
+  initialIsDark: boolean
+}
+
+export async function Header({ initialIsDark }: HeaderProps) {
   const { data: settings } = await sanityFetch({ query: SITE_SETTINGS_QUERY })
 
   const title = settings?.title ?? 'Vinyl Market'
@@ -83,7 +87,7 @@ export async function Header() {
               Add navigation in <span className="font-mono">Site settings</span> in the Studio.
             </P>
           )}
-          <DarkModeToggle />
+          <DarkModeToggle initialIsDark={initialIsDark} />
         </div>
       </div>
     </header>
