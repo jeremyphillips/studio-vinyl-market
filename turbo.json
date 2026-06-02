@@ -9,7 +9,7 @@
       "persistent": true
     },
     "build": {
-      "dependsOn": ["^build", "typegen"],
+      "dependsOn": ["^build", "@vinyl-market/studio#typegen"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"],
       "env": [
         "NEXT_PUBLIC_SANITY_PROJECT_ID",
@@ -33,22 +33,11 @@
         "!../web/sanity/types.generated.ts"
       ]
     },
-    "@vinyl-market/web#typegen": {
-      "outputs": ["../studio/schema.json", "sanity/types.generated.ts"],
-      "inputs": [
-        "../studio/schemaTypes/**",
-        "../studio/sanity.config.ts",
-        "../studio/sanity.cli.ts",
-        "../studio/sanity.project.ts",
-        "sanity/**/*.{ts,tsx}",
-        "!sanity/types.generated.ts"
-      ]
-    },
     "lint": {
       "dependsOn": ["^lint"]
     },
     "typecheck": {
-      "dependsOn": ["^typecheck", "typegen"]
+      "dependsOn": ["^typecheck", "@vinyl-market/studio#typegen"]
     },
     "test": {
       "dependsOn": ["^test"]
