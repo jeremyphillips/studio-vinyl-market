@@ -39,5 +39,5 @@ jobs:
           SANITY_STUDIO_PROJECT_ID: 1on695jt
           SANITY_STUDIO_DATASET: production
         run: |
-          yarn typegen
+          yarn workspace @vinyl-market/studio typegen
           git diff --exit-code apps/web/sanity/types.generated.ts
