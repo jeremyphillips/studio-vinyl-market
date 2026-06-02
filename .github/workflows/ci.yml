@@ -67,4 +67,4 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build
-        run: yarn turbo run build --filter=@vinyl-market/web
+        run: yarn workspace @vinyl-market/web build

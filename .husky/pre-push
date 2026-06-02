@@ -1,1 +1,1 @@
-yarn turbo run build --filter=@vinyl-market/web
+yarn workspace @vinyl-market/web build
