@@ -100,10 +100,8 @@ export function ReleaseMeta({
           >
             {label.name}
           </Link>
-        ) : noLabel ? (
-          'No label'
         ) : (
-          '—'
+          (noLabel && 'No label') || '—'
         )}
       </dd>
     </dl>

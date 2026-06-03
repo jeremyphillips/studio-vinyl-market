@@ -53,6 +53,7 @@ describe('ErrorContent', () => {
   it('renders catalogue escape links', () => {
     render(<ErrorContent error={new Error('boom')} reset={vi.fn()} />)
 
+    expect(screen.getByRole('link', { name: 'Back to home' })).toBeInTheDocument()
     expectCatalogueEscapeLinks()
   })
 
