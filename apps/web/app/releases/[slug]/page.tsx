@@ -1,3 +1,4 @@
+import { stegaClean } from '@sanity/client/stega'
 import {
   releaseChannelsOptions,
   releaseClassificationOptions,
@@ -79,17 +80,17 @@ export default async function ReleasePage({ params }: { params: Params }) {
   const year = formatYear(release.releaseDate, release.dateUnknown)
 
   const formatParts: string[] = [
-    MEDIA_TYPE_LABEL[release.mediaType] ?? release.mediaType,
-    CLASSIFICATION_LABEL[release.classification] ?? release.classification,
-    release.size ? (SIZE_LABEL[release.size] ?? release.size) : null,
-    release.speed ? (SPEED_LABEL[release.speed] ?? release.speed) : null,
-    release.channels ? (CHANNELS_LABEL[release.channels] ?? release.channels) : null,
+    MEDIA_TYPE_LABEL[stegaClean(release.mediaType)] ?? release.mediaType,
+    CLASSIFICATION_LABEL[stegaClean(release.classification)] ?? release.classification,
+    release.size ? (SIZE_LABEL[stegaClean(release.size)] ?? release.size) : null,
+    release.speed ? (SPEED_LABEL[stegaClean(release.speed)] ?? release.speed) : null,
+    release.channels ? (CHANNELS_LABEL[stegaClean(release.channels)] ?? release.channels) : null,
   ].filter((p): p is string => Boolean(p))
   const formatLabel = formatParts.join(', ')
 
   const descriptionLabels =
     release.descriptions && release.descriptions.length > 0
-      ? release.descriptions.map((d) => DESCRIPTION_LABEL[d] ?? d).join(', ')
+      ? release.descriptions.map((d) => DESCRIPTION_LABEL[stegaClean(d)] ?? d).join(', ')
       : null
 
   return (
