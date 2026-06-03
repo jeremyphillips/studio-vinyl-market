@@ -43,6 +43,7 @@ export const release = defineType({
     { name: 'releaseInfo', title: 'Release info' },
     { name: 'discogs', title: 'Discogs' },
   ],
+  fieldsets: [{ name: 'formatGroup', title: 'Format', options: { columns: 2 } }],
   fields: [
     defineField({
       name: 'artist',
@@ -79,6 +80,7 @@ export const release = defineType({
       initialValue: 'vinyl',
       validation: (Rule) => Rule.required(),
       group: 'identity',
+      fieldset: 'formatGroup',
     }),
     defineField({
       name: 'classification',
@@ -92,6 +94,7 @@ export const release = defineType({
       initialValue: 'LP',
       validation: (Rule) => Rule.required(),
       group: 'identity',
+      fieldset: 'formatGroup',
     }),
     defineField({
       name: 'speed',
@@ -104,6 +107,7 @@ export const release = defineType({
       },
       initialValue: '33',
       group: 'identity',
+      fieldset: 'formatGroup',
       hidden: ({ parent }) => !isDiscMedia(parent?.mediaType),
       validation: (Rule) =>
         Rule.custom((value, context) => {
@@ -125,6 +129,7 @@ export const release = defineType({
       },
       initialValue: '12"',
       group: 'identity',
+      fieldset: 'formatGroup',
       hidden: ({ parent }) => !isDiscMedia(parent?.mediaType),
       validation: (Rule) =>
         Rule.custom((value, context) => {
@@ -145,6 +150,7 @@ export const release = defineType({
         direction: 'horizontal',
       },
       group: 'identity',
+      fieldset: 'formatGroup',
     }),
     defineField({
       name: 'descriptions',
@@ -153,7 +159,6 @@ export const release = defineType({
       of: [defineArrayMember({ type: 'string' })],
       options: {
         list: releaseDescriptionOptions,
-        layout: 'grid',
       },
       group: 'identity',
     }),
