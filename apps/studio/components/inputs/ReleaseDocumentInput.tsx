@@ -1,55 +1,62 @@
-import { useCallback } from 'react'
-import { PatchEvent, set, type ObjectInputProps } from 'sanity'
-
-type OnChangePatch = Parameters<ObjectInputProps['onChange']>[0]
+import { useEffect, useRef } from 'react'
+import { getPublishedId, useDocumentOperation, useFormValue, type ObjectInputProps } from 'sanity'
 
 /**
  * Document-level input wrapper for release documents.
  *
- * Intercepts field changes to apply contextual defaults:
+ * Uses useFormValue to watch trigger fields and applies contextual defaults via
+ * patch.execute (same pattern as DiscogsImportPanel) when values change:
  *   - mediaType → shellac  : classification=Single, speed=78, size=10"
  *   - mediaType → vinyl    : speed=33, size=12"
  *   - classification → LP  : speed=33, size=12"
  */
 export function ReleaseDocumentInput(props: ObjectInputProps) {
-  const { onChange, renderDefault } = props
+  const { renderDefault } = props
 
-  const handleChange = useCallback(
-    (event: OnChangePatch) => {
-      if (!(event instanceof PatchEvent)) {
-        onChange(event)
-        return
-      }
+  const rawId = useFormValue(['_id']) as string | undefined
+  const documentId = getPublishedId(rawId ?? '')
+  const documentType = (useFormValue(['_type']) as string | undefined) ?? 'release'
+  const mediaType = useFormValue(['mediaType']) as string | undefined
+  const classification = useFormValue(['classification']) as string | undefined
 
-      const extra: ReturnType<typeof set>[] = []
+  const { patch } = useDocumentOperation(documentId, documentType)
 
-      for (const patch of event.patches) {
-        if (patch.type !== 'set' || patch.path.length !== 1) continue
+  // Track previous values so we only react to actual user-driven changes,
+  // not the initial load.
+  const prevMediaType = useRef<string | undefined>(undefined)
+  const prevClassification = useRef<string | undefined>(undefined)
+  const mediaTypeMounted = useRef(false)
+  const classificationMounted = useRef(false)
 
-        const field = patch.path[0]
-        if (typeof field !== 'string') continue
+  useEffect(() => {
+    if (!mediaTypeMounted.current) {
+      mediaTypeMounted.current = true
+      prevMediaType.current = mediaType
+      return
+    }
+    if (mediaType === prevMediaType.current) return
+    prevMediaType.current = mediaType
 
-        if (field === 'mediaType') {
-          if (patch.value === 'shellac') {
-            extra.push(set('Single', ['classification']))
-            extra.push(set('78', ['speed']))
-            extra.push(set('10"', ['size']))
-          } else if (patch.value === 'vinyl') {
-            extra.push(set('33', ['speed']))
-            extra.push(set('12"', ['size']))
-          }
-        }
+    if (mediaType === 'shellac') {
+      patch.execute([{ set: { classification: 'Single', speed: '78', size: '10"' } }])
+    } else if (mediaType === 'vinyl') {
+      patch.execute([{ set: { speed: '33', size: '12"' } }])
+    }
+  }, [mediaType, patch])
 
-        if (field === 'classification' && patch.value === 'LP') {
-          extra.push(set('33', ['speed']))
-          extra.push(set('12"', ['size']))
-        }
-      }
+  useEffect(() => {
+    if (!classificationMounted.current) {
+      classificationMounted.current = true
+      prevClassification.current = classification
+      return
+    }
+    if (classification === prevClassification.current) return
+    prevClassification.current = classification
 
-      onChange(extra.length > 0 ? PatchEvent.from([...event.patches, ...extra]) : event)
-    },
-    [onChange],
-  )
+    if (classification === 'LP') {
+      patch.execute([{ set: { speed: '33', size: '12"' } }])
+    }
+  }, [classification, patch])
 
-  return renderDefault({ ...props, onChange: handleChange })
+  return renderDefault(props)
 }
