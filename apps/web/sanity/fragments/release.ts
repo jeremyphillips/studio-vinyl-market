@@ -1,13 +1,13 @@
 import { imageWithAltFields } from './image'
 
 /** Shared release ordering for list and nested queries. */
-export const releasesOrder = /* groq */ `order(coalesce(releaseDate, _createdAt) desc)`
+export const releasesOrder = /* groq */ `order(coalesce(releaseYear, 0) desc)`
 
 const releaseCardCore = /* groq */ `
   releaseName,
   "slug": slug.current,
   classification,
-  releaseDate,
+  releaseYear,
   dateUnknown,
   cover{${imageWithAltFields}}
 `

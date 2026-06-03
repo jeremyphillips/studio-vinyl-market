@@ -168,7 +168,10 @@ export type Release = {
     _key: string
   }>
   dateUnknown?: boolean
-  releaseDate?: string
+  datePrecision?: 'year' | 'month' | 'day'
+  releaseYear?: number
+  releaseMonth?: '01' | '02' | '03' | '04' | '05' | '06' | '07' | '08' | '09' | '10' | '11' | '12'
+  releaseDay?: number
   noLabel?: boolean
   label?: LabelReference
   discogs?: {
@@ -472,14 +475,14 @@ export type RELEASES_PAGE_QUERY_RESULT =
 
 // Source: ../web/sanity/queries.ts
 // Variable: HOME_RELEASES_QUERY
-// Query: *[_type == "release" && defined(slug.current)]    | order(coalesce(releaseDate, _createdAt) desc)    [0...12]{        _id,  _type,    releaseName,  "slug": slug.current,  classification,  releaseDate,  dateUnknown,  cover{  asset,  hotspot,  crop,  alt},    "artist": artist->{name, "slug": slug.current}    }
+// Query: *[_type == "release" && defined(slug.current)]    | order(coalesce(releaseYear, 0) desc)    [0...12]{        _id,  _type,    releaseName,  "slug": slug.current,  classification,  releaseYear,  dateUnknown,  cover{  asset,  hotspot,  crop,  alt},    "artist": artist->{name, "slug": slug.current}    }
 export type HOME_RELEASES_QUERY_RESULT = Array<{
   _id: string
   _type: 'release'
   releaseName: string
   slug: string
   classification: 'EP' | 'LP' | 'Single'
-  releaseDate: string | null
+  releaseYear: number | null
   dateUnknown: boolean | null
   cover: {
     asset: SanityImageAssetReference | null
@@ -495,14 +498,14 @@ export type HOME_RELEASES_QUERY_RESULT = Array<{
 
 // Source: ../web/sanity/queries.ts
 // Variable: RELEASES_QUERY
-// Query: *[_type == "release" && defined(slug.current)]    | order(coalesce(releaseDate, _createdAt) desc){        _id,  _type,    releaseName,  "slug": slug.current,  classification,  releaseDate,  dateUnknown,  cover{  asset,  hotspot,  crop,  alt},    "artist": artist->{name, "slug": slug.current}    }
+// Query: *[_type == "release" && defined(slug.current)]    | order(coalesce(releaseYear, 0) desc){        _id,  _type,    releaseName,  "slug": slug.current,  classification,  releaseYear,  dateUnknown,  cover{  asset,  hotspot,  crop,  alt},    "artist": artist->{name, "slug": slug.current}    }
 export type RELEASES_QUERY_RESULT = Array<{
   _id: string
   _type: 'release'
   releaseName: string
   slug: string
   classification: 'EP' | 'LP' | 'Single'
-  releaseDate: string | null
+  releaseYear: number | null
   dateUnknown: boolean | null
   cover: {
     asset: SanityImageAssetReference | null
@@ -523,7 +526,7 @@ export type RELEASE_SLUGS_QUERY_RESULT = Array<string>
 
 // Source: ../web/sanity/queries.ts
 // Variable: RELEASE_QUERY
-// Query: *[_type == "release" && slug.current == $slug][0]{    _id,    _type,    releaseName,    "slug": slug.current,    classification,    mediaType,    speed,    size,    channels,    descriptions,    releaseDate,    dateUnknown,    noLabel,    "artist": artist->{name, "slug": slug.current},    "label": label->{name, "slug": slug.current},    cover{  asset,  hotspot,  crop,  alt,  caption},    gallery[{  _key,  asset,  hotspot,  crop,  alt,  caption}],    discs[]{      _key,      discNumber,      name,      tracks[]{_key, position, title}    },    discogs{releaseId, masterId}  }
+// Query: *[_type == "release" && slug.current == $slug][0]{    _id,    _type,    releaseName,    "slug": slug.current,    classification,    mediaType,    speed,    size,    channels,    descriptions,    releaseYear,    dateUnknown,    noLabel,    "artist": artist->{name, "slug": slug.current},    "label": label->{name, "slug": slug.current},    cover{  asset,  hotspot,  crop,  alt,  caption},    gallery[{  _key,  asset,  hotspot,  crop,  alt,  caption}],    discs[]{      _key,      discNumber,      name,      tracks[]{_key, position, title}    },    discogs{releaseId, masterId}  }
 export type RELEASE_QUERY_RESULT = {
   _id: string
   _type: 'release'
@@ -535,7 +538,7 @@ export type RELEASE_QUERY_RESULT = {
   size: '10"' | '12"' | '7"' | null
   channels: 'mono' | 'stereo' | null
   descriptions: Array<string> | null
-  releaseDate: string | null
+  releaseYear: number | null
   dateUnknown: boolean | null
   noLabel: boolean | null
   artist: {
@@ -577,7 +580,7 @@ export type ARTIST_SLUGS_QUERY_RESULT = Array<string>
 
 // Source: ../web/sanity/queries.ts
 // Variable: ARTIST_QUERY
-// Query: *[_type == "artist" && slug.current == $slug][0]{    _id,    _type,    name,    "slug": slug.current,    cover{  asset,  hotspot,  crop,  alt,  caption},    gallery[{  _key,  asset,  hotspot,  crop,  alt,  caption}],    "releases": *[_type == "release" && artist._ref == ^._id && defined(slug.current)]      | order(coalesce(releaseDate, _createdAt) desc){          _id,    releaseName,  "slug": slug.current,  classification,  releaseDate,  dateUnknown,  cover{  asset,  hotspot,  crop,  alt}      }  }
+// Query: *[_type == "artist" && slug.current == $slug][0]{    _id,    _type,    name,    "slug": slug.current,    cover{  asset,  hotspot,  crop,  alt,  caption},    gallery[{  _key,  asset,  hotspot,  crop,  alt,  caption}],    "releases": *[_type == "release" && artist._ref == ^._id && defined(slug.current)]      | order(coalesce(releaseYear, 0) desc){          _id,    releaseName,  "slug": slug.current,  classification,  releaseYear,  dateUnknown,  cover{  asset,  hotspot,  crop,  alt}      }  }
 export type ARTIST_QUERY_RESULT = {
   _id: string
   _type: 'artist'
@@ -596,7 +599,7 @@ export type ARTIST_QUERY_RESULT = {
     releaseName: string
     slug: string
     classification: 'EP' | 'LP' | 'Single'
-    releaseDate: string | null
+    releaseYear: number | null
     dateUnknown: boolean | null
     cover: {
       asset: SanityImageAssetReference | null
@@ -690,7 +693,7 @@ export type PAGE_QUERY_RESULT = {
 
 // Source: ../web/sanity/queries.ts
 // Variable: LABEL_QUERY
-// Query: *[_type == "label" && slug.current == $slug][0]{    _id,    _type,    name,    "slug": slug.current,    cover{  asset,  hotspot,  crop,  alt,  caption},    gallery[{  _key,  asset,  hotspot,  crop,  alt,  caption}],    "releases": *[_type == "release" && label._ref == ^._id && defined(slug.current)]      | order(coalesce(releaseDate, _createdAt) desc){          _id,    releaseName,  "slug": slug.current,  classification,  releaseDate,  dateUnknown,  cover{  asset,  hotspot,  crop,  alt},    "artist": artist->{name, "slug": slug.current}      }  }
+// Query: *[_type == "label" && slug.current == $slug][0]{    _id,    _type,    name,    "slug": slug.current,    cover{  asset,  hotspot,  crop,  alt,  caption},    gallery[{  _key,  asset,  hotspot,  crop,  alt,  caption}],    "releases": *[_type == "release" && label._ref == ^._id && defined(slug.current)]      | order(coalesce(releaseYear, 0) desc){          _id,    releaseName,  "slug": slug.current,  classification,  releaseYear,  dateUnknown,  cover{  asset,  hotspot,  crop,  alt},    "artist": artist->{name, "slug": slug.current}      }  }
 export type LABEL_QUERY_RESULT = {
   _id: string
   _type: 'label'
@@ -709,7 +712,7 @@ export type LABEL_QUERY_RESULT = {
     releaseName: string
     slug: string
     classification: 'EP' | 'LP' | 'Single'
-    releaseDate: string | null
+    releaseYear: number | null
     dateUnknown: boolean | null
     cover: {
       asset: SanityImageAssetReference | null
@@ -730,15 +733,15 @@ declare module '@sanity/client' {
   interface SanityQueries {
     '\n  *[_id == "siteSettings"][0]{\n    title,\n    "navigation": coalesce(navigation, [])[]{\n      _key,\n      label,\n      linkType,\n      externalUrl,\n      "internal": internalLink->{\n  _type,\n  "slug": slug.current\n}\n    }\n  }\n': SITE_SETTINGS_QUERY_RESULT
     '\n  *[_id == "releasesPage"][0]{\n    title,\n    intro,\n    \n  seo{\n    metaTitle,\n    metaDescription,\n    noIndex,\n    ogImage{\n  asset,\n  hotspot,\n  crop,\n  alt\n}\n  }\n\n  }\n': RELEASES_PAGE_QUERY_RESULT
-    '\n  *[_type == "release" && defined(slug.current)]\n    | order(coalesce(releaseDate, _createdAt) desc)\n    [0...12]{\n      \n  _id,\n  _type,\n  \n  releaseName,\n  "slug": slug.current,\n  classification,\n  releaseDate,\n  dateUnknown,\n  cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n}\n,\n  \n  "artist": artist->{name, "slug": slug.current}\n\n\n    }\n': HOME_RELEASES_QUERY_RESULT
-    '\n  *[_type == "release" && defined(slug.current)]\n    | order(coalesce(releaseDate, _createdAt) desc){\n      \n  _id,\n  _type,\n  \n  releaseName,\n  "slug": slug.current,\n  classification,\n  releaseDate,\n  dateUnknown,\n  cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n}\n,\n  \n  "artist": artist->{name, "slug": slug.current}\n\n\n    }\n': RELEASES_QUERY_RESULT
+    '\n  *[_type == "release" && defined(slug.current)]\n    | order(coalesce(releaseYear, 0) desc)\n    [0...12]{\n      \n  _id,\n  _type,\n  \n  releaseName,\n  "slug": slug.current,\n  classification,\n  releaseYear,\n  dateUnknown,\n  cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n}\n,\n  \n  "artist": artist->{name, "slug": slug.current}\n\n\n    }\n': HOME_RELEASES_QUERY_RESULT
+    '\n  *[_type == "release" && defined(slug.current)]\n    | order(coalesce(releaseYear, 0) desc){\n      \n  _id,\n  _type,\n  \n  releaseName,\n  "slug": slug.current,\n  classification,\n  releaseYear,\n  dateUnknown,\n  cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n}\n,\n  \n  "artist": artist->{name, "slug": slug.current}\n\n\n    }\n': RELEASES_QUERY_RESULT
     '\n  *[_type == "release" && defined(slug.current)][].slug.current\n': RELEASE_SLUGS_QUERY_RESULT
-    '\n  *[_type == "release" && slug.current == $slug][0]{\n    _id,\n    _type,\n    releaseName,\n    "slug": slug.current,\n    classification,\n    mediaType,\n    speed,\n    size,\n    channels,\n    descriptions,\n    releaseDate,\n    dateUnknown,\n    noLabel,\n    "artist": artist->{name, "slug": slug.current},\n    "label": label->{name, "slug": slug.current},\n    cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n,\n  caption},\n    gallery[{\n  _key,\n  asset,\n  hotspot,\n  crop,\n  alt,\n  caption\n}],\n    discs[]{\n      _key,\n      discNumber,\n      name,\n      tracks[]{_key, position, title}\n    },\n    discogs{releaseId, masterId}\n  }\n': RELEASE_QUERY_RESULT
+    '\n  *[_type == "release" && slug.current == $slug][0]{\n    _id,\n    _type,\n    releaseName,\n    "slug": slug.current,\n    classification,\n    mediaType,\n    speed,\n    size,\n    channels,\n    descriptions,\n    releaseYear,\n    dateUnknown,\n    noLabel,\n    "artist": artist->{name, "slug": slug.current},\n    "label": label->{name, "slug": slug.current},\n    cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n,\n  caption},\n    gallery[{\n  _key,\n  asset,\n  hotspot,\n  crop,\n  alt,\n  caption\n}],\n    discs[]{\n      _key,\n      discNumber,\n      name,\n      tracks[]{_key, position, title}\n    },\n    discogs{releaseId, masterId}\n  }\n': RELEASE_QUERY_RESULT
     '\n  *[_type == "artist" && defined(slug.current)][].slug.current\n': ARTIST_SLUGS_QUERY_RESULT
-    '\n  *[_type == "artist" && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    "slug": slug.current,\n    cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n,\n  caption},\n    gallery[{\n  _key,\n  asset,\n  hotspot,\n  crop,\n  alt,\n  caption\n}],\n    "releases": *[_type == "release" && artist._ref == ^._id && defined(slug.current)]\n      | order(coalesce(releaseDate, _createdAt) desc){\n        \n  _id,\n  \n  releaseName,\n  "slug": slug.current,\n  classification,\n  releaseDate,\n  dateUnknown,\n  cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n}\n\n\n      }\n  }\n': ARTIST_QUERY_RESULT
+    '\n  *[_type == "artist" && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    "slug": slug.current,\n    cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n,\n  caption},\n    gallery[{\n  _key,\n  asset,\n  hotspot,\n  crop,\n  alt,\n  caption\n}],\n    "releases": *[_type == "release" && artist._ref == ^._id && defined(slug.current)]\n      | order(coalesce(releaseYear, 0) desc){\n        \n  _id,\n  \n  releaseName,\n  "slug": slug.current,\n  classification,\n  releaseYear,\n  dateUnknown,\n  cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n}\n\n\n      }\n  }\n': ARTIST_QUERY_RESULT
     '\n  *[_type == "label" && defined(slug.current)][].slug.current\n': LABEL_SLUGS_QUERY_RESULT
     '\n  *[_type == "page" && defined(slug.current)][].slug.current\n': PAGE_SLUGS_QUERY_RESULT
     '\n  *[_type == "page" && slug.current == $slug][0]{\n    title,\n    pageBuilder[]{\n      _key,\n      _type,\n      label,\n      variant,\n      size,\n      linkType,\n      externalUrl,\n      "internalLink": internalLink->{\n  _type,\n  "slug": slug.current\n},\n      asset,\n      hotspot,\n      crop,\n      alt,\n      caption\n    },\n    \n  seo{\n    metaTitle,\n    metaDescription,\n    noIndex,\n    ogImage{\n  asset,\n  hotspot,\n  crop,\n  alt\n}\n  }\n\n  }\n': PAGE_QUERY_RESULT
-    '\n  *[_type == "label" && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    "slug": slug.current,\n    cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n,\n  caption},\n    gallery[{\n  _key,\n  asset,\n  hotspot,\n  crop,\n  alt,\n  caption\n}],\n    "releases": *[_type == "release" && label._ref == ^._id && defined(slug.current)]\n      | order(coalesce(releaseDate, _createdAt) desc){\n        \n  _id,\n  \n  releaseName,\n  "slug": slug.current,\n  classification,\n  releaseDate,\n  dateUnknown,\n  cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n}\n,\n  \n  "artist": artist->{name, "slug": slug.current}\n\n\n      }\n  }\n': LABEL_QUERY_RESULT
+    '\n  *[_type == "label" && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    "slug": slug.current,\n    cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n,\n  caption},\n    gallery[{\n  _key,\n  asset,\n  hotspot,\n  crop,\n  alt,\n  caption\n}],\n    "releases": *[_type == "release" && label._ref == ^._id && defined(slug.current)]\n      | order(coalesce(releaseYear, 0) desc){\n        \n  _id,\n  \n  releaseName,\n  "slug": slug.current,\n  classification,\n  releaseYear,\n  dateUnknown,\n  cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n}\n,\n  \n  "artist": artist->{name, "slug": slug.current}\n\n\n      }\n  }\n': LABEL_QUERY_RESULT
   }
 }
