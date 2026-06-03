@@ -194,6 +194,11 @@ export type Label = {
       _key: string
     } & ImageWithAlt
   >
+  locations?: Array<
+    {
+      _key: string
+    } & Location
+  >
 }
 
 export type SanityImageAssetReference = {
@@ -230,12 +235,12 @@ export type Artist = {
   locations?: Array<
     {
       _key: string
-    } & ArtistLocation
+    } & Location
   >
 }
 
-export type ArtistLocation = {
-  _type: 'artistLocation'
+export type Location = {
+  _type: 'location'
   city?: string
   state?: string
   country?: string
@@ -374,7 +379,7 @@ export type AllSanitySchemaTypes =
   | SanityImageAssetReference
   | ImageWithAlt
   | Artist
-  | ArtistLocation
+  | Location
   | Geopoint
   | SanityImageCrop
   | SanityImageHotspot
@@ -595,7 +600,7 @@ export type ARTIST_SLUGS_QUERY_RESULT = Array<string>
 
 // Source: ../web/sanity/queries.ts
 // Variable: ARTIST_QUERY
-// Query: *[_type == "artist" && slug.current == $slug][0]{    _id,    _type,    name,    "slug": slug.current,    cover{  asset,  hotspot,  crop,  alt,  caption},    gallery[{  _key,  asset,  hotspot,  crop,  alt,  caption}],    "releases": *[_type == "release" && artist._ref == ^._id && defined(slug.current)]      | order(coalesce(releaseYear, 0) desc){          _id,    releaseName,  "slug": slug.current,  classification,  releaseYear,  dateUnknown,  cover{  asset,  hotspot,  crop,  alt}      }  }
+// Query: *[_type == "artist" && slug.current == $slug][0]{    _id,    _type,    name,    "slug": slug.current,    cover{  asset,  hotspot,  crop,  alt,  caption},    gallery[{  _key,  asset,  hotspot,  crop,  alt,  caption}],    locations[]{  city,  state,  country},    "releases": *[_type == "release" && artist._ref == ^._id && defined(slug.current)]      | order(coalesce(releaseYear, 0) desc){          _id,    releaseName,  "slug": slug.current,  classification,  releaseYear,  dateUnknown,  cover{  asset,  hotspot,  crop,  alt}      }  }
 export type ARTIST_QUERY_RESULT = {
   _id: string
   _type: 'artist'
@@ -609,6 +614,11 @@ export type ARTIST_QUERY_RESULT = {
     caption: string | null
   } | null
   gallery: Array<never> | null
+  locations: Array<{
+    city: string | null
+    state: string | null
+    country: string | null
+  }> | null
   releases: Array<{
     _id: string
     releaseName: string
@@ -708,7 +718,7 @@ export type PAGE_QUERY_RESULT = {
 
 // Source: ../web/sanity/queries.ts
 // Variable: LABEL_QUERY
-// Query: *[_type == "label" && slug.current == $slug][0]{    _id,    _type,    name,    "slug": slug.current,    cover{  asset,  hotspot,  crop,  alt,  caption},    gallery[{  _key,  asset,  hotspot,  crop,  alt,  caption}],    "releases": *[_type == "release" && label._ref == ^._id && defined(slug.current)]      | order(coalesce(releaseYear, 0) desc){          _id,    releaseName,  "slug": slug.current,  classification,  releaseYear,  dateUnknown,  cover{  asset,  hotspot,  crop,  alt},    "artist": artist->{name, "slug": slug.current}      }  }
+// Query: *[_type == "label" && slug.current == $slug][0]{    _id,    _type,    name,    "slug": slug.current,    cover{  asset,  hotspot,  crop,  alt,  caption},    gallery[{  _key,  asset,  hotspot,  crop,  alt,  caption}],    locations[]{  city,  state,  country},    "releases": *[_type == "release" && label._ref == ^._id && defined(slug.current)]      | order(coalesce(releaseYear, 0) desc){          _id,    releaseName,  "slug": slug.current,  classification,  releaseYear,  dateUnknown,  cover{  asset,  hotspot,  crop,  alt},    "artist": artist->{name, "slug": slug.current}      }  }
 export type LABEL_QUERY_RESULT = {
   _id: string
   _type: 'label'
@@ -722,6 +732,11 @@ export type LABEL_QUERY_RESULT = {
     caption: string | null
   } | null
   gallery: Array<never> | null
+  locations: Array<{
+    city: string | null
+    state: string | null
+    country: string | null
+  }> | null
   releases: Array<{
     _id: string
     releaseName: string
@@ -753,10 +768,10 @@ declare module '@sanity/client' {
     '\n  *[_type == "release" && defined(slug.current)][].slug.current\n': RELEASE_SLUGS_QUERY_RESULT
     '\n  *[_type == "release" && slug.current == $slug][0]{\n    _id,\n    _type,\n    releaseName,\n    "slug": slug.current,\n    classification,\n    mediaType,\n    speed,\n    size,\n    channels,\n    descriptions,\n    releaseYear,\n    dateUnknown,\n    noLabel,\n    "artist": artist->{name, "slug": slug.current},\n    "label": label->{name, "slug": slug.current},\n    cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n,\n  caption},\n    gallery[{\n  _key,\n  asset,\n  hotspot,\n  crop,\n  alt,\n  caption\n}],\n    discs[]{\n      _key,\n      discNumber,\n      name,\n      tracks[]{_key, position, title}\n    },\n    discogs{releaseId, masterId}\n  }\n': RELEASE_QUERY_RESULT
     '\n  *[_type == "artist" && defined(slug.current)][].slug.current\n': ARTIST_SLUGS_QUERY_RESULT
-    '\n  *[_type == "artist" && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    "slug": slug.current,\n    cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n,\n  caption},\n    gallery[{\n  _key,\n  asset,\n  hotspot,\n  crop,\n  alt,\n  caption\n}],\n    "releases": *[_type == "release" && artist._ref == ^._id && defined(slug.current)]\n      | order(coalesce(releaseYear, 0) desc){\n        \n  _id,\n  \n  releaseName,\n  "slug": slug.current,\n  classification,\n  releaseYear,\n  dateUnknown,\n  cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n}\n\n\n      }\n  }\n': ARTIST_QUERY_RESULT
+    '\n  *[_type == "artist" && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    "slug": slug.current,\n    cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n,\n  caption},\n    gallery[{\n  _key,\n  asset,\n  hotspot,\n  crop,\n  alt,\n  caption\n}],\n    locations[]{\n  city,\n  state,\n  country\n},\n    "releases": *[_type == "release" && artist._ref == ^._id && defined(slug.current)]\n      | order(coalesce(releaseYear, 0) desc){\n        \n  _id,\n  \n  releaseName,\n  "slug": slug.current,\n  classification,\n  releaseYear,\n  dateUnknown,\n  cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n}\n\n\n      }\n  }\n': ARTIST_QUERY_RESULT
     '\n  *[_type == "label" && defined(slug.current)][].slug.current\n': LABEL_SLUGS_QUERY_RESULT
     '\n  *[_type == "page" && defined(slug.current)][].slug.current\n': PAGE_SLUGS_QUERY_RESULT
     '\n  *[_type == "page" && slug.current == $slug][0]{\n    title,\n    pageBuilder[]{\n      _key,\n      _type,\n      label,\n      variant,\n      size,\n      linkType,\n      externalUrl,\n      "internalLink": internalLink->{\n  _type,\n  "slug": slug.current\n},\n      asset,\n      hotspot,\n      crop,\n      alt,\n      caption\n    },\n    \n  seo{\n    metaTitle,\n    metaDescription,\n    noIndex,\n    ogImage{\n  asset,\n  hotspot,\n  crop,\n  alt\n}\n  }\n\n  }\n': PAGE_QUERY_RESULT
-    '\n  *[_type == "label" && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    "slug": slug.current,\n    cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n,\n  caption},\n    gallery[{\n  _key,\n  asset,\n  hotspot,\n  crop,\n  alt,\n  caption\n}],\n    "releases": *[_type == "release" && label._ref == ^._id && defined(slug.current)]\n      | order(coalesce(releaseYear, 0) desc){\n        \n  _id,\n  \n  releaseName,\n  "slug": slug.current,\n  classification,\n  releaseYear,\n  dateUnknown,\n  cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n}\n,\n  \n  "artist": artist->{name, "slug": slug.current}\n\n\n      }\n  }\n': LABEL_QUERY_RESULT
+    '\n  *[_type == "label" && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    "slug": slug.current,\n    cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n,\n  caption},\n    gallery[{\n  _key,\n  asset,\n  hotspot,\n  crop,\n  alt,\n  caption\n}],\n    locations[]{\n  city,\n  state,\n  country\n},\n    "releases": *[_type == "release" && label._ref == ^._id && defined(slug.current)]\n      | order(coalesce(releaseYear, 0) desc){\n        \n  _id,\n  \n  releaseName,\n  "slug": slug.current,\n  classification,\n  releaseYear,\n  dateUnknown,\n  cover{\n  asset,\n  hotspot,\n  crop,\n  alt\n}\n,\n  \n  "artist": artist->{name, "slug": slug.current}\n\n\n      }\n  }\n': LABEL_QUERY_RESULT
   }
 }

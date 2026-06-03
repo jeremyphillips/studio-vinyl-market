@@ -2,6 +2,7 @@ import { defineQuery } from 'next-sanity'
 
 import { galleryProjection, imageWithAltCaption } from './fragments/image'
 import { internalLinkResolved } from './fragments/link'
+import { locationsProjection } from './fragments/location'
 import {
   releaseCardListFields,
   releaseCardNestedFields,
@@ -109,6 +110,7 @@ export const ARTIST_QUERY = defineQuery(`
     "slug": slug.current,
     cover${imageWithAltCaption},
     gallery${galleryProjection},
+    locations${locationsProjection},
     "releases": *[_type == "release" && artist._ref == ^._id && defined(slug.current)]
       | ${releasesOrder}{
         ${releaseCardNestedFields}
@@ -165,6 +167,7 @@ export const LABEL_QUERY = defineQuery(`
     "slug": slug.current,
     cover${imageWithAltCaption},
     gallery${galleryProjection},
+    locations${locationsProjection},
     "releases": *[_type == "release" && label._ref == ^._id && defined(slug.current)]
       | ${releasesOrder}{
         ${releaseCardNestedWithArtistFields}

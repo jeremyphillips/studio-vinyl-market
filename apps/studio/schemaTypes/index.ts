@@ -1,8 +1,8 @@
 import { artist } from './artist'
 import { label } from './label'
-import { artistLocation } from './objects/artistLocation'
 import { buttonBlock } from './objects/buttonBlock'
 import { imageWithAlt } from './objects/imageWithAlt'
+import { location } from './objects/location'
 import { navItem } from './objects/navItem'
 import { seo } from './objects/seo'
 import { page } from './page'
@@ -12,7 +12,7 @@ import { siteSettings } from './siteSettings'
 
 export const schemaTypes = [
   imageWithAlt,
-  artistLocation,
+  location,
   seo,
   navItem,
   buttonBlock,

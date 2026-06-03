@@ -15,13 +15,13 @@
 
 ### Object types
 
-| Type             | Description                                                        |
-| ---------------- | ------------------------------------------------------------------ |
-| `buttonBlock`    | Page-builder block — label, variant, size, internal/external link  |
-| `imageWithAlt`   | `image` + required `alt`, optional `caption`; hotspot/crop enabled |
-| `seo`            | `metaTitle`, `metaDescription`, `ogImage`, `noIndex`               |
-| `navItem`        | Nav link — label, `internal`/`external` linkType, resolved target  |
-| `artistLocation` | Place tied to an artist — city/state/country, `geopoint`, note     |
+| Type           | Description                                                             |
+| -------------- | ----------------------------------------------------------------------- |
+| `buttonBlock`  | Page-builder block — label, variant, size, internal/external link       |
+| `imageWithAlt` | `image` + required `alt`, optional `caption`; hotspot/crop enabled      |
+| `seo`          | `metaTitle`, `metaDescription`, `ogImage`, `noIndex`                    |
+| `navItem`      | Nav link — label, `internal`/`external` linkType, resolved target       |
+| `location`     | Place tied to an artist or label — city/state/country, `geopoint`, note |
 
 ### Singleton ID constants
 
@@ -130,17 +130,23 @@ Format, release date, speed, and credits import are deferred (see the import-pan
 
 Discogs API shapes (`DiscogsResult`, `DiscogsSearchResponse`, `DiscogsTrack`, `DiscogsReleaseDetail`) live in the `@vinyl-market/discogs` workspace package — the SSoT consumed by both the web API normalizers and the Studio. Studio-only helpers (URL builders) stay in `apps/studio/components/types/discogs.ts`.
 
-## Artist locations
+## Locations (artists & labels)
 
-`artist.locations[]` is an array of `artistLocation` objects, capturing one or more places tied to an artist. All fields are optional:
+Both `artist.locations[]` and `label.locations[]` are arrays of `location` objects, capturing one or more places tied to the entity. All fields are optional:
 
 - `city` / `state` / `country` — free-text place names.
-- `coordinates` — Sanity built-in `geopoint` (`lat`/`lng`), used to plot the artist on a future interactive map.
+- `coordinates` — Sanity built-in `geopoint` (`lat`/`lng`), used to plot the entity on a future interactive map.
 - `note` — optional context, e.g. a former name or a place that no longer exists.
+
+### Web rendering — `Identity` + `LocationList`
+
+The artist and label detail pages share a single `Identity` header (`apps/web/components/catalog/identity/`): cover, eyebrow (`Artist`/`Label`), name, release count, and an optional `LocationList`. `LocationList` (`apps/web/components/catalog/location-list/`) renders each place as a `City, State, Country` row (empty parts omitted) with a `lucide-react` `MapPin` icon, and renders nothing when no location has a value.
+
+The shared GROQ projection lives in `apps/web/sanity/fragments/location.ts` (`locationsProjection`) and is used by both `ARTIST_QUERY` and `LABEL_QUERY`. It uses element-projection syntax (`[]{...}`) so TypeGen resolves per-item field types.
 
 ### Hybrid entry — `LocationSearchInput`
 
-`artistLocation` uses a custom input (`apps/studio/components/inputs/LocationSearchInput.tsx`) that renders an OpenStreetMap / Nominatim search above the standard editable fields:
+`location` uses a custom input (`apps/studio/components/inputs/LocationSearchInput.tsx`) that renders an OpenStreetMap / Nominatim search above the standard editable fields:
 
 - Selecting a result patches `city`, `state`, `country`, and `coordinates` via relative `set` patches.
 - The default fields stay editable (`props.renderDefault(props)`), so editors can correct values or enter defunct/renamed places and coordinates by hand.

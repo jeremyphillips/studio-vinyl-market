@@ -2,8 +2,8 @@ import { PinIcon } from '@sanity/icons'
 import { defineField, defineType } from 'sanity'
 import { LocationSearchInput } from '../../components/inputs/LocationSearchInput'
 
-export const artistLocation = defineType({
-  name: 'artistLocation',
+export const location = defineType({
+  name: 'location',
   title: 'Location',
   type: 'object',
   icon: PinIcon,
