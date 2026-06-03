@@ -4,6 +4,7 @@ import {
   releaseDescriptionOptions,
   releaseMediaTypeOptions,
   releaseSizeOptions,
+  releaseSpeedOptions,
 } from '@vinyl-market/release-constants'
 import type { Metadata } from 'next'
 import Link from 'next/link'
@@ -24,6 +25,9 @@ const CLASSIFICATION_LABEL = Object.fromEntries(
 )
 const MEDIA_TYPE_LABEL = Object.fromEntries(
   releaseMediaTypeOptions.map(({ value, title }) => [value, title]),
+)
+const SPEED_LABEL = Object.fromEntries(
+  releaseSpeedOptions.map(({ value, title }) => [value, title]),
 )
 const SIZE_LABEL = Object.fromEntries(releaseSizeOptions.map(({ value, title }) => [value, title]))
 const CHANNELS_LABEL = Object.fromEntries(
@@ -78,7 +82,7 @@ export default async function ReleasePage({ params }: { params: Params }) {
     MEDIA_TYPE_LABEL[release.mediaType] ?? release.mediaType,
     CLASSIFICATION_LABEL[release.classification] ?? release.classification,
     release.size ? (SIZE_LABEL[release.size] ?? release.size) : null,
-    release.speed ? `${release.speed}rpm` : null,
+    release.speed ? (SPEED_LABEL[release.speed] ?? release.speed) : null,
     release.channels ? (CHANNELS_LABEL[release.channels] ?? release.channels) : null,
   ].filter((p): p is string => Boolean(p))
   const formatLabel = formatParts.join(', ')
