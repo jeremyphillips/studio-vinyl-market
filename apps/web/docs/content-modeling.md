@@ -15,12 +15,13 @@
 
 ### Object types
 
-| Type           | Description                                                        |
-| -------------- | ------------------------------------------------------------------ |
-| `buttonBlock`  | Page-builder block — label, variant, size, internal/external link  |
-| `imageWithAlt` | `image` + required `alt`, optional `caption`; hotspot/crop enabled |
-| `seo`          | `metaTitle`, `metaDescription`, `ogImage`, `noIndex`               |
-| `navItem`      | Nav link — label, `internal`/`external` linkType, resolved target  |
+| Type             | Description                                                        |
+| ---------------- | ------------------------------------------------------------------ |
+| `buttonBlock`    | Page-builder block — label, variant, size, internal/external link  |
+| `imageWithAlt`   | `image` + required `alt`, optional `caption`; hotspot/crop enabled |
+| `seo`            | `metaTitle`, `metaDescription`, `ogImage`, `noIndex`               |
+| `navItem`        | Nav link — label, `internal`/`external` linkType, resolved target  |
+| `artistLocation` | Place tied to an artist — city/state/country, `geopoint`, note     |
 
 ### Singleton ID constants
 
@@ -128,6 +129,24 @@ Format, release date, speed, and credits import are deferred (see the import-pan
 ### Shared types — `@vinyl-market/discogs`
 
 Discogs API shapes (`DiscogsResult`, `DiscogsSearchResponse`, `DiscogsTrack`, `DiscogsReleaseDetail`) live in the `@vinyl-market/discogs` workspace package — the SSoT consumed by both the web API normalizers and the Studio. Studio-only helpers (URL builders) stay in `apps/studio/components/types/discogs.ts`.
+
+## Artist locations
+
+`artist.locations[]` is an array of `artistLocation` objects, capturing one or more places tied to an artist. All fields are optional:
+
+- `city` / `state` / `country` — free-text place names.
+- `coordinates` — Sanity built-in `geopoint` (`lat`/`lng`), used to plot the artist on a future interactive map.
+- `note` — optional context, e.g. a former name or a place that no longer exists.
+
+### Hybrid entry — `LocationSearchInput`
+
+`artistLocation` uses a custom input (`apps/studio/components/inputs/LocationSearchInput.tsx`) that renders an OpenStreetMap / Nominatim search above the standard editable fields:
+
+- Selecting a result patches `city`, `state`, `country`, and `coordinates` via relative `set` patches.
+- The default fields stay editable (`props.renderDefault(props)`), so editors can correct values or enter defunct/renamed places and coordinates by hand.
+- Nominatim is called **directly from the browser** (it supports CORS, needs no API key). No web proxy route exists yet; add one under `apps/web/app/api/` only if rate limits become an issue.
+
+Result → field mapping lives in `apps/studio/lib/nominatim-adapter.ts` (`adaptNominatimResult`), with `city` falling back to `town`/`village`/`municipality`/`hamlet` and `state` to `province`/`region`. Nominatim response shapes and the search-URL builder are in `apps/studio/components/types/location.ts`.
 
 ---
 
