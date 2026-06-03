@@ -227,6 +227,27 @@ export type Artist = {
       _key: string
     } & ImageWithAlt
   >
+  locations?: Array<
+    {
+      _key: string
+    } & ArtistLocation
+  >
+}
+
+export type ArtistLocation = {
+  _type: 'artistLocation'
+  city?: string
+  state?: string
+  country?: string
+  coordinates?: Geopoint
+  note?: string
+}
+
+export type Geopoint = {
+  _type: 'geopoint'
+  lat?: number
+  lng?: number
+  alt?: number
 }
 
 export type SanityImageCrop = {
@@ -335,13 +356,6 @@ export type SanityImageAsset = {
   source?: SanityAssetSourceData
 }
 
-export type Geopoint = {
-  _type: 'geopoint'
-  lat?: number
-  lng?: number
-  alt?: number
-}
-
 export type AllSanitySchemaTypes =
   | SiteSettings
   | ReleaseReference
@@ -360,6 +374,8 @@ export type AllSanitySchemaTypes =
   | SanityImageAssetReference
   | ImageWithAlt
   | Artist
+  | ArtistLocation
+  | Geopoint
   | SanityImageCrop
   | SanityImageHotspot
   | SanityImagePaletteSwatch
@@ -369,7 +385,6 @@ export type AllSanitySchemaTypes =
   | SanityFileAsset
   | SanityAssetSourceData
   | SanityImageAsset
-  | Geopoint
 
 // Source: ../web/sanity/queries.ts
 // Variable: SITE_SETTINGS_QUERY
