@@ -18,6 +18,7 @@ describe('mapDiscogsReleaseDetail', () => {
         { position: 'A1', title: 'One' },
         { position: 'B2', title: 'Two' },
       ],
+      formats: [],
     })
   })
 
@@ -67,6 +68,29 @@ describe('mapDiscogsReleaseDetail', () => {
   })
 
   it('defaults a missing tracklist to an empty array', () => {
-    expect(mapDiscogsReleaseDetail({ id: 5 })).toEqual({ id: 5, tracklist: [] })
+    expect(mapDiscogsReleaseDetail({ id: 5 })).toEqual({ id: 5, tracklist: [], formats: [] })
+  })
+
+  it('maps formats array from the raw response', () => {
+    const result = mapDiscogsReleaseDetail({
+      id: 6,
+      tracklist: [],
+      formats: [
+        {
+          name: 'Vinyl',
+          qty: '1',
+          descriptions: ['LP', 'Album', '33 ⅓ RPM'],
+          text: 'Gatefold',
+        },
+      ],
+    })
+
+    expect(result.formats).toEqual([
+      { name: 'Vinyl', qty: '1', descriptions: ['LP', 'Album', '33 ⅓ RPM'], text: 'Gatefold' },
+    ])
+  })
+
+  it('defaults a missing formats array to empty', () => {
+    expect(mapDiscogsReleaseDetail({ id: 7, tracklist: [] }).formats).toEqual([])
   })
 })

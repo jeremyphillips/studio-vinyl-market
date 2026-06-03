@@ -27,7 +27,15 @@ export interface DiscogsTrack {
   title: string
 }
 
+export interface DiscogsFormat {
+  name: string
+  qty: string
+  descriptions: string[]
+  text?: string
+}
+
 export interface DiscogsReleaseDetail {
   id: number
   tracklist: DiscogsTrack[]
+  formats: DiscogsFormat[]
 }
