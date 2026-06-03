@@ -1,1 +1,8 @@
-export { releaseFormatOptions, releaseSpeedOptions } from '@vinyl-market/release-constants'
+export {
+  releaseClassificationOptions,
+  releaseMediaTypeOptions,
+  releaseSpeedOptions,
+  releaseSizeOptions,
+  releaseChannelsOptions,
+  releaseDescriptionOptions,
+} from '@vinyl-market/release-constants'

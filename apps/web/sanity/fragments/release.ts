@@ -6,7 +6,7 @@ export const releasesOrder = /* groq */ `order(coalesce(releaseDate, _createdAt)
 const releaseCardCore = /* groq */ `
   releaseName,
   "slug": slug.current,
-  format,
+  classification,
   releaseDate,
   dateUnknown,
   cover{${imageWithAltFields}}
