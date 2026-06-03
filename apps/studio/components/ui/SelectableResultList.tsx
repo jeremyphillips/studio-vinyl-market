@@ -1,5 +1,5 @@
 import { ImageIcon } from '@sanity/icons'
-import { Box, Card, Flex, Stack, Text } from '@sanity/ui'
+import { Card, Flex, Stack, Text } from '@sanity/ui'
 import type { KeyboardEvent } from 'react'
 
 export interface SelectableResultListItem {
@@ -80,24 +80,16 @@ export function SelectableResultList<T>({
                     </Text>
                   </Flex>
                 )}
-                <Box flex={1} style={{ minWidth: 0 }}>
-                  <Text
-                    size={1}
-                    weight="medium"
-                    style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
-                  >
+                <Stack flex={1} space={2} style={{ minWidth: 0 }}>
+                  <Text size={1} weight="medium" textOverflow="ellipsis">
                     {title}
                   </Text>
                   {detail && (
-                    <Text
-                      size={1}
-                      muted
-                      style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
-                    >
+                    <Text size={1} muted textOverflow="ellipsis">
                       {detail}
                     </Text>
                   )}
-                </Box>
+                </Stack>
               </Flex>
             </Card>
           )

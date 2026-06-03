@@ -26,11 +26,14 @@ export function DiscogsSearchInput(props: ObjectInputProps<DiscogsValue>) {
 
   useEffect(() => {
     if (queryInitialized.current) return
+    // Hold off until a referenced artist's name resolves, otherwise the query
+    // locks to the release name alone before the async lookup completes.
+    if (artistRef?._ref && !artistName) return
     const parts = [artistName, releaseName].filter(Boolean)
     if (parts.length === 0) return
     setQuery(parts.join(' '))
     queryInitialized.current = true
-  }, [artistName, releaseName])
+  }, [artistName, artistRef, releaseName])
 
   const handleSearch = useCallback(() => {
     search(query)
@@ -65,22 +68,25 @@ export function DiscogsSearchInput(props: ObjectInputProps<DiscogsValue>) {
     setShowSearch(true)
   }, [])
 
-  const linkedItems = [
-    {
-      label: 'Release',
-      id: storedValue!.releaseId!,
-      href: `https://www.discogs.com/release/${storedValue!.releaseId}`,
-    },
-    ...(storedValue?.masterId != null
+  const linkedItems =
+    storedValue?.releaseId != null
       ? [
           {
-            label: 'Master',
-            id: storedValue.masterId,
-            href: `https://www.discogs.com/master/${storedValue.masterId}`,
+            label: 'Release',
+            id: storedValue.releaseId,
+            href: `https://www.discogs.com/release/${storedValue.releaseId}`,
           },
+          ...(storedValue.masterId != null
+            ? [
+                {
+                  label: 'Master',
+                  id: storedValue.masterId,
+                  href: `https://www.discogs.com/master/${storedValue.masterId}`,
+                },
+              ]
+            : []),
         ]
-      : []),
-  ]
+      : []
 
   return (
     <Stack gap={3}>
