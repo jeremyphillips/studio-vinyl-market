@@ -85,12 +85,14 @@ export const navItem = defineType({
       internalPageTitle,
       releasesPageTitle,
     }) {
-      const target =
-        linkType === 'external'
-          ? externalUrl || 'external link'
-          : internalType === 'releasesPage'
-            ? `releases page: ${releasesPageTitle || 'Releases'}`
-            : `${internalType ?? 'internal'}: ${internalReleaseTitle || internalTitle || internalPageTitle || 'unset'}`
+      let target: string
+      if (linkType === 'external') {
+        target = externalUrl || 'external link'
+      } else if (internalType === 'releasesPage') {
+        target = `releases page: ${releasesPageTitle || 'Releases'}`
+      } else {
+        target = `${internalType ?? 'internal'}: ${internalReleaseTitle || internalTitle || internalPageTitle || 'unset'}`
+      }
       const title = label?.trim() || 'Untitled nav item'
       const marker = linkType === 'external' ? ' ↗' : ''
       return { title: `${title}${marker}`, subtitle: target }

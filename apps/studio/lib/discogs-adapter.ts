@@ -44,7 +44,7 @@ function parseClassification(name: string, descriptions: string[]): string | und
 
 function parseSpeed(descriptions: string[]): string | undefined {
   for (const d of descriptions) {
-    if (/33[\s\u00a0]*[⅓]|33\s*1\/3\s*RPM/i.test(d)) return '33'
+    if (/33[\s\u00a0]*⅓|33\s*1\/3\s*RPM/i.test(d)) return '33'
     if (/45\s*RPM/i.test(d)) return '45'
     if (/78\s*RPM/i.test(d)) return '78'
   }
@@ -53,7 +53,7 @@ function parseSpeed(descriptions: string[]): string | undefined {
 
 function parseSize(descriptions: string[]): string | undefined {
   for (const d of descriptions) {
-    const match = d.trim().match(/^(7|10|12)(?:[^0-9]|$)/)
+    const match = d.trim().match(/^(7|10|12)(?:\D|$)/)
     if (match) return `${match[1]}"`
   }
   return undefined

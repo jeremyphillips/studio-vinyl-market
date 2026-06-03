@@ -323,9 +323,72 @@ describe('DiscogsImportPanel', () => {
       expect(screen.getByRole('checkbox', { name: /channels/i })).toBeEnabled()
     })
 
+    it('disables speed checkbox when incoming value matches existing', async () => {
+      formValues.speed = '33'
+      stubFetch(detailWithFormats)
+      const user = userEvent.setup()
+      render(<DiscogsImportPanel releaseId={123} />, { wrapper })
+
+      await user.click(screen.getByRole('button', { name: /fetch from discogs/i }))
+      await screen.findByText(/2 tracks/)
+
+      expect(screen.getByRole('checkbox', { name: /speed/i })).toBeDisabled()
+    })
+
+    it('enables speed checkbox when incoming value differs from existing', async () => {
+      formValues.speed = '45'
+      stubFetch(detailWithFormats)
+      const user = userEvent.setup()
+      render(<DiscogsImportPanel releaseId={123} />, { wrapper })
+
+      await user.click(screen.getByRole('button', { name: /fetch from discogs/i }))
+      await screen.findByText(/2 tracks/)
+
+      expect(screen.getByRole('checkbox', { name: /speed/i })).toBeEnabled()
+    })
+
+    it('disables size checkbox when incoming value matches existing', async () => {
+      formValues.size = '12"'
+      stubFetch(detailWithFormats)
+      const user = userEvent.setup()
+      render(<DiscogsImportPanel releaseId={123} />, { wrapper })
+
+      await user.click(screen.getByRole('button', { name: /fetch from discogs/i }))
+      await screen.findByText(/2 tracks/)
+
+      expect(screen.getByRole('checkbox', { name: /size/i })).toBeDisabled()
+    })
+
+    it('disables descriptions checkbox when incoming values match existing', async () => {
+      formValues.descriptions = ['reissue']
+      stubFetch(detailWithFormats)
+      const user = userEvent.setup()
+      render(<DiscogsImportPanel releaseId={123} />, { wrapper })
+
+      await user.click(screen.getByRole('button', { name: /fetch from discogs/i }))
+      await screen.findByText(/2 tracks/)
+
+      expect(screen.getByRole('checkbox', { name: /descriptions/i })).toBeDisabled()
+    })
+
+    it('enables descriptions checkbox when incoming values differ from existing', async () => {
+      formValues.descriptions = ['promo']
+      stubFetch(detailWithFormats)
+      const user = userEvent.setup()
+      render(<DiscogsImportPanel releaseId={123} />, { wrapper })
+
+      await user.click(screen.getByRole('button', { name: /fetch from discogs/i }))
+      await screen.findByText(/2 tracks/)
+
+      expect(screen.getByRole('checkbox', { name: /descriptions/i })).toBeEnabled()
+    })
+
     it('excludes matched fields from the patch even when checkbox state is true', async () => {
       formValues.mediaType = 'vinyl'
       formValues.classification = 'LP'
+      formValues.speed = '33'
+      formValues.size = '12"'
+      formValues.descriptions = ['reissue']
       stubFetch(detailWithFormats)
       const user = userEvent.setup()
       render(<DiscogsImportPanel releaseId={123} />, { wrapper })
@@ -339,7 +402,10 @@ describe('DiscogsImportPanel', () => {
 
       expect(set.mediaType).toBeUndefined()
       expect(set.classification).toBeUndefined()
-      expect(set.speed).toBe('33')
+      expect(set.speed).toBeUndefined()
+      expect(set.size).toBeUndefined()
+      expect(set.descriptions).toBeUndefined()
+      expect(set.channels).toBe('stereo')
     })
   })
 

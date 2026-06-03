@@ -4,14 +4,13 @@ import { axe } from 'vitest-axe'
 
 import { CoverImage } from './cover-image'
 
+const mockCoverImageUrl = 'https://cdn.example.com/cover.jpg'
+const mockUrlForResult = { url: () => mockCoverImageUrl }
+const mockHeightResult = { height: () => mockUrlForResult }
+const mockWidthResult = { width: () => mockHeightResult }
+
 vi.mock('@/sanity/image', () => ({
-  urlFor: () => ({
-    width: () => ({
-      height: () => ({
-        url: () => 'https://cdn.example.com/cover.jpg',
-      }),
-    }),
-  }),
+  urlFor: () => mockWidthResult,
 }))
 
 vi.mock('next/image', () => ({

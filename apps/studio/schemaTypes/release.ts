@@ -257,9 +257,16 @@ export const release = defineType({
               const base =
                 name?.trim() || (typeof discNumber === 'number' ? `Disc ${discNumber}` : 'Disc')
               const count = Array.isArray(tracks) ? tracks.length : 0
+              let subtitle: string
+              if (count === 0) {
+                subtitle = 'No tracks yet'
+              } else {
+                const trackWord = count === 1 ? 'track' : 'tracks'
+                subtitle = `${count} ${trackWord}`
+              }
               return {
                 title: base,
-                subtitle: count === 0 ? 'No tracks yet' : `${count} track${count === 1 ? '' : 's'}`,
+                subtitle,
               }
             },
           },
@@ -425,11 +432,12 @@ export const release = defineType({
         ? (classificationLabelByValue[classification] ?? classification)
         : undefined
       const mediaLabel = mediaType ? (mediaTypeLabelByValue[mediaType] ?? mediaType) : undefined
-      const year = dateUnknown
-        ? 'Year unknown'
-        : typeof releaseYear === 'number'
-          ? String(releaseYear)
-          : undefined
+      let year: string | undefined
+      if (dateUnknown) {
+        year = 'Year unknown'
+      } else if (typeof releaseYear === 'number') {
+        year = String(releaseYear)
+      }
       const subtitle = [artistName, mediaLabel, classLabel, year].filter(Boolean).join(' · ')
       return subtitle ? { title, subtitle, media } : { title, media }
     },

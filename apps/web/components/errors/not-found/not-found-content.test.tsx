@@ -26,12 +26,14 @@ describe('NotFoundContent', () => {
   it('renders default catalogue escape links', () => {
     render(<NotFoundContent />)
 
+    expect(screen.getByRole('link', { name: 'Back to home' })).toBeInTheDocument()
     expectCatalogueEscapeLinks()
   })
 
   it('renders custom browse link', () => {
     render(<NotFoundContent browseHref="/" browseLabel="Back to catalogue" />)
 
+    expect(screen.getByRole('link', { name: 'Back to catalogue' })).toBeInTheDocument()
     expectCatalogueEscapeLinks('Back to catalogue', '/')
   })
 
