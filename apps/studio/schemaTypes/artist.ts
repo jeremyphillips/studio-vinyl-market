@@ -37,7 +37,7 @@ export const artist = defineType({
       title: 'Locations',
       description: 'One or more places associated with this artist.',
       type: 'array',
-      of: [defineArrayMember({ type: 'artistLocation' })],
+      of: [defineArrayMember({ type: 'location' })],
     }),
   ],
   orderings: [

@@ -32,6 +32,13 @@ export const label = defineType({
       of: [defineArrayMember({ type: 'imageWithAlt' })],
       options: { layout: 'grid' },
     }),
+    defineField({
+      name: 'locations',
+      title: 'Locations',
+      description: 'One or more places associated with this label.',
+      type: 'array',
+      of: [defineArrayMember({ type: 'location' })],
+    }),
   ],
   orderings: [
     {

@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
-import { CoverImage } from '@/components/catalog/cover-image/cover-image'
+import { Identity } from '@/components/catalog/identity/identity'
 import { ReleaseCard } from '@/components/catalog/release-card/release-card.client'
-import { H1, H2, Label, P } from '@/components/ui/typography'
+import { H2, P } from '@/components/ui/typography'
 import { client } from '@/sanity/client'
 import { sanityFetch } from '@/sanity/live'
 import { LABEL_QUERY, LABEL_SLUGS_QUERY } from '@/sanity/queries'
@@ -40,23 +40,14 @@ export default async function LabelPage({ params }: { params: Params }) {
 
   return (
     <div className="space-y-10">
-      <header className="grid gap-6 md:grid-cols-[180px_1fr] md:items-end">
-        {label.cover && (
-          <CoverImage
-            source={label.cover}
-            size={360}
-            alt={`${label.name} logo`}
-            className="md:size-44"
-          />
-        )}
-        <div className="space-y-2">
-          <Label>Label</Label>
-          <H1>{label.name}</H1>
-          <P color="muted">
-            {releases.length} {releases.length === 1 ? 'release' : 'releases'}
-          </P>
-        </div>
-      </header>
+      <Identity
+        eyebrow="Label"
+        name={label.name}
+        cover={label.cover}
+        coverAlt={`${label.name} logo`}
+        releaseCount={releases.length}
+        locations={label.locations}
+      />
 
       <section aria-labelledby="releases-heading" className="space-y-4">
         <H2 id="releases-heading" size="h4">
