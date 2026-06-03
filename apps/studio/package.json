@@ -9,6 +9,7 @@
     "build": "node --env-file=.env node_modules/.bin/sanity build",
     "typegen": "SANITY_TYPEGEN=true sanity schema extract --enforce-required-fields && SANITY_TYPEGEN=true sanity typegen generate",
     "seed:releases-page": "sanity exec ./scripts/seed-releases-page.ts --with-user-token",
+    "migrate:release-format": "sanity exec ./migrations/release-format-refactor.ts --with-user-token",
     "deploy": "sanity deploy",
     "deploy-graphql": "sanity graphql deploy",
     "lint": "eslint .",

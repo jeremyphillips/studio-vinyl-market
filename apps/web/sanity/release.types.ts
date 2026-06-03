@@ -1,4 +1,5 @@
 import type { Release } from './types.generated'
 
-export type ReleaseFormat = Release['format']
+export type ReleaseClassification = Release['classification']
+export type ReleaseMediaType = Release['mediaType']
 export type ReleaseSpeed = Release['speed']

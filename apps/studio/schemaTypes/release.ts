@@ -1,6 +1,14 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
 import { DiscogsSearchInput } from '../components/inputs/DiscogsSearchInput'
-import { releaseFormatOptions, releaseSpeedOptions } from './constants/release'
+import { ReleaseDocumentInput } from '../components/inputs/ReleaseDocumentInput'
+import {
+  releaseClassificationOptions,
+  releaseChannelsOptions,
+  releaseDescriptionOptions,
+  releaseMediaTypeOptions,
+  releaseSizeOptions,
+  releaseSpeedOptions,
+} from './constants/release'
 
 function referenceHasRef(value: unknown): boolean {
   if (!value || typeof value !== 'object') return false
@@ -8,14 +16,26 @@ function referenceHasRef(value: unknown): boolean {
   return typeof ref === 'string' && ref.length > 0
 }
 
-const formatLabelByValue: Record<string, string> = Object.fromEntries(
-  releaseFormatOptions.map((option) => [option.value, option.title]),
+/** mediaType values for which speed and size are applicable. */
+const DISC_MEDIA_TYPES = ['vinyl', 'shellac']
+
+function isDiscMedia(mediaType: unknown): boolean {
+  return typeof mediaType === 'string' && DISC_MEDIA_TYPES.includes(mediaType)
+}
+
+const classificationLabelByValue: Record<string, string> = Object.fromEntries(
+  releaseClassificationOptions.map((option) => [option.value, option.title]),
+)
+
+const mediaTypeLabelByValue: Record<string, string> = Object.fromEntries(
+  releaseMediaTypeOptions.map((option) => [option.value, option.title]),
 )
 
 export const release = defineType({
   name: 'release',
   title: 'Release',
   type: 'document',
+  components: { input: ReleaseDocumentInput },
   groups: [
     { name: 'identity', title: 'Identity', default: true },
     { name: 'media', title: 'Media' },
@@ -48,13 +68,28 @@ export const release = defineType({
       group: 'identity',
     }),
     defineField({
-      name: 'format',
-      title: 'Format',
+      name: 'mediaType',
+      title: 'Media type',
       type: 'string',
       options: {
-        list: releaseFormatOptions,
-        layout: 'dropdown',
+        list: releaseMediaTypeOptions,
+        layout: 'radio',
+        direction: 'horizontal',
       },
+      initialValue: 'vinyl',
+      validation: (Rule) => Rule.required(),
+      group: 'identity',
+    }),
+    defineField({
+      name: 'classification',
+      title: 'Classification',
+      type: 'string',
+      options: {
+        list: releaseClassificationOptions,
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: 'LP',
       validation: (Rule) => Rule.required(),
       group: 'identity',
     }),
@@ -64,9 +99,62 @@ export const release = defineType({
       type: 'string',
       options: {
         list: releaseSpeedOptions,
-        layout: 'dropdown',
+        layout: 'radio',
+        direction: 'horizontal',
       },
-      validation: (Rule) => Rule.required(),
+      initialValue: '33',
+      group: 'identity',
+      hidden: ({ parent }) => !isDiscMedia(parent?.mediaType),
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const parent = context.parent as { mediaType?: string } | undefined
+          if (isDiscMedia(parent?.mediaType) && !value) {
+            return 'Speed is required for vinyl and shellac releases'
+          }
+          return true
+        }),
+    }),
+    defineField({
+      name: 'size',
+      title: 'Size',
+      type: 'string',
+      options: {
+        list: releaseSizeOptions,
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: '12"',
+      group: 'identity',
+      hidden: ({ parent }) => !isDiscMedia(parent?.mediaType),
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const parent = context.parent as { mediaType?: string } | undefined
+          if (isDiscMedia(parent?.mediaType) && !value) {
+            return 'Size is required for vinyl and shellac releases'
+          }
+          return true
+        }),
+    }),
+    defineField({
+      name: 'channels',
+      title: 'Channels',
+      type: 'string',
+      options: {
+        list: releaseChannelsOptions,
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      group: 'identity',
+    }),
+    defineField({
+      name: 'descriptions',
+      title: 'Descriptions',
+      type: 'array',
+      of: [defineArrayMember({ type: 'string' })],
+      options: {
+        list: releaseDescriptionOptions,
+        layout: 'grid',
+      },
       group: 'identity',
     }),
     defineField({
@@ -109,7 +197,7 @@ export const release = defineType({
               name: 'name',
               title: 'Disc name',
               type: 'string',
-              description: 'Optional label (e.g. “Bonus CD”, “DVD”, “Live set”).',
+              description: 'Optional label (e.g. "Bonus CD", "DVD", "Live set").',
             }),
             defineField({
               name: 'tracks',
@@ -258,20 +346,32 @@ export const release = defineType({
     select: {
       releaseName: 'releaseName',
       artistName: 'artist.name',
-      format: 'format',
+      classification: 'classification',
+      mediaType: 'mediaType',
       releaseDate: 'releaseDate',
       dateUnknown: 'dateUnknown',
       media: 'cover',
     },
-    prepare({ releaseName, artistName, format, releaseDate, dateUnknown, media }) {
+    prepare({
+      releaseName,
+      artistName,
+      classification,
+      mediaType,
+      releaseDate,
+      dateUnknown,
+      media,
+    }) {
       const title = releaseName || 'Untitled release'
-      const formatLabel = format ? (formatLabelByValue[format] ?? format) : undefined
+      const classLabel = classification
+        ? (classificationLabelByValue[classification] ?? classification)
+        : undefined
+      const mediaLabel = mediaType ? (mediaTypeLabelByValue[mediaType] ?? mediaType) : undefined
       const year = dateUnknown
         ? 'Year unknown'
         : typeof releaseDate === 'string' && releaseDate.length >= 4
           ? releaseDate.slice(0, 4)
           : undefined
-      const subtitle = [artistName, formatLabel, year].filter(Boolean).join(' · ')
+      const subtitle = [artistName, mediaLabel, classLabel, year].filter(Boolean).join(' · ')
       return subtitle ? { title, subtitle, media } : { title, media }
     },
   },

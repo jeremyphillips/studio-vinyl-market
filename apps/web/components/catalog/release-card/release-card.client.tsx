@@ -8,12 +8,12 @@ import { CoverImage } from '@/components/catalog/cover-image/cover-image'
 import { Card, CardContent } from '@/components/ui/card'
 import { P, Small } from '@/components/ui/typography'
 import type { ImageWithAltSource } from '@/sanity/image'
-import type { ReleaseFormat } from '@/sanity/release.types'
+import type { ReleaseClassification } from '@/sanity/release.types'
 
 export type ReleaseData = {
   releaseName: string
   slug: string
-  format: ReleaseFormat | string
+  classification: ReleaseClassification | string
   releaseDate?: string | null
   dateUnknown?: boolean | null
   artist?: { name: string; slug: string } | null
@@ -69,7 +69,7 @@ function Artist() {
 function Meta() {
   const { release } = useReleaseCardContext()
   const year = formatYear(release.releaseDate, release.dateUnknown)
-  return <Small>{[release.format, year].filter(Boolean).join(' · ')}</Small>
+  return <Small>{[release.classification, year].filter(Boolean).join(' · ')}</Small>
 }
 
 // ─── Public component ─────────────────────────────────────────────────────────

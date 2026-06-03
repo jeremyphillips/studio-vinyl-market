@@ -38,15 +38,33 @@ import { RELEASES_PAGE_ID } from 'apps/studio/schemaTypes/releasesPage'
 Option arrays used in both the Studio (as `list` values) and the web (as display labels) live in `packages/release-constants/index.ts`. This is the SSoT — never duplicate them in either app.
 
 ```ts
-import { releaseFormatOptions, releaseSpeedOptions } from '@vinyl-market/release-constants'
+import {
+  releaseClassificationOptions,
+  releaseChannelsOptions,
+  releaseDescriptionOptions,
+  releaseMediaTypeOptions,
+  releaseSizeOptions,
+  releaseSpeedOptions,
+} from '@vinyl-market/release-constants'
 ```
+
+Current exports:
+
+| Constant                       | Field            | Values                                      |
+| ------------------------------ | ---------------- | ------------------------------------------- |
+| `releaseClassificationOptions` | `classification` | LP, EP, Single                              |
+| `releaseMediaTypeOptions`      | `mediaType`      | vinyl, shellac, cd, cassette                |
+| `releaseSpeedOptions`          | `speed`          | 33, 45, 78                                  |
+| `releaseSizeOptions`           | `size`           | 7", 10", 12"                                |
+| `releaseChannelsOptions`       | `channels`       | mono, stereo                                |
+| `releaseDescriptionOptions`    | `descriptions`   | reissue, repress, promo, unofficial-release |
 
 - **Studio** (`apps/studio/schemaTypes/constants/release.ts`) re-exports from the package.
 - **Web** derives label maps at module scope using `Object.fromEntries`:
 
 ```ts
-const SPEED_LABEL = Object.fromEntries(
-  releaseSpeedOptions.map(({ value, title }) => [value, title]),
+const CLASSIFICATION_LABEL = Object.fromEntries(
+  releaseClassificationOptions.map(({ value, title }) => [value, title]),
 )
 ```
 

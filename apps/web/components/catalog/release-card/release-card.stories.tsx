@@ -17,7 +17,7 @@ type Story = StoryObj<typeof ReleaseCard>
 const baseRelease: ReleaseData = {
   releaseName: 'Kind of Blue',
   slug: 'kind-of-blue',
-  format: 'LP',
+  classification: 'LP',
   releaseDate: '1959-08-17',
   artist: { name: 'Miles Davis', slug: 'miles-davis' },
 }
