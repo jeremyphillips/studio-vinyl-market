@@ -1,42 +1,20 @@
-import { stegaClean } from '@sanity/client/stega'
-import {
-  releaseChannelsOptions,
-  releaseClassificationOptions,
-  releaseDescriptionOptions,
-  releaseMediaTypeOptions,
-  releaseSizeOptions,
-  releaseSpeedOptions,
-} from '@vinyl-market/release-constants'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { CoverImage } from '@/components/catalog/cover-image/cover-image'
 import { DiscogsMeta } from '@/components/catalog/discogs-meta/discogs-meta'
+import {
+  CLASSIFICATION_LABEL,
+  MEDIA_TYPE_LABEL,
+  ReleaseMeta,
+} from '@/components/catalog/release-meta/release-meta'
 import { Tracklist } from '@/components/catalog/tracklist/tracklist'
 import { H1, H2, P } from '@/components/ui/typography'
-import { formatYear } from '@/lib/date'
 import { SLUG_PATH_BY_TYPE } from '@/lib/routes'
 import { client } from '@/sanity/client'
 import { sanityFetch } from '@/sanity/live'
 import { RELEASE_QUERY, RELEASE_SLUGS_QUERY } from '@/sanity/queries'
-
-const CLASSIFICATION_LABEL = Object.fromEntries(
-  releaseClassificationOptions.map(({ value, title }) => [value, title]),
-)
-const MEDIA_TYPE_LABEL = Object.fromEntries(
-  releaseMediaTypeOptions.map(({ value, title }) => [value, title]),
-)
-const SPEED_LABEL = Object.fromEntries(
-  releaseSpeedOptions.map(({ value, title }) => [value, title]),
-)
-const SIZE_LABEL = Object.fromEntries(releaseSizeOptions.map(({ value, title }) => [value, title]))
-const CHANNELS_LABEL = Object.fromEntries(
-  releaseChannelsOptions.map(({ value, title }) => [value, title]),
-)
-const DESCRIPTION_LABEL = Object.fromEntries(
-  releaseDescriptionOptions.map(({ value, title }) => [value, title]),
-)
 
 type Params = Promise<{ slug: string }>
 
@@ -77,22 +55,6 @@ export default async function ReleasePage({ params }: { params: Params }) {
 
   if (!release) notFound()
 
-  const year = formatYear(release.releaseYear, release.dateUnknown)
-
-  const formatParts: string[] = [
-    MEDIA_TYPE_LABEL[stegaClean(release.mediaType)] ?? release.mediaType,
-    CLASSIFICATION_LABEL[stegaClean(release.classification)] ?? release.classification,
-    release.size ? (SIZE_LABEL[stegaClean(release.size)] ?? release.size) : null,
-    release.speed ? (SPEED_LABEL[stegaClean(release.speed)] ?? release.speed) : null,
-    release.channels ? (CHANNELS_LABEL[stegaClean(release.channels)] ?? release.channels) : null,
-  ].filter((p): p is string => Boolean(p))
-  const formatLabel = formatParts.join(', ')
-
-  const descriptionLabels =
-    release.descriptions && release.descriptions.length > 0
-      ? release.descriptions.map((d) => DESCRIPTION_LABEL[stegaClean(d)] ?? d).join(', ')
-      : null
-
   return (
     <article className="grid gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
       <div>
@@ -120,40 +82,18 @@ export default async function ReleasePage({ params }: { params: Params }) {
           )}
         </header>
 
-        <dl className="grid grid-cols-2 gap-y-3 text-sm">
-          <dt className="text-muted-foreground">Format</dt>
-          <dd>{formatLabel}</dd>
-
-          {descriptionLabels && (
-            <>
-              <dt className="text-muted-foreground">Descriptions</dt>
-              <dd>{descriptionLabels}</dd>
-            </>
-          )}
-
-          {year && (
-            <>
-              <dt className="text-muted-foreground">Year</dt>
-              <dd>{year}</dd>
-            </>
-          )}
-
-          <dt className="text-muted-foreground">Label</dt>
-          <dd>
-            {release.label ? (
-              <Link
-                href={`${SLUG_PATH_BY_TYPE.label}/${release.label.slug}` as const}
-                className="underline-offset-4 hover:underline"
-              >
-                {release.label.name}
-              </Link>
-            ) : release.noLabel ? (
-              'No label'
-            ) : (
-              '—'
-            )}
-          </dd>
-        </dl>
+        <ReleaseMeta
+          mediaType={release.mediaType}
+          classification={release.classification}
+          size={release.size}
+          speed={release.speed}
+          channels={release.channels}
+          descriptions={release.descriptions}
+          releaseYear={release.releaseYear}
+          dateUnknown={release.dateUnknown}
+          label={release.label}
+          noLabel={release.noLabel}
+        />
 
         <section aria-labelledby="tracklist-heading" className="space-y-3">
           <H2 id="tracklist-heading" size="h5">

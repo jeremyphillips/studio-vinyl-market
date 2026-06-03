@@ -47,3 +47,6 @@ coverage
 
 # Cursor
 .cursor/plans
+
+# NextJs
+apps/web/next-env.d.ts

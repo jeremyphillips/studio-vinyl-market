@@ -23,13 +23,15 @@ export function Tracklist({ discs }: TracklistProps) {
   return (
     <div className="space-y-6">
       {discs.map((disc) => {
-        const heading = disc.name?.trim() || `Disc ${disc.discNumber}`
+        const heading = disc.name?.trim() || (discs.length > 1 ? `Disc ${disc.discNumber}` : null)
         const tracks = disc.tracks ?? []
         return (
-          <section key={disc._key} aria-label={heading}>
-            <Label as="small" className="mb-2">
-              {heading}
-            </Label>
+          <section key={disc._key} aria-label={heading ?? undefined}>
+            {heading && (
+              <Label as="small" className="mb-2">
+                {heading}
+              </Label>
+            )}
             {tracks.length === 0 ? (
               <P size="body-sm" color="muted">
                 No tracks yet.
