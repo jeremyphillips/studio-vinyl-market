@@ -11,11 +11,11 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
-import { formatYear } from '@/catalog/format'
 import { CoverImage } from '@/components/catalog/cover-image/cover-image'
 import { DiscogsMeta } from '@/components/catalog/discogs-meta/discogs-meta'
 import { Tracklist } from '@/components/catalog/tracklist/tracklist'
 import { H1, H2, P } from '@/components/ui/typography'
+import { formatYear } from '@/lib/date'
 import { SLUG_PATH_BY_TYPE } from '@/lib/routes'
 import { client } from '@/sanity/client'
 import { sanityFetch } from '@/sanity/live'
@@ -77,7 +77,7 @@ export default async function ReleasePage({ params }: { params: Params }) {
 
   if (!release) notFound()
 
-  const year = formatYear(release.releaseDate, release.dateUnknown)
+  const year = formatYear(release.releaseYear, release.dateUnknown)
 
   const formatParts: string[] = [
     MEDIA_TYPE_LABEL[stegaClean(release.mediaType)] ?? release.mediaType,

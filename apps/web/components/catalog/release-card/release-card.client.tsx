@@ -3,10 +3,10 @@
 import Link from 'next/link'
 import { createContext, use } from 'react'
 
-import { formatYear } from '@/catalog/format'
 import { CoverImage } from '@/components/catalog/cover-image/cover-image'
 import { Card, CardContent } from '@/components/ui/card'
 import { P, Small } from '@/components/ui/typography'
+import { formatYear } from '@/lib/date'
 import type { ImageWithAltSource } from '@/sanity/image'
 import type { ReleaseClassification } from '@/sanity/release.types'
 
@@ -14,7 +14,7 @@ export type ReleaseData = {
   releaseName: string
   slug: string
   classification: ReleaseClassification | string
-  releaseDate?: string | null
+  releaseYear?: number | null
   dateUnknown?: boolean | null
   artist?: { name: string; slug: string } | null
   cover?: ImageWithAltSource
@@ -68,7 +68,7 @@ function Artist() {
 
 function Meta() {
   const { release } = useReleaseCardContext()
-  const year = formatYear(release.releaseDate, release.dateUnknown)
+  const year = formatYear(release.releaseYear, release.dateUnknown)
   return <Small>{[release.classification, year].filter(Boolean).join(' · ')}</Small>
 }
 

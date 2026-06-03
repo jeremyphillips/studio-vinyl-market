@@ -74,7 +74,7 @@ export const RELEASE_QUERY = defineQuery(`
     size,
     channels,
     descriptions,
-    releaseDate,
+    releaseYear,
     dateUnknown,
     noLabel,
     "artist": artist->{name, "slug": slug.current},

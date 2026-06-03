@@ -36,6 +36,9 @@ export const release = defineType({
   title: 'Release',
   type: 'document',
   components: { input: ReleaseDocumentInput },
+  initialValue: {
+    datePrecision: 'year',
+  },
   groups: [
     { name: 'identity', title: 'Identity', default: true },
     { name: 'media', title: 'Media' },
@@ -271,19 +274,70 @@ export const release = defineType({
       group: 'releaseInfo',
     }),
     defineField({
-      name: 'releaseDate',
-      title: 'Release date',
-      type: 'date',
+      name: 'datePrecision',
+      title: 'Precision',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Year', value: 'year' },
+          { title: 'Month', value: 'month' },
+          { title: 'Day', value: 'day' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      group: 'releaseInfo',
+      hidden: ({ parent }) => Boolean(parent?.dateUnknown),
+    }),
+    defineField({
+      name: 'releaseYear',
+      title: 'Year',
+      type: 'number',
       group: 'releaseInfo',
       hidden: ({ parent }) => Boolean(parent?.dateUnknown),
       validation: (Rule) =>
         Rule.custom((value, context) => {
           const parent = context.parent as { dateUnknown?: boolean } | undefined
-          const dateUnknown = parent?.dateUnknown === true
-          if (dateUnknown) return true
-          if (!value) return 'Release date is required when the date is known'
+          if (parent?.dateUnknown) return true
+          if (!value) return 'Year is required when the date is known'
           return true
-        }),
+        })
+          .integer()
+          .min(1860)
+          .max(2099),
+    }),
+    defineField({
+      name: 'releaseMonth',
+      title: 'Month',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'January', value: '01' },
+          { title: 'February', value: '02' },
+          { title: 'March', value: '03' },
+          { title: 'April', value: '04' },
+          { title: 'May', value: '05' },
+          { title: 'June', value: '06' },
+          { title: 'July', value: '07' },
+          { title: 'August', value: '08' },
+          { title: 'September', value: '09' },
+          { title: 'October', value: '10' },
+          { title: 'November', value: '11' },
+          { title: 'December', value: '12' },
+        ],
+      },
+      group: 'releaseInfo',
+      hidden: ({ parent }) =>
+        Boolean(parent?.dateUnknown) ||
+        (parent?.datePrecision !== 'month' && parent?.datePrecision !== 'day'),
+    }),
+    defineField({
+      name: 'releaseDay',
+      title: 'Day',
+      type: 'number',
+      group: 'releaseInfo',
+      hidden: ({ parent }) => Boolean(parent?.dateUnknown) || parent?.datePrecision !== 'day',
+      validation: (Rule) => Rule.integer().min(1).max(31),
     }),
     defineField({
       name: 'noLabel',
@@ -334,7 +388,7 @@ export const release = defineType({
     {
       title: 'Release date (newest first)',
       name: 'releaseDateDesc',
-      by: [{ field: 'releaseDate', direction: 'desc' }],
+      by: [{ field: 'releaseYear', direction: 'desc' }],
     },
     {
       title: 'Artist (A–Z)',
@@ -353,7 +407,7 @@ export const release = defineType({
       artistName: 'artist.name',
       classification: 'classification',
       mediaType: 'mediaType',
-      releaseDate: 'releaseDate',
+      releaseYear: 'releaseYear',
       dateUnknown: 'dateUnknown',
       media: 'cover',
     },
@@ -362,7 +416,7 @@ export const release = defineType({
       artistName,
       classification,
       mediaType,
-      releaseDate,
+      releaseYear,
       dateUnknown,
       media,
     }) {
@@ -373,8 +427,8 @@ export const release = defineType({
       const mediaLabel = mediaType ? (mediaTypeLabelByValue[mediaType] ?? mediaType) : undefined
       const year = dateUnknown
         ? 'Year unknown'
-        : typeof releaseDate === 'string' && releaseDate.length >= 4
-          ? releaseDate.slice(0, 4)
+        : typeof releaseYear === 'number'
+          ? String(releaseYear)
           : undefined
       const subtitle = [artistName, mediaLabel, classLabel, year].filter(Boolean).join(' · ')
       return subtitle ? { title, subtitle, media } : { title, media }
