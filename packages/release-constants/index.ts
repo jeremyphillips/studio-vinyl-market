@@ -33,4 +33,5 @@ export const releaseDescriptionOptions: { title: string; value: string }[] = [
   { title: 'Repress', value: 'repress' },
   { title: 'Promo', value: 'promo' },
   { title: 'Unofficial Release', value: 'unofficial-release' },
+  { title: 'Compilation', value: 'compilation' },
 ]
