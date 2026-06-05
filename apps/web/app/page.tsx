@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { ReleaseCard } from '@/components/catalog/release-card/release-card.client'
+import { ReleaseGrid } from '@/components/catalog/release-grid'
 import { Button } from '@/components/ui/button'
 import { H1, P } from '@/components/ui/typography'
 import { sanityFetch } from '@/sanity/live'
@@ -16,17 +16,11 @@ export default async function HomePage() {
         <P color="muted">The most recently dated records in the catalogue.</P>
       </header>
 
-      {releases.length === 0 ? (
-        <P color="muted">No releases published yet.</P>
-      ) : (
-        <ul className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
-          {releases.map((release, index) => (
-            <li key={release._id}>
-              <ReleaseCard release={release} priority={index < 4} />
-            </li>
-          ))}
-        </ul>
-      )}
+      <ReleaseGrid
+        releases={releases}
+        emptyMessage="No releases published yet."
+        priorityCount={4}
+      />
 
       <div>
         <Button asChild variant="outline">
