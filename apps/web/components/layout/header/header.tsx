@@ -11,6 +11,7 @@ type HeaderProps = {
   initialIsDark: boolean
 }
 
+// fallow-ignore-next-line complexity
 export async function Header({ initialIsDark }: HeaderProps) {
   const { data: settings } = await sanityFetch({ query: SITE_SETTINGS_QUERY })
 

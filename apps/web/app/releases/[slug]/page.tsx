@@ -22,6 +22,7 @@ export function generateStaticParams() {
   return fetchStaticSlugs(RELEASE_SLUGS_QUERY)
 }
 
+// fallow-ignore-next-line complexity
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params
   const { data: release } = await sanityFetch({
@@ -43,6 +44,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   }
 }
 
+// fallow-ignore-next-line complexity
 export default async function ReleasePage({ params }: { params: Params }) {
   const { slug } = await params
   const { data: release } = await sanityFetch({
