@@ -1,5 +1,6 @@
 import { ThemeProvider, ToastProvider, studioTheme } from '@sanity/ui'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import type { ComponentProps, ReactNode } from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
@@ -24,12 +25,13 @@ function wrapper({ children }: { children: ReactNode }) {
 }
 
 function renderInput(value?: DiscogsValue) {
+  const onChange = vi.fn()
   const props = {
     value,
-    onChange: vi.fn(),
+    onChange,
   } as unknown as ComponentProps<typeof DiscogsSearchInput>
 
-  return render(<DiscogsSearchInput {...props} />, { wrapper })
+  return { onChange, ...render(<DiscogsSearchInput {...props} />, { wrapper }) }
 }
 
 describe('DiscogsSearchInput', () => {
@@ -52,5 +54,24 @@ describe('DiscogsSearchInput', () => {
       'href',
       'https://www.discogs.com/release/12345',
     )
+  })
+
+  it('returns to the search view when "Search again" is clicked', async () => {
+    const user = userEvent.setup()
+    renderInput({ _type: 'discogs', releaseId: 12345 })
+
+    await user.click(screen.getByRole('button', { name: 'Search again' }))
+
+    expect(screen.getByRole('button', { name: 'Search Discogs' })).toBeInTheDocument()
+  })
+
+  it('unsets the value and reopens search when "Clear" is clicked', async () => {
+    const user = userEvent.setup()
+    const { onChange } = renderInput({ _type: 'discogs', releaseId: 12345 })
+
+    await user.click(screen.getByRole('button', { name: 'Clear' }))
+
+    expect(onChange).toHaveBeenCalledWith({ type: 'unset' })
+    expect(screen.getByRole('button', { name: 'Search Discogs' })).toBeInTheDocument()
   })
 })

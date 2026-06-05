@@ -1,5 +1,5 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
-import { DiscogsSearchInput } from '../components/inputs/DiscogsSearchInput'
+import { DiscogsSearchInput } from '../components/discogs/DiscogsSearchInput'
 import { ReleaseDocumentInput } from '../components/inputs/ReleaseDocumentInput'
 import {
   releaseClassificationOptions,

@@ -1,10 +1,9 @@
-import { useCallback } from 'react'
 import {
   buildDiscogsSearchUrl,
   type DiscogsResult,
   type DiscogsSearchResponse,
 } from '../types/discogs'
-import { useAsyncAction } from './useAsyncAction'
+import { useSearchAction } from './useSearchAction'
 
 /**
  * Module-level fetcher — stable reference, so useAsyncAction's execute callback
@@ -21,20 +20,5 @@ async function fetchDiscogsResults(query: string): Promise<DiscogsResult[]> {
 }
 
 export function useDiscogsSearch() {
-  const { data: results, loading, error, execute, reset } = useAsyncAction(fetchDiscogsResults)
-
-  /**
-   * Wraps execute with a blank-query guard so callers never need to check
-   * themselves whether the input is empty before calling search.
-   */
-  const search = useCallback(
-    async (query: string) => {
-      const trimmed = query.trim()
-      if (!trimmed) return
-      await execute(trimmed)
-    },
-    [execute],
-  )
-
-  return { results, loading, error, search, reset }
+  return useSearchAction(fetchDiscogsResults)
 }
