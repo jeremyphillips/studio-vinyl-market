@@ -14,7 +14,15 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test-storybook": "test-storybook",
-    "clean": "rm -rf .next .turbo"
+    "clean": "rm -rf .next .turbo",
+    "fallow": "fallow",
+    "fallow:audit": "fallow audit",
+    "fallow:health": "fallow health --score --hotspots --targets",
+    "fallow:dead-code": "fallow dead-code",
+    "fallow:web": "fallow --workspace web",
+    "fallow:web:audit": "fallow audit --workspace web",
+    "fallow:web:health": "fallow health --workspace web --score --hotspots --targets",
+    "fallow:web:dead-code": "fallow dead-code --workspace web"
   },
   "dependencies": {
     "@portabletext/react": "^6.2.0",
