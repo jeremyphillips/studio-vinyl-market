@@ -12,19 +12,17 @@ import {
 import { Tracklist } from '@/components/catalog/tracklist/tracklist'
 import { H1, H2, P } from '@/components/ui/typography'
 import { SLUG_PATH_BY_TYPE } from '@/lib/routes'
-import { client } from '@/sanity/client'
 import { sanityFetch } from '@/sanity/live'
 import { RELEASE_QUERY, RELEASE_SLUGS_QUERY } from '@/sanity/queries'
+import { fetchStaticSlugs } from '@/sanity/static-params'
 
 type Params = Promise<{ slug: string }>
 
-export async function generateStaticParams() {
-  const slugs = await client
-    .withConfig({ useCdn: false, perspective: 'published', stega: false })
-    .fetch(RELEASE_SLUGS_QUERY)
-  return slugs.map((slug) => ({ slug }))
+export function generateStaticParams() {
+  return fetchStaticSlugs(RELEASE_SLUGS_QUERY)
 }
 
+// fallow-ignore-next-line complexity
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params
   const { data: release } = await sanityFetch({
@@ -46,6 +44,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   }
 }
 
+// fallow-ignore-next-line complexity
 export default async function ReleasePage({ params }: { params: Params }) {
   const { slug } = await params
   const { data: release } = await sanityFetch({

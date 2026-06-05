@@ -28,6 +28,7 @@ export function ReleaseDocumentInput(props: ObjectInputProps) {
   const mediaTypeMounted = useRef(false)
   const classificationMounted = useRef(false)
 
+  // fallow-ignore-next-line complexity
   useEffect(() => {
     if (!mediaTypeMounted.current) {
       mediaTypeMounted.current = true

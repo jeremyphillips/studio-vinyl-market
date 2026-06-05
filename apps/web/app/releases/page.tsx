@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { ReleaseCard } from '@/components/catalog/release-card/release-card.client'
+import { ReleaseGrid } from '@/components/catalog/release-grid'
 import { H1, P } from '@/components/ui/typography'
 import { sanityFetch } from '@/sanity/live'
 import { toNextMetadata } from '@/sanity/metadata'
@@ -44,17 +44,7 @@ export default async function ReleasesPage() {
         <P color="muted">{releaseCountLabel(releases.length)}</P>
       </header>
 
-      {releases.length === 0 ? (
-        <P color="muted">No releases published yet.</P>
-      ) : (
-        <ul className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
-          {releases.map((release) => (
-            <li key={release._id}>
-              <ReleaseCard release={release} />
-            </li>
-          ))}
-        </ul>
-      )}
+      <ReleaseGrid releases={releases} emptyMessage="No releases published yet." />
     </div>
   )
 }

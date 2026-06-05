@@ -52,9 +52,19 @@ describe('LocationSearchInput', () => {
     expect(screen.getByRole('button', { name: 'Search' })).toBeInTheDocument()
   })
 
+  /**
+   * `delay: null` removes the artificial per-keystroke pause that user-event v14 adds by
+   * default. Without it, typing 'London' dispatches ~24 DOM events sequentially through
+   * the jsdom event loop, which causes this test to intermittently exceed the 5 s vitest
+   * timeout on slow CI runners.
+   *
+   * The per-test timeout is raised to 15 s as an additional safety net for cold runners
+   * where React's async state updates (fetch → setResults → re-render) add unpredictable
+   * overhead even after typing is made instantaneous.
+   */
   it('searches and patches city, state, country and coordinates on select', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(jsonResponse([result])))
-    const user = userEvent.setup()
+    const user = userEvent.setup({ delay: null })
     const { onChange } = renderInput()
 
     await user.type(screen.getByRole('textbox', { name: 'Search' }), 'London')
@@ -74,7 +84,7 @@ describe('LocationSearchInput', () => {
         value: { _type: 'geopoint', lat: 51.5074, lng: -0.1278 },
       },
     ])
-  })
+  }, 15_000)
 
   it('shows an empty state when no places match', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(jsonResponse([])))

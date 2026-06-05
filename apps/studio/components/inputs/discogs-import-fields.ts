@@ -54,7 +54,7 @@ const DESCRIPTION_LABEL = Object.fromEntries(
   releaseDescriptionOptions.map((o) => [o.value, o.title]),
 )
 
-export function countExistingTracks(discs: ExistingDisc[] | undefined): number {
+function countExistingTracks(discs: ExistingDisc[] | undefined): number {
   if (!Array.isArray(discs)) return 0
   return discs.reduce(
     (total, disc) => total + (Array.isArray(disc?.tracks) ? disc.tracks.length : 0),
@@ -68,7 +68,7 @@ export function countExistingTracks(discs: ExistingDisc[] | undefined): number {
  * Multi-disc documents always return false — the import always collapses to
  * one disc, which is definitionally a change.
  */
-export function tracklistMatchesSingleDisc(
+function tracklistMatchesSingleDisc(
   existing: ExistingDisc[] | undefined,
   incoming: DiscogsTrack[],
 ): boolean {

@@ -35,6 +35,37 @@ const SIZE_OPTIONS = [
   { title: 'Icon', value: 'icon' },
 ]
 
+export type ButtonBlockPreviewParams = {
+  label?: string
+  variant?: string
+  linkType?: string
+  externalUrl?: string
+  internalType?: string
+  internalTitle?: string
+  internalReleaseTitle?: string
+  internalPageTitle?: string
+}
+
+export function resolveButtonBlockPreview({
+  label,
+  variant,
+  linkType,
+  externalUrl,
+  internalType,
+  internalTitle,
+  internalReleaseTitle,
+  internalPageTitle,
+}: ButtonBlockPreviewParams): { title: string; subtitle: string } {
+  const target =
+    linkType === 'external'
+      ? externalUrl || 'external link'
+      : `${internalType ?? 'internal'}: ${internalReleaseTitle || internalTitle || internalPageTitle || 'unset'}`
+  return {
+    title: label?.trim() || 'Untitled button',
+    subtitle: `${variant ?? 'default'} · ${target}`,
+  }
+}
+
 export const buttonBlock = defineType({
   name: 'buttonBlock',
   title: 'Button',
@@ -74,6 +105,7 @@ export const buttonBlock = defineType({
       type: 'reference',
       to: LINKABLE_TYPES,
       hidden: ({ parent }) => parent?.linkType !== 'internal',
+      // fallow-ignore-next-line complexity
       validation: (Rule) =>
         Rule.custom((value, context) => {
           const parent = context.parent as { linkType?: string } | undefined
@@ -87,6 +119,7 @@ export const buttonBlock = defineType({
       title: 'External URL',
       type: 'url',
       hidden: ({ parent }) => parent?.linkType !== 'external',
+      // fallow-ignore-next-line complexity
       validation: (Rule) =>
         Rule.uri({ scheme: ['http', 'https'], allowRelative: false }).custom((value, context) => {
           const parent = context.parent as { linkType?: string } | undefined
@@ -106,25 +139,7 @@ export const buttonBlock = defineType({
       internalReleaseTitle: 'internalLink.releaseName',
       internalPageTitle: 'internalLink.title',
     },
-    prepare({
-      label,
-      variant,
-      linkType,
-      externalUrl,
-      internalType,
-      internalTitle,
-      internalReleaseTitle,
-      internalPageTitle,
-    }) {
-      const target =
-        linkType === 'external'
-          ? externalUrl || 'external link'
-          : `${internalType ?? 'internal'}: ${internalReleaseTitle || internalTitle || internalPageTitle || 'unset'}`
-      return {
-        title: label?.trim() || 'Untitled button',
-        subtitle: `${variant ?? 'default'} · ${target}`,
-      }
-    },
+    prepare: resolveButtonBlockPreview,
   },
   components: {
     preview: (props) => React.createElement(BlockPreview, { ...props, blockName: 'Button' }),

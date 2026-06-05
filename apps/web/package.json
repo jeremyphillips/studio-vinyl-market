@@ -34,14 +34,12 @@
     "@vinyl-market/release-constants": "*",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "groq": "^5.26.0",
     "lucide-react": "^1.16.0",
     "next": "^16.2.6",
     "next-sanity": "^13.0.3",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "tailwind-merge": "^3.6.0",
-    "zustand": "^5.0.14"
+    "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "^10.4.1",

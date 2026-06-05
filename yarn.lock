@@ -16355,7 +16355,7 @@ yoctocolors@^2.1.1:
   resolved "https://registry.npmjs.org/zod/-/zod-4.4.3.tgz"
   integrity sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==
 
-zustand@^5.0.13, zustand@^5.0.14:
+zustand@^5.0.13:
   version "5.0.14"
   resolved "https://registry.npmjs.org/zustand/-/zustand-5.0.14.tgz"
   integrity sha512-/8tAspM5LMPr28b3fwLYrtdj77ECpfZviaP75CMTnwO8ISyaE4GDIG/9rDDYq/cH9D2Xw2A2RXglLInmVBQB/g==

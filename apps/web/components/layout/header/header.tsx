@@ -3,68 +3,15 @@ import Link from 'next/link'
 import { DarkModeToggle } from '@/components/layout/dark-mode-toggle'
 import { HeaderNav } from '@/components/layout/header-nav/header-nav.client'
 import { P } from '@/components/ui/typography'
-import { FIXED_PATH_BY_TYPE, SLUG_PATH_BY_TYPE } from '@/lib/routes'
+import { resolveNavLink, type NavLink } from '@/lib/resolve-link'
 import { sanityFetch } from '@/sanity/live'
 import { SITE_SETTINGS_QUERY } from '@/sanity/queries'
-import type { SITE_SETTINGS_QUERY_RESULT } from '@/sanity/types.generated'
-
-type NavLink = {
-  key: string
-  label: string
-  href: string
-  isExternal: boolean
-}
-
-const INTERNAL_PATH_BY_TYPE = SLUG_PATH_BY_TYPE
-
-const FIXED_INTERNAL_HREF = FIXED_PATH_BY_TYPE
-
-type NavItem = Extract<
-  SITE_SETTINGS_QUERY_RESULT,
-  { navigation: ReadonlyArray<unknown> }
->['navigation'][number]
-
-function resolveNavLink(item: NavItem): NavLink | null {
-  if (!item || !item.label) return null
-
-  if (item.linkType === 'external') {
-    if (!item.externalUrl) return null
-    return {
-      key: item._key,
-      label: item.label,
-      href: item.externalUrl,
-      isExternal: true,
-    }
-  }
-
-  const internal = item.internal
-  if (!internal?._type) return null
-
-  if (internal._type === 'releasesPage') {
-    return {
-      key: item._key,
-      label: item.label,
-      href: FIXED_INTERNAL_HREF.releasesPage,
-      isExternal: false,
-    }
-  }
-
-  if (!internal.slug) return null
-  const base = INTERNAL_PATH_BY_TYPE[internal._type]
-  if (!base) return null
-
-  return {
-    key: item._key,
-    label: item.label,
-    href: `${base}/${internal.slug}`,
-    isExternal: false,
-  }
-}
 
 type HeaderProps = {
   initialIsDark: boolean
 }
 
+// fallow-ignore-next-line complexity
 export async function Header({ initialIsDark }: HeaderProps) {
   const { data: settings } = await sanityFetch({ query: SITE_SETTINGS_QUERY })
 

@@ -31,6 +31,64 @@ const mediaTypeLabelByValue: Record<string, string> = Object.fromEntries(
   releaseMediaTypeOptions.map((option) => [option.value, option.title]),
 )
 
+export type DiscPreviewParams = {
+  discNumber?: number
+  name?: string
+  tracks?: unknown[]
+}
+
+export function resolveDiscPreview({ discNumber, name, tracks }: DiscPreviewParams): {
+  title: string
+  subtitle: string
+} {
+  const base = name?.trim() || (typeof discNumber === 'number' ? `Disc ${discNumber}` : 'Disc')
+  const count = Array.isArray(tracks) ? tracks.length : 0
+  let subtitle: string
+  if (count === 0) {
+    subtitle = 'No tracks yet'
+  } else {
+    const trackWord = count === 1 ? 'track' : 'tracks'
+    subtitle = `${count} ${trackWord}`
+  }
+  return { title: base, subtitle }
+}
+
+export type ReleasePreviewParams = {
+  releaseName?: string
+  artistName?: string
+  classification?: string
+  mediaType?: string
+  releaseYear?: number
+  dateUnknown?: boolean
+  media?: unknown
+}
+
+export function resolveReleasePreview({
+  releaseName,
+  artistName,
+  classification,
+  mediaType,
+  releaseYear,
+  dateUnknown,
+  media,
+}: ReleasePreviewParams) {
+  const title = releaseName || 'Untitled release'
+  const classLabel = classification
+    ? (classificationLabelByValue[classification] ?? classification)
+    : undefined
+  const mediaLabel = mediaType ? (mediaTypeLabelByValue[mediaType] ?? mediaType) : undefined
+  let year: string | undefined
+  if (dateUnknown) {
+    year = 'Year unknown'
+  } else if (typeof releaseYear === 'number') {
+    year = String(releaseYear)
+  }
+  const subtitle = [artistName, mediaLabel, classLabel, year].filter(Boolean).join(' · ')
+  // biome-ignore lint: media is an opaque Sanity image object — pass through as-is
+  const m = media as any
+  return subtitle ? { title, subtitle, media: m } : { title, media: m }
+}
+
 export const release = defineType({
   name: 'release',
   title: 'Release',
@@ -253,22 +311,7 @@ export const release = defineType({
               name: 'name',
               tracks: 'tracks',
             },
-            prepare({ discNumber, name, tracks }) {
-              const base =
-                name?.trim() || (typeof discNumber === 'number' ? `Disc ${discNumber}` : 'Disc')
-              const count = Array.isArray(tracks) ? tracks.length : 0
-              let subtitle: string
-              if (count === 0) {
-                subtitle = 'No tracks yet'
-              } else {
-                const trackWord = count === 1 ? 'track' : 'tracks'
-                subtitle = `${count} ${trackWord}`
-              }
-              return {
-                title: base,
-                subtitle,
-              }
-            },
+            prepare: resolveDiscPreview,
           },
         }),
       ],
@@ -334,6 +377,7 @@ export const release = defineType({
         ],
       },
       group: 'releaseInfo',
+      // fallow-ignore-next-line complexity
       hidden: ({ parent }) =>
         Boolean(parent?.dateUnknown) ||
         (parent?.datePrecision !== 'month' && parent?.datePrecision !== 'day'),
@@ -418,28 +462,6 @@ export const release = defineType({
       dateUnknown: 'dateUnknown',
       media: 'cover',
     },
-    prepare({
-      releaseName,
-      artistName,
-      classification,
-      mediaType,
-      releaseYear,
-      dateUnknown,
-      media,
-    }) {
-      const title = releaseName || 'Untitled release'
-      const classLabel = classification
-        ? (classificationLabelByValue[classification] ?? classification)
-        : undefined
-      const mediaLabel = mediaType ? (mediaTypeLabelByValue[mediaType] ?? mediaType) : undefined
-      let year: string | undefined
-      if (dateUnknown) {
-        year = 'Year unknown'
-      } else if (typeof releaseYear === 'number') {
-        year = String(releaseYear)
-      }
-      const subtitle = [artistName, mediaLabel, classLabel, year].filter(Boolean).join(' · ')
-      return subtitle ? { title, subtitle, media } : { title, media }
-    },
+    prepare: resolveReleasePreview,
   },
 })

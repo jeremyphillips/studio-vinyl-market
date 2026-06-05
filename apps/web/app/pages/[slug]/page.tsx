@@ -3,18 +3,15 @@ import { notFound } from 'next/navigation'
 
 import { PageBuilder } from '@/components/page-builder/page-builder'
 import { H1 } from '@/components/ui/typography'
-import { client } from '@/sanity/client'
 import { sanityFetch } from '@/sanity/live'
 import { toNextMetadata } from '@/sanity/metadata'
 import { PAGE_QUERY, PAGE_SLUGS_QUERY } from '@/sanity/queries'
+import { fetchStaticSlugs } from '@/sanity/static-params'
 
 type Params = Promise<{ slug: string }>
 
-export async function generateStaticParams() {
-  const slugs = await client
-    .withConfig({ useCdn: false, perspective: 'published', stega: false })
-    .fetch(PAGE_SLUGS_QUERY)
-  return slugs.map((slug) => ({ slug }))
+export function generateStaticParams() {
+  return fetchStaticSlugs(PAGE_SLUGS_QUERY)
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
