@@ -1,37 +1,34 @@
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import { buildNominatimSearchUrl, type NominatimResult } from '../types/location'
+import { useAsyncAction } from './useAsyncAction'
+
+/**
+ * Module-level fetcher — stable reference, so useAsyncAction's execute callback
+ * never changes identity between renders.
+ */
+async function fetchNominatimResults(query: string): Promise<NominatimResult[]> {
+  const res = await fetch(buildNominatimSearchUrl(query))
+  if (!res.ok) {
+    throw new Error(`Request failed with status ${res.status}`)
+  }
+  return res.json() as Promise<NominatimResult[]>
+}
 
 export function useLocationSearch() {
-  const [results, setResults] = useState<NominatimResult[] | null>(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const { data: results, loading, error, execute, reset } = useAsyncAction(fetchNominatimResults)
 
-  const search = useCallback(async (query: string) => {
-    const trimmed = query.trim()
-    if (!trimmed) return
-
-    setLoading(true)
-    setError(null)
-    setResults(null)
-
-    try {
-      const res = await fetch(buildNominatimSearchUrl(trimmed))
-      if (!res.ok) {
-        throw new Error(`Request failed with status ${res.status}`)
-      }
-      const data: NominatimResult[] = await res.json()
-      setResults(data)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error')
-    } finally {
-      setLoading(false)
-    }
-  }, [])
-
-  const reset = useCallback(() => {
-    setResults(null)
-    setError(null)
-  }, [])
+  /**
+   * Wraps execute with a blank-query guard so callers never need to check
+   * themselves whether the input is empty before calling search.
+   */
+  const search = useCallback(
+    async (query: string) => {
+      const trimmed = query.trim()
+      if (!trimmed) return
+      await execute(trimmed)
+    },
+    [execute],
+  )
 
   return { results, loading, error, search, reset }
 }

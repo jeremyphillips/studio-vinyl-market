@@ -1,35 +1,21 @@
-import { useCallback, useState } from 'react'
 import { buildDiscogsReleaseUrl, type DiscogsReleaseDetail } from '../types/discogs'
+import { useAsyncAction } from './useAsyncAction'
+
+/**
+ * Module-level fetcher — stable reference, so useAsyncAction's execute callback
+ * never changes identity between renders.
+ */
+async function fetchDiscogsRelease(id: number): Promise<DiscogsReleaseDetail> {
+  const res = await fetch(buildDiscogsReleaseUrl(id))
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}))
+    throw new Error(body.error ?? `Request failed with status ${res.status}`)
+  }
+  return res.json() as Promise<DiscogsReleaseDetail>
+}
 
 export function useDiscogsRelease() {
-  const [data, setData] = useState<DiscogsReleaseDetail | null>(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const { data, loading, error, execute, reset } = useAsyncAction(fetchDiscogsRelease)
 
-  const fetchRelease = useCallback(async (id: number) => {
-    setLoading(true)
-    setError(null)
-    setData(null)
-
-    try {
-      const res = await fetch(buildDiscogsReleaseUrl(id))
-      if (!res.ok) {
-        const body = await res.json().catch(() => ({}))
-        throw new Error(body.error ?? `Request failed with status ${res.status}`)
-      }
-      const detail: DiscogsReleaseDetail = await res.json()
-      setData(detail)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error')
-    } finally {
-      setLoading(false)
-    }
-  }, [])
-
-  const reset = useCallback(() => {
-    setData(null)
-    setError(null)
-  }, [])
-
-  return { data, loading, error, fetch: fetchRelease, reset }
+  return { data, loading, error, fetch: execute, reset }
 }
