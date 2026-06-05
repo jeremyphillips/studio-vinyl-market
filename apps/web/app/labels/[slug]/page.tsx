@@ -4,17 +4,14 @@ import { notFound } from 'next/navigation'
 import { Identity } from '@/components/catalog/identity/identity'
 import { ReleaseGrid } from '@/components/catalog/release-grid'
 import { H2 } from '@/components/ui/typography'
-import { client } from '@/sanity/client'
 import { sanityFetch } from '@/sanity/live'
 import { LABEL_QUERY, LABEL_SLUGS_QUERY } from '@/sanity/queries'
+import { fetchStaticSlugs } from '@/sanity/static-params'
 
 type Params = Promise<{ slug: string }>
 
-export async function generateStaticParams() {
-  const slugs = await client
-    .withConfig({ useCdn: false, perspective: 'published', stega: false })
-    .fetch(LABEL_SLUGS_QUERY)
-  return slugs.map((slug) => ({ slug }))
+export function generateStaticParams() {
+  return fetchStaticSlugs(LABEL_SLUGS_QUERY)
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
