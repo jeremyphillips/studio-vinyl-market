@@ -25,7 +25,6 @@
     "fallow:web:dead-code": "fallow dead-code --workspace web"
   },
   "dependencies": {
-    "@portabletext/react": "^6.2.0",
     "@radix-ui/react-navigation-menu": "^1.2.14",
     "@radix-ui/react-slot": "^1.2.4",
     "@sanity/client": "^7.22.0",

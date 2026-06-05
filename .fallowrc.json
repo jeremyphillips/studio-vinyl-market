@@ -9,11 +9,15 @@
     "apps/studio/sanity.config.ts"
   ],
   "ignorePatterns": ["**/*.generated.*"],
+  "ignoreExportsUsedInFile": true,
   "workspaces": {
     "packages": ["apps/*", "packages/*"]
   },
   "duplicates": {
     "minOccurrences": 2,
+    "ignore": ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}"]
+  },
+  "health": {
     "ignore": ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}"]
   },
   "rules": {

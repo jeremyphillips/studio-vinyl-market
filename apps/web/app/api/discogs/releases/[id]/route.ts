@@ -2,8 +2,6 @@ import { corsJson, fetchDiscogs } from '../../_lib/discogs'
 
 import { mapDiscogsReleaseDetail } from './map-discogs-release'
 
-export type { DiscogsReleaseDetail, DiscogsTrack } from './map-discogs-release'
-
 export { OPTIONS } from '../../_lib/discogs'
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {

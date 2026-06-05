@@ -1,7 +1,5 @@
 import type { DiscogsFormat, DiscogsReleaseDetail, DiscogsTrack } from '@vinyl-market/discogs'
 
-export type { DiscogsFormat, DiscogsReleaseDetail, DiscogsTrack }
-
 interface RawTrack {
   type_?: string
   position?: string
