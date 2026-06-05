@@ -4,8 +4,6 @@ import { corsJson, fetchDiscogs } from '../_lib/discogs'
 
 import { mapDiscogsSearchResponse } from './map-discogs-result'
 
-export type { DiscogsResult, DiscogsSearchResponse } from './map-discogs-result'
-
 export { OPTIONS } from '../_lib/discogs'
 
 export async function GET(request: NextRequest) {

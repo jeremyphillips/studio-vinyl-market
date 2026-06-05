@@ -42,6 +42,23 @@ Click **Import selected** to write all checked fields in a single patch. A toast
 
 ---
 
+## Where the code lives
+
+The Studio-side Discogs feature is a self-contained folder, `apps/studio/components/discogs/`:
+
+| File                       | Role                                                                                |
+| -------------------------- | ----------------------------------------------------------------------------------- |
+| `DiscogsSearchInput.tsx`   | The Sanity `components.input` registered on `release.discogs`. A thin orchestrator. |
+| `useDiscogsReleaseLink.ts` | Owns the link state machine: seeded query, link/search toggle, selection, clear.    |
+| `query.ts`                 | Pure helpers — `buildInitialQuery`, `buildLinkedDiscogsItems`.                      |
+| `LinkedReleaseView.tsx`    | Linked-state view: external links + import panel + controls.                        |
+| `DiscogsImportPanel.tsx`   | The fetch-and-import panel.                                                         |
+| `import-fields.ts`         | Pure field-diffing logic that drives the import rows.                               |
+
+Shared, non-Discogs-specific pieces live elsewhere: the result-state renderer is `components/ui/SearchResults.tsx`, the blank-query search wrapper is `components/hooks/useSearchAction.ts`, and the HTTP wrapper is `components/hooks/useDiscogsSearch.ts` / `useDiscogsRelease.ts`.
+
+---
+
 ## Adapter mapping rules
 
 All Discogs → Sanity field mapping lives in `apps/studio/lib/discogs-adapter.ts`. The adapter operates on `formats[0]` (the first format entry) only.
@@ -75,7 +92,7 @@ To add a new importable field:
 
 1. Add the mapping logic to `apps/studio/lib/discogs-adapter.ts` and extend `DiscogsReleasePatch`.
 2. Add a unit test in `apps/studio/lib/discogs-adapter.test.ts`.
-3. Add a `FormatRow` in `DiscogsImportPanel.tsx` with the appropriate `useFormValue` read for the overwrite warning.
+3. Add a field builder in `components/discogs/import-fields.ts` (and surface it via `buildDiscogsImportFields`) with the appropriate existing-value read for the overwrite warning.
 4. Include the field in `fieldOps` inside the `useMemo` in the panel.
 5. Run `yarn typegen && yarn typecheck && yarn lint && yarn test`.
 

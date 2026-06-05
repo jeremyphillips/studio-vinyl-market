@@ -113,7 +113,7 @@ SSoT for all content-type URL paths (`SLUG_PATH_BY_TYPE`, `FIXED_PATH_BY_TYPE`).
 
 ## Discogs metadata
 
-`release.discogs.releaseId` and `release.discogs.masterId` are the only Discogs values stored on the document. They are read-only fields populated by `DiscogsSearchInput` (`apps/studio/components/inputs/`). Do not add free-text editing.
+`release.discogs.releaseId` and `release.discogs.masterId` are the only Discogs values stored on the document. They are read-only fields populated by `DiscogsSearchInput` (`apps/studio/components/discogs/`). Do not add free-text editing.
 
 ### Importing (tracklist)
 

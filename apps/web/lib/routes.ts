@@ -11,5 +11,7 @@ export const FIXED_PATH_BY_TYPE = {
   releasesPage: '/releases',
 } as const
 
+// fallow-ignore-next-line unused-type
 export type SlugContentType = keyof typeof SLUG_PATH_BY_TYPE
+// fallow-ignore-next-line unused-type
 export type FixedContentType = keyof typeof FIXED_PATH_BY_TYPE

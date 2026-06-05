@@ -10,7 +10,7 @@ import {
   type DiscogsImportField,
   type DiscogsImportFieldKey,
   type ExistingDisc,
-} from './discogs-import-fields'
+} from './import-fields'
 
 export interface DiscogsImportPanelProps {
   releaseId: number

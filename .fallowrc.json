@@ -8,16 +8,33 @@
     "apps/web/app/**/route.ts",
     "apps/studio/sanity.config.ts"
   ],
-  "ignorePatterns": ["**/*.generated.*"],
+  "ignorePatterns": ["**/*.generated.*", "apps/web/**/*.config.{mjs,cjs,js,ts}"],
+  "ignoreExportsUsedInFile": true,
   "workspaces": {
     "packages": ["apps/*", "packages/*"]
   },
   "duplicates": {
     "minOccurrences": 2,
-    "ignore": ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}"]
+    "ignore": [
+      "**/*.test.{ts,tsx}",
+      "**/*.spec.{ts,tsx}",
+      "**/*.test-utils.{ts,tsx}",
+      "**/test-utils.{ts,tsx}"
+    ]
+  },
+  "health": {
+    "ignore": [
+      "**/*.test.{ts,tsx}",
+      "**/*.spec.{ts,tsx}",
+      "**/*.test-utils.{ts,tsx}",
+      "**/test-utils.{ts,tsx}"
+    ]
   },
   "rules": {
+    "unused-exports": "warn",
+    "unused-types": "warn",
     "unused-dependencies": "warn",
+    "unused-dev-dependencies": "off",
     "unlisted-dependencies": "warn"
   }
 }
