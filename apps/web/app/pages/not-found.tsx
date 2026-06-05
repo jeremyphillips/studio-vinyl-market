@@ -4,6 +4,7 @@ import { NotFoundView, notFoundMessages, notFoundMetadata } from '@/components/e
 
 const message = notFoundMessages.page
 
+// fallow-ignore-next-line unused-export
 export const metadata: Metadata = notFoundMetadata(message)
 
 export default function CmsPageNotFound() {

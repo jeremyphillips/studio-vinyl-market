@@ -50,3 +50,4 @@ coverage
 
 # NextJs
 apps/web/next-env.d.ts
+.fallow/

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
+  "entry": [
+    "apps/web/app/**/page.tsx",
+    "apps/web/app/**/layout.tsx",
+    "apps/web/app/**/not-found.tsx",
+    "apps/web/app/**/error.tsx",
+    "apps/web/app/**/route.ts",
+    "apps/studio/sanity.config.ts"
+  ],
+  "ignorePatterns": ["**/*.generated.*"],
+  "workspaces": {
+    "packages": ["apps/*", "packages/*"]
+  },
+  "duplicates": {
+    "minOccurrences": 2,
+    "ignore": ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}"]
+  },
+  "rules": {
+    "unused-dependencies": "warn",
+    "unlisted-dependencies": "warn"
+  }
+}
