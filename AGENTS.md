@@ -6,12 +6,13 @@ Full file-scoped rules live in `.cursor/rules/` — read the relevant rule befor
 
 ## Quality gates
 
-Work is not done until all three pass from the repo root:
+Work is not done until all four pass from the repo root:
 
 ```bash
 yarn typecheck
 yarn lint
 yarn test
+yarn fallow
 ```
 
 ## Accessibility
