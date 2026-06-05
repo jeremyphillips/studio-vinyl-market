@@ -31,6 +31,9 @@ jobs:
       - name: Lint
         run: yarn lint
 
+      - name: Dead code check
+        run: yarn fallow
+
       - name: Test
         run: yarn test
 
