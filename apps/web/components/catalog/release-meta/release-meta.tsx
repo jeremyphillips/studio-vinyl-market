@@ -18,16 +18,14 @@ export const CLASSIFICATION_LABEL = Object.fromEntries(
 export const MEDIA_TYPE_LABEL = Object.fromEntries(
   releaseMediaTypeOptions.map(({ value, title }) => [value, title]),
 )
-export const SPEED_LABEL = Object.fromEntries(
+const SPEED_LABEL = Object.fromEntries(
   releaseSpeedOptions.map(({ value, title }) => [value, title]),
 )
-export const SIZE_LABEL = Object.fromEntries(
-  releaseSizeOptions.map(({ value, title }) => [value, title]),
-)
-export const CHANNELS_LABEL = Object.fromEntries(
+const SIZE_LABEL = Object.fromEntries(releaseSizeOptions.map(({ value, title }) => [value, title]))
+const CHANNELS_LABEL = Object.fromEntries(
   releaseChannelsOptions.map(({ value, title }) => [value, title]),
 )
-export const DESCRIPTION_LABEL = Object.fromEntries(
+const DESCRIPTION_LABEL = Object.fromEntries(
   releaseDescriptionOptions.map(({ value, title }) => [value, title]),
 )
 
