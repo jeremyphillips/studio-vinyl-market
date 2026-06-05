@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ReleaseGrid } from '@/components/catalog/release-grid'
 import { Button } from '@/components/ui/button'
 import { H1, P } from '@/components/ui/typography'
+import { FIXED_PATH_BY_TYPE } from '@/lib/routes'
 import { sanityFetch } from '@/sanity/live'
 import { HOME_RELEASES_QUERY } from '@/sanity/queries'
 
@@ -24,7 +25,7 @@ export default async function HomePage() {
 
       <div>
         <Button asChild variant="outline">
-          <Link href="/releases">Browse all releases</Link>
+          <Link href={FIXED_PATH_BY_TYPE.releasesPage}>Browse all releases</Link>
         </Button>
       </div>
     </div>

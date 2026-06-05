@@ -1,5 +1,39 @@
 import { defineField, defineType } from 'sanity'
 
+export type NavItemPreviewParams = {
+  label?: string
+  linkType?: string
+  externalUrl?: string
+  internalType?: string
+  internalTitle?: string
+  internalReleaseTitle?: string
+  internalPageTitle?: string
+  releasesPageTitle?: string
+}
+
+export function resolveNavItemPreview({
+  label,
+  linkType,
+  externalUrl,
+  internalType,
+  internalTitle,
+  internalReleaseTitle,
+  internalPageTitle,
+  releasesPageTitle,
+}: NavItemPreviewParams): { title: string; subtitle: string } {
+  let target: string
+  if (linkType === 'external') {
+    target = externalUrl || 'external link'
+  } else if (internalType === 'releasesPage') {
+    target = `releases page: ${releasesPageTitle || 'Releases'}`
+  } else {
+    target = `${internalType ?? 'internal'}: ${internalReleaseTitle || internalTitle || internalPageTitle || 'unset'}`
+  }
+  const title = label?.trim() || 'Untitled nav item'
+  const marker = linkType === 'external' ? ' ↗' : ''
+  return { title: `${title}${marker}`, subtitle: target }
+}
+
 const LINK_TYPE_OPTIONS: { title: string; value: 'internal' | 'external' }[] = [
   {
     title: 'Internal (releases page, release, artist, label, or page)',
@@ -75,27 +109,6 @@ export const navItem = defineType({
       internalPageTitle: 'internalLink.title',
       releasesPageTitle: 'internalLink.title',
     },
-    prepare({
-      label,
-      linkType,
-      externalUrl,
-      internalType,
-      internalTitle,
-      internalReleaseTitle,
-      internalPageTitle,
-      releasesPageTitle,
-    }) {
-      let target: string
-      if (linkType === 'external') {
-        target = externalUrl || 'external link'
-      } else if (internalType === 'releasesPage') {
-        target = `releases page: ${releasesPageTitle || 'Releases'}`
-      } else {
-        target = `${internalType ?? 'internal'}: ${internalReleaseTitle || internalTitle || internalPageTitle || 'unset'}`
-      }
-      const title = label?.trim() || 'Untitled nav item'
-      const marker = linkType === 'external' ? ' ↗' : ''
-      return { title: `${title}${marker}`, subtitle: target }
-    },
+    prepare: resolveNavItemPreview,
   },
 })
