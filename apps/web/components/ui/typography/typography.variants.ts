@@ -69,4 +69,5 @@ export const textVariants = cva('', {
   },
 })
 
+// fallow-ignore-next-line unused-type
 export type TextVariants = Parameters<typeof textVariants>[0]

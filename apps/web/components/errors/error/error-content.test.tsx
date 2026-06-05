@@ -3,8 +3,9 @@ import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { axe } from 'vitest-axe'
 
+import { expectCatalogueEscapeLinks, mockConsoleError } from '../test-utils'
+
 import { ErrorContent } from './error-content'
-import { expectCatalogueEscapeLinks, mockConsoleError } from './error.test-utils'
 
 beforeEach(() => {
   mockConsoleError()

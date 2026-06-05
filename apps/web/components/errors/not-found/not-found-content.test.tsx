@@ -2,8 +2,9 @@ import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { axe } from 'vitest-axe'
 
+import { expectCatalogueEscapeLinks } from '../test-utils'
+
 import { NotFoundContent } from './not-found-content'
-import { expectCatalogueEscapeLinks } from './not-found.test-utils'
 
 describe('NotFoundContent', () => {
   it('renders default copy and a single main heading', () => {
