@@ -13,6 +13,10 @@ vi.mock('sanity', () => ({
   useDocumentOperation: () => ({ patch: { execute: vi.fn() } }),
 }))
 
+vi.mock('./DiscogsImportPanel', () => ({
+  DiscogsImportPanel: () => null,
+}))
+
 import { DiscogsSearchInput } from './DiscogsSearchInput'
 import type { DiscogsValue } from '../types/discogs'
 
